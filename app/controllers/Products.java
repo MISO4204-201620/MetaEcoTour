@@ -27,7 +27,7 @@ public class Products extends Controller {
 
 
     public Result newProduct() {
-        return ok(views.products.details.render(productForm));
+        //return ok(views.products.details.render(productForm));
 //        return TODO;
     }
 
