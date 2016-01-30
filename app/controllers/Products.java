@@ -27,8 +27,8 @@ public class Products extends Controller {
 
 
     public Result newProduct() {
-//        return ok(views.products.details.render(productForm));
-        return TODO;
+        return ok(views.products.details.render(productForm));
+//        return TODO;
     }
 
     public Result details(String ean) {
