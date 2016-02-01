@@ -7,6 +7,7 @@
   @helper.form(action = routes.Products.save()) {
     <fieldset>
       <legend>Product (@productForm("name"))</legend>
+      @helper.inputText(productForm("id"), '_label -> "ID", 'style -> "display: none")
       @helper.inputText(productForm("ean"), '_label -> "EAN")
       @helper.inputText(productForm("name"),'_label -> "Name")
       @helper.textarea(productForm("description"), '_label -> "Description")

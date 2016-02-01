@@ -30,14 +30,16 @@
 
       <tr>
         <td>
-          @product.ean 
+          @product.getEan
         </td>
-        <td>@product.name</td>
-        <td>@product.name</td>
+        <td>@product.getName</td>
+        <td>@product.getDescription</td>
         <td>
-          <i class="icon icon-pencil"></i>
-         <i class="icon icon-trash"></i>
+            <a type="button" class="btn btn-warning" href="@routes.Products.details((String).valueOf(product.getId))">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true">Ver Detalle</span>
+            </a>
         </td>
+
       </tr>
       }
   

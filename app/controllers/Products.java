@@ -2,16 +2,12 @@ package controllers;
 
 import models.Product;
 import play.data.Form;
-import play.mvc.Result;
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
-import views.html.products.*;
-import views.html.products.list;
+import play.mvc.Result;
 import views.html.products.details;
-
-import play.*;
-import play.mvc.*;
-
-import views.html.*;
+import views.html.products.list;
 
 import java.util.List;
 
@@ -19,29 +15,30 @@ public class Products extends Controller {
 
     private static final Form<Product> productForm = Form.form(Product.class);
 
+    @Transactional(readOnly=true)
     public Result list() {
-        List<Product> products = Product.findAll();
+        List<Product> products = JPA.em().createNamedQuery("Product.findAll", Product.class ).getResultList();
         return ok(list.render(products));
-//        return TODO;
     }
-
 
     public Result newProduct() {
-        //return ok(views.products.details.render(productForm));
-        return TODO;
+        return ok(details.render(productForm));
     }
 
-    public Result details(String ean) {
-        final Product product = Product.findByEan(ean);
+    @Transactional (readOnly=true)
+    public Result details(String id) {
+        Product product = JPA.em().find(Product.class, Long.valueOf(id).longValue());
+
         if (product == null) {
-            return notFound(String.format("Product %s does not exist.", ean));
+            return notFound(String.format("Product %s does not exist.", id));
         }
 
         Form<Product> filledForm = productForm.fill(product);
         return ok(details.render(filledForm));
- //       return TODO;
     }
 
+
+    @Transactional
     public Result save() {
         Form<Product> boundForm = productForm.bindFromRequest();
         if(boundForm.hasErrors()) {
@@ -50,21 +47,34 @@ public class Products extends Controller {
         }
 
         Product product = boundForm.get();
-        product.save();
-        flash("success",
-                String.format("Successfully added product %s", product));
+        Product productTmp = JPA.em().find(Product.class, product.getId());
+
+        if (productTmp == null){
+            JPA.em().persist(product);
+            flash("success",
+                    String.format("Successfully added product %s", product));
+        } else {
+            productTmp.setDescription(product.getDescription());
+            productTmp.setEan(product.getEan());
+            productTmp.setName(product.getName());
+
+            JPA.em().merge(productTmp);
+            flash("success",
+                    String.format("Successfully updated product %s", product));
+        }
 
         return redirect(routes.Products.list());
-//        return TODO;
     }
 
-    public Result delete(String ean) {
-        final Product product = Product.findByEan(ean);
-        if(product == null) {
-            return notFound(String.format("Product %s does not exists.", ean));
+    @Transactional
+    public Result delete(String id) {
+        Product product = JPA.em().find(Product.class, Long.valueOf(id).longValue());
+
+        if (product == null) {
+            return notFound(String.format("Product %s does not exist.", id));
         }
-        Product.remove(product);
+        JPA.em().remove(product);
+
         return redirect(routes.Products.list());
-//        return TODO;
     }
 }

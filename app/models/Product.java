@@ -1,79 +1,72 @@
 package models;
 
 
-import play.data.validation.Constraints;
+import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity
+@NamedQueries({
+        @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+})
 public class Product {
 
-    private static List<Product> products;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "competitionGen")
+    @SequenceGenerator(name = "competitionGen",
+            sequenceName = "competition_seq")
+    private long id;
 
-    static {
-        products = new ArrayList<Product>();
-        products.add(new Product("1111111111111", "Paperclips 1",
-                "Paperclips description 1"));
-        products.add(new Product("2222222222222", "Paperclips 2",
-                "Paperclips description "));
-        products.add(new Product("3333333333333", "Paperclips 3",
-                "Paperclips description 3"));
-        products.add(new Product("4444444444444", "Paperclips 4",
-                "Paperclips description 4"));
-        products.add(new Product("5555555555555", "Paperclips 5",
-                "Paperclips description 5"));
-    }
+    @Column(unique=true, nullable=false)
+    private String ean;
 
-    @Constraints.Required
-    public String ean;
-    @Constraints.Required
-    public String name;
-    public String description;
+    @Column(nullable=false)
+    private String name;
+
+    @Column(nullable=false)
+    private String description;
 
     public Product() {
     }
 
     public Product(String ean, String name, String description) {
-        this.ean = ean;
-        this.name = name;
-        this.description = description;
+        this.setEan(ean);
+        this.setName(name);
+        this.setDescription(description);
     }
 
     public String toString() {
-        return String.format("%s - %s", ean, name);
+        return String.format("%s - %s", getEan(), getName());
     }
 
-    public static List<Product> findAll() {
-        return new ArrayList<Product>(products);
+    public long getId() {
+        return id;
     }
 
-    public static Product findByEan(String ean) {
-        for (Product candidate : products) {
-            if (candidate.ean.equals(ean)) {
-                return candidate;
-            }
-        }
-        return null;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public static List<Product> findByName(String term) {
-        final List<Product> results = new ArrayList<Product>();
-        for (Product candidate : products) {
-            if (candidate.name.toLowerCase().contains(term.toLowerCase())) {
-                results.add(candidate);
-            }
-        }
-
-        return results;
+    public String getEan() {
+        return ean;
     }
 
-    public static boolean remove(Product product) {
-        return products.remove(product);
+    public void setEan(String ean) {
+        this.ean = ean;
     }
 
-    public void save() {
-        products.remove(findByEan(this.ean));
-        products.add(this);
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
