@@ -5,6 +5,7 @@
 # Home page
 GET         /                            controllers.Application.index()
 GET         /products/                   controllers.Products.list()
+GET         /productsJson/               controllers.Products.listJson()
 GET         /products/new                controllers.Products.newProduct()
 GET         /products/:id                controllers.Products.details(id: String)
 POST        /products/                   controllers.Products.save()

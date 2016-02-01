@@ -4,6 +4,7 @@ import models.Product;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.products.details;
@@ -19,6 +20,12 @@ public class Products extends Controller {
     public Result list() {
         List<Product> products = JPA.em().createNamedQuery("Product.findAll", Product.class ).getResultList();
         return ok(list.render(products));
+    }
+
+    @Transactional(readOnly=true)
+    public Result listJson() {
+        List<Product> products = JPA.em().createNamedQuery("Product.findAll", Product.class ).getResultList();
+        return ok(Json.toJson(products));
     }
 
     public Result newProduct() {
