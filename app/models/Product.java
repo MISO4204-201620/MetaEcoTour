@@ -11,9 +11,9 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "competitionGen")
-    @SequenceGenerator(name = "competitionGen",
-            sequenceName = "competition_seq")
+            generator = "productGen")
+    @SequenceGenerator(name = "productGen",
+            sequenceName = "product_seq")
     private long id;
 
     @Column(unique=true, nullable=false)
@@ -69,4 +69,5 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

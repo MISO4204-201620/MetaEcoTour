@@ -29,6 +29,7 @@ public class Products extends Controller {
     }
 
     public Result newProduct() {
+        session("idProduct","-1");
         return ok(details.render(productForm));
     }
 
@@ -39,7 +40,7 @@ public class Products extends Controller {
         if (product == null) {
             return notFound(String.format("Product %s does not exist.", id));
         }
-
+        session("idProduct",id);
         Form<Product> filledForm = productForm.fill(product);
         return ok(details.render(filledForm));
     }
@@ -54,7 +55,14 @@ public class Products extends Controller {
         }
 
         Product product = boundForm.get();
-        Product productTmp = JPA.em().find(Product.class, product.getId());
+        String idProduct = session().get("idProduct");
+        //idProduct null
+
+        Product productTmp = null;
+        if (idProduct != null ){
+            Long idProductL = Long.parseLong(idProduct);
+            productTmp = JPA.em().find(Product.class, Long.parseLong(idProduct));
+        }
 
         if (productTmp == null){
             JPA.em().persist(product);
