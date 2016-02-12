@@ -1,4 +1,4 @@
-package models;
+package models.usuario;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package models;
+package models.catalogo;
 
 import javax.persistence.*;
 

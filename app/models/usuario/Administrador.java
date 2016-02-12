@@ -1,6 +1,5 @@
-package models;
+package models.usuario;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
 
