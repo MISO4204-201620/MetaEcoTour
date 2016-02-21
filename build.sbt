@@ -13,7 +13,8 @@ libraryDependencies ++= Seq(
   javaCore,
   cache,
   "org.hibernate" % "hibernate-entitymanager" % "4.3.9.Final",
-  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
+  "com.google.code.gson" % "gson" % "2.2.4"
 )
 
 PlayKeys.externalizeResources := false

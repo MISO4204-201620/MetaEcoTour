@@ -1,21 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html ng-app="app">
     <head>
+            <!-- META -->
         <meta charset="utf-8">
-        <title>My AngularJS App</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("img/favicon.png")">
-        <link rel="stylesheet" href="@routes.Assets.versioned("css/app.css")">
-        <script data-main="@routes.Assets.versioned("js/main.js")" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+        <title>MetaEcoTour</title>
+
+        <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+        <link rel="icon" href="img/favicon.png" type="image/png">
+        <link rel="apple-touch-icon" href="img/favicon.png" type="image/png">
+
+            <!-- Archivos de estíloas-->
+        <link rel="stylesheet" type='text/css' href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lobster' >
+        <link href='https://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/general.css" />
+        <link rel="stylesheet" type="text/css" href="css/buttons.css" />
+        <link rel="stylesheet" type="text/css" href="css/images.css" />
+        <link rel="stylesheet" type="text/css" href="css/angularForms.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
     </head>
     <body>
-        <ul class="menu">
-            <li><a href="#/view1">view1</a></li>
-            <li><a href="#/view2">view2</a></li>
-        </ul>
+        <div class="centerFlex">
+                <!--disappear-on-scroll-->
+            <img  factor="4" hide ="false" class="centerFlex" style="width: 100%" alt="Imagen Banner"  src="/img/banner.png">
+        </div>
 
+
+            <!-- Vista de la aplicación con Angular.js-->
+        <dir-global></dir-global>
         <div ng-view></div>
 
-        <div>Angular seed app: v<span app-version></span></div>
 
+
+
+            <!-- Librerías -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script><!-- load angular -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.min.js"></script>
+            <!-- Archivos de la aplicación Angular.js -->
+        <script src="app/app.js"></script>
+            <!-- Modelos (factory) -->
+        <script src="models/EventHandler.js"></script>
+        <script src="models/User.js"></script>
+        <script src="models/Categoria.js"></script>
+            <!-- Controllers  -->
+        <script src="app/global/global.js"></script>
+        <script src="app/login/login.js"></script>
+        <script src="app/admin/admin.js"></script>
+            <!-- Librerías locales -->
+        <script src="lib/auto-display/index.js"></script>
+        <script src="lib/auto-display/information.js"></script>
+        <script src="lib/auto-display/info-options.js"></script>
+        <script src="lib/auto-display/list.js"></script>
+        <script src="lib/auto-display/pop-ups.js"></script>
+        <script src="lib/animate/disappearOnScroll.js"></script>
+        <script src="lib/moment/moment.js"></script>
+        <script src="lib/moment/locale/es.js"></script>
+        <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.13.4.min.js"></script>
     </body>
 </html>

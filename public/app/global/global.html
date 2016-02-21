@@ -1,0 +1,16 @@
+<dir-pop-ups></dir-pop-ups>
+
+<div  class="flexboxClass C_PrincipalText " style="margin-right:3px;align-items: center;-webkit-align-items: center;height:55px; background-color: rgb(28, 28, 26);">
+	<div class="flexGrow1 tituloConMenuAlLado T_lobster" style="font-size: 27px;">
+		{{AppName}}
+	</div>
+	<div ng-if="getUserName()" class="LoginButton T_lobster">
+		{{getUserName()}}
+	</div>
+	<div ng-if="getUserName()" class="LoginButton T_lobster" ng-click="logout()">
+		Salir
+	</div>
+	<div ng-if="!getUserName()" class="LoginButton T_lobster" ng-click="logout()">
+		Entrar
+	</div>
+</div>

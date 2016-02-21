@@ -4,11 +4,21 @@
 
 # Home page
 GET         /                            controllers.Application.index()
-GET         /products/                   controllers.Products.list()
-GET         /productsJson/               controllers.Products.listJson()
-GET         /products/new                controllers.Products.newProduct()
-GET         /products/:id                controllers.Products.details(id: String)
-POST        /products/                   controllers.Products.save()
-DELETE      /products/:id                controllers.Products.delete(id: String)
+
+GET         /api/categorias/                  controllers.implementacion.catalogos.CategoriasCtrl.getCategorias()
+GET         /api/categorias/new                controllers.Products.newProduct()
+GET         /api/categorias/:id                controllers.Products.details(id: String)
+POST        /api/categorias/                   controllers.implementacion.catalogos.CategoriasCtrl.save()
+DELETE      /api/categorias/:id                controllers.implementacion.catalogos.CategoriasCtrl.delete(id: String)
+
+GET         /api/products/                   controllers.Products.list()
+GET         /api/productsJson/               controllers.Products.listJson()
+GET         /api/products/new                controllers.Products.newProduct()
+GET         /api/products/:id                controllers.Products.details(id: String)
+POST        /api/products/                   controllers.Products.save()
+DELETE      /api/products/:id                controllers.Products.delete(id: String)
+
+
+
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)

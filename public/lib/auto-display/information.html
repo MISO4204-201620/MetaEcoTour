@@ -1,0 +1,45 @@
+<div class="JM_listaAtributos">
+    <div ng-repeat="atributo in atributos" style="margin-bottom:5px;">
+        <div ng-show="!editMode || !atributo.editable" ng-switch="atributo.editor">
+            <div ng-switch-when="text-highlighter" class="flexboxClass">
+                <dir-text-highlighter varibale-with-text = "objeto" text-atribute="{{atributo.columnAtrubute}}" show-editor="false" title ="{{atributo.displayHeader}}" style="width:100%"/>
+            </div>
+            <div ng-switch-when="date" class="flexboxClass">
+                <div class="JM_nombreCampo verticalCenterFlex flexGrow1"><b>{{atributo.displayHeader}}:</b></div>
+                <div class="flexGrow2">
+                    <dir-jm-datepicker editable="atributo.editable" objeto="objeto" date-field-name="{{atributo.columnAtrubute}}"></dir-jm-datepicker>
+                </div>
+            </div>
+            <div ng-switch-when="nested-text" class="flexboxClass">
+               <div class="JM_nombreCampo"><b>{{atributo.displayHeader}}:</b></div>
+               <div class="flexGrow1">{{atributo.modifier(objeto[atributo.columnAtrubute])}}</div>
+            </div>
+            <div ng-switch-default class="flexboxClass">
+               <div class="JM_nombreCampo"><b>{{atributo.displayHeader}}:</b></div>
+               <div class="flexGrow1">{{objeto[atributo.columnAtrubute]}}</div>
+            </div>
+        </div>
+        <div ng-show="editMode && atributo.editable" ng-switch="atributo.editor">
+            <div ng-switch-when="options" class="flexboxClass">
+                <div class="JM_nombreCampo">{{atributo.displayHeader}}:</div>
+                <select ng-model="objeto[atributo.columnAtrubute]" ng-options="option for option in atributo.options" class="flexGrow1" style="margin-top:2px;"></select>
+            </div>
+            <div ng-switch-when="text-highlighter" class="flexboxClass">
+                <dir-text-highlighter varibale-with-text = "objeto" text-atribute="{{atributo.columnAtrubute}}" show-editor="true" title ="{{atributo.displayHeader}}" style="width:100%"/>
+            </div>
+            <div ng-switch-when="date" class="flexboxClass">
+                <div class="JM_nombreCampo verticalCenterFlex flexGrow1"><b>{{atributo.displayHeader}}:</b></div>
+                <div class="flexGrow2">
+                    <dir-jm-datepicker editable="atributo.editable" objeto="objeto" date-field-name="{{atributo.columnAtrubute}}"></dir-jm-datepicker>
+                </div>
+            </div>
+            <div ng-switch-default class="flexboxClass">
+                <div class="JM_nombreCampo">{{atributo.displayHeader}}:</div>
+                <input ng-model="objeto[atributo.columnAtrubute]" class="flexGrow1"/>
+            </div>
+        </div>
+    </div>
+    <div>
+        
+    </div>
+</div>       

@@ -1,0 +1,275 @@
+.LoginButton{
+  font-size:21px;
+  color:hsl(227,72%,100%);;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius:5px;
+  border-color: hsl(227,72%,100%);
+  border-style: solid;
+}
+.LoginButton:hover{
+  background-color: hsla(227,72%,100%, 0.6);
+  color: white;
+}
+
+.JM_aceptButton{
+  background-color:hsl(109,56%,40%);
+  color:white;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+}
+.JM_aceptButton.small{
+  width: 80%;
+  margin:5px;
+  height:21px;
+  padding:0;
+  line-height: 15px;
+}
+.JM_aceptButton:hover{
+  background-color:hsl(109,72%,40%);
+}
+
+.JM_defaultButton{
+  background-color:hsl(227,72%,50%);
+  color:white;
+  width: 144px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block; 
+  width:32%;
+  height:24px;
+  vertical-align: top;
+}
+.JM_defaultButton:hover{
+  background-color:hsl(227,72%,65%);
+}
+
+.JM_cancelButton{
+  background-color: hsl(356,86%,42%);
+  color:white;
+  width: 144px;
+  text-align: center;
+  border-radius: 5px;
+}
+.JM_cancelButton:hover{
+  background-color: hsl(356,86%,49%);
+}
+
+.JM_deleteButton{
+  background: url("../img/deleteBlue.png") no-repeat;
+  background-size: 27px;
+  vertical-align: middle;
+  height: 27px;
+  width: 27px;
+  margin-right: 31px;
+  margin-left:31px;
+  margin-top: 13px;
+}
+
+/*Buttons with images*/
+.JM_deleteButton:hover{
+  background: url("../img/deleteRed.png") no-repeat;
+  background-size: 27px; 
+}
+.JM_searchButton{
+  background: url("../img/search.png") no-repeat;
+  background-size: 21px;
+  margin: 1.5px;
+  vertical-align: middle;
+  height: 21px;
+  width: 21px;
+}
+.JM_searchButton:hover{
+  background-size: 24px;
+  height: 24px;
+  width: 24px;
+  margin: 0px;
+}
+.JM_stopSearchButton{
+  background: url("../img/stop-search.png") no-repeat;
+  background-size: 21px;
+  margin: 1.5px;
+  vertical-align: middle;
+  height: 21px;
+  width: 21px;
+}
+.JM_stopSearchButton:hover{
+  background-size: 24px;
+  height: 24px;
+  width: 24px;
+  margin: 0px;
+}
+.JM_sortDownButton{
+  background: url("../img/sort-down.png") no-repeat;
+  background-size: 21px;
+  margin: 1.5px;
+  vertical-align: middle;
+  height: 21px;
+  width: 21px;
+}
+.JM_sortDownButton:hover{
+  background-size: 24px;
+  height: 24px;
+  width: 24px;
+  margin: 0px;
+}
+.JM_expandButton{
+  background: url("../img/expand.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_listButton{
+  background: url("../img/list.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_editButton{
+  background: url("../img/edit.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_saveButton{
+  background: url("../img/save.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_dontSaveButton{
+  background: url("../img/dont-save.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_addButton{
+  background: url("../img/add.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_suggestionsActiveButton{
+  background: url("../img/suggestions_active.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_suggestionsInactiveButton{
+  background: url("../img/suggestions_inactive.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_likeButton{
+  background: url("../img/like.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_thanks{
+  background: url("../img/thanks.png") no-repeat;
+  background-size: 34px;
+  height: 34px;
+  width: 34px;
+}
+.JM_correctCodeButton{
+  background: url("../img/correct-code.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_wrongCodeButton{
+  background: url("../img/wrong-code.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_splitHorizontal{
+  background: url("../img/split-horizontal.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_splitVertical{
+  background: url("../img/split-vertical.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_unHighlight{
+  background: url("../img/unhighlight.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_clearConsole{
+  background: url("../img/clear.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_hide{
+  background: url("../img/hide.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_show{
+  background: url("../img/show.png") no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+.JM_run{
+  background: url("../img/run.png") no-repeat;
+  background-size: 25px;
+  height: 25px;
+  width: 25px;
+}
+.JM_loading{
+  background: url("../img/loading.png") no-repeat;
+  background-size: 25px;
+  height: 25px;
+  width: 25px;
+}
+.JM_restore{
+  background: url("../img/restore.png") no-repeat;
+  background-size: 25px;
+  height: 25px;
+  width: 25px;
+}
+.JM_imageButton{
+  border-radius: 5px;
+  padding: 3px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  vertical-align: center;
+}
+.JM_imageButton:hover{
+  background-color:hsl(227,72%,80%);
+}
+
+.JM_blueButton{
+  background-color:rgb(59, 130, 189); 
+  color:white;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+}
+.JM_blueButton.small{
+  width: 80%;
+  margin:5px;
+  height:21px;
+  padding:0;
+  line-height: 15px;
+}
+.JM_blueButton:hover{
+  background-color:rgba(81, 146, 200, 1)
+}
+
+

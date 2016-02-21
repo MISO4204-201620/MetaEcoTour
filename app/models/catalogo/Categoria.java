@@ -6,6 +6,9 @@ import javax.persistence.*;
  * Created by manuel on 10/02/16.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name="Categoria.findAll", query="SELECT p FROM Categoria p")
+})
 public class Categoria {
 
     @Id
@@ -26,6 +29,14 @@ public class Categoria {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public long getIdMarketPlace() {
+        return idMarketPlace;
+    }
+
+    public void setIdMarketPlace(long idMarketPlace) {
+        this.idMarketPlace = idMarketPlace;
     }
 
     public long getId() {
