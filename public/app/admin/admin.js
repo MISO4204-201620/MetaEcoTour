@@ -4,7 +4,7 @@ function AdminCtrl($scope, $rootScope, User, Categoria) {
     Categoria.watch(function (categorias) {
         $scope.categorias = categorias;
     })
-    $scope.categoriaNueva = {nombre:"hola"}
+    $scope.categoriaNueva = {}
 
 
     $scope.showAddCategoria = function (reason, tutorAntiguoP) {
