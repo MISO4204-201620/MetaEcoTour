@@ -3,7 +3,7 @@ package co.edu.uniandes.IMPlace;
 public interface IUsuario {
 
 	/**
-	 * Valida el usuario y contraseña en el sistema.
+	 * Valida el usuario y contraseï¿½a en el sistema.
 	 * @param id : Id del usuario
 	 * @param psw : ContraseÃ±a
 	 * @return Boolean indicando la validez de los datos.
@@ -13,8 +13,7 @@ public interface IUsuario {
 
 	/**
 	 * Crea un usuario en la BD con los datos proporcionados.
-	 * @param id 
-	 * @param nombre  
+	 * @param nombre
 	 * @param tipodoc
 	 * @param documento
 	 * @param correo

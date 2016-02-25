@@ -1,7 +1,6 @@
 package controllers.implementacion.catalogos;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.Gson;
 import controllers.contratos.catalogos.ICategorias;
 import models.catalogo.Categoria;
 import play.db.jpa.Transactional;
@@ -15,7 +14,6 @@ import play.mvc.Result;
  */
 public class CategoriasCtrl extends Controller {
     private static ICategorias categorias = new Categorias();
-    private static Gson gson = new Gson();
 
     @Transactional
     public Result delete(String id) {
@@ -27,7 +25,7 @@ public class CategoriasCtrl extends Controller {
     @Transactional
     public Result save() {
         JsonNode json = request().body().asJson();
-        Categoria categoria = gson.fromJson( json.toString(), Categoria.class);
+        Categoria categoria = Json.fromJson(json, Categoria.class);
         if(categoria != null){
             categorias.save(categoria);
         }else{

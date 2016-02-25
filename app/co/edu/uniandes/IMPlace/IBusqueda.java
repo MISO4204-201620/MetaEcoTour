@@ -4,6 +4,7 @@ import java.util.Collection;
 
 public interface IBusqueda {
 
+
 	/**
 	 * Busca los servicios que se ajusten a los parametros de entrada. Los
 	 * valores null no se tendran en cuenta en el filtro.
