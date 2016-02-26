@@ -9,6 +9,10 @@ import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NamedQueries({
+        @NamedQuery(name="Usuario.findByAuthToken", query="SELECT u FROM Usuario u WHERE u.authToken =:token"),
+        @NamedQuery(name="Usuario.findByCorreoAndClave", query="SELECT u FROM Usuario u WHERE u.correo =:correo AND u.clave =:clave")
+})
 public class Usuario implements Serializable{
 
     @Id
@@ -29,6 +33,15 @@ public class Usuario implements Serializable{
 
     @Column(nullable=false)
     private String tipoDoc;
+
+    @Column(nullable=true)
+    private byte[] shaClave;
+
+    @Column(nullable=true)
+    private String authToken;
+
+    @Column(nullable=true)
+    private String clave;
 
     public String getNombre() {
         return nombre;
@@ -68,5 +81,29 @@ public class Usuario implements Serializable{
 
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
+    }
+
+    public byte[] getShaClave() {
+        return shaClave;
+    }
+
+    public void setShaClave(byte[] shaClave) {
+        this.shaClave = shaClave;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

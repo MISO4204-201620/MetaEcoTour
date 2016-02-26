@@ -5,9 +5,13 @@
 # Home page
 GET         /                            controllers.Application.index()
 
-GET         /api/categorias/                   controllers.implementacion.catalogos.CategoriasCtrl.getCategorias()
-POST        /api/categorias/                   controllers.implementacion.catalogos.CategoriasCtrl.save()
-DELETE      /api/categorias/:id                controllers.implementacion.catalogos.CategoriasCtrl.delete(id: String)
+GET         /api/categorias/            controllers.implementacion.catalogos.CategoriasController.getCategorias()
+POST        /api/categorias/            controllers.implementacion.catalogos.CategoriasController.save()
+DELETE      /api/categorias/:id         controllers.implementacion.catalogos.CategoriasController.delete(id: String)
+
+POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
+POST        /logout                     controllers.implementacion.usuarios.SecurityController.logout()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)
