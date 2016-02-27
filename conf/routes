@@ -9,6 +9,11 @@ GET         /api/categorias/            controllers.implementacion.catalogos.Cat
 POST        /api/categorias/            controllers.implementacion.catalogos.CategoriasController.save()
 DELETE      /api/categorias/:id         controllers.implementacion.catalogos.CategoriasController.delete(id: String)
 
+GET         /api/productos/            controllers.implementacion.catalogos.ProductosController.getProductos()
+GET         /api/productos/:productType            controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
+POST        /api/productos/            controllers.implementacion.catalogos.ProductosController.save()
+DELETE      /api/productos/:id         controllers.implementacion.catalogos.ProductosController.delete(id: String)
+
 POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
 POST        /logout                     controllers.implementacion.usuarios.SecurityController.logout()
 
