@@ -14,6 +14,12 @@ GET         /api/productos/:productType            controllers.implementacion.ca
 POST        /api/productos/            controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id         controllers.implementacion.catalogos.ProductosController.delete(id: String)
 
+GET         /api/recursos/:productId            controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
+GET         /api/recursos/:productId:tipo         controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
+POST        /api/recursos/            controllers.implementacion.catalogos.RecursosController.save()
+DELETE      /api/recursos/:id         controllers.implementacion.catalogos.RecursosController.delete(id: String)
+
+
 POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
 POST        /logout                     controllers.implementacion.usuarios.SecurityController.logout()
 
