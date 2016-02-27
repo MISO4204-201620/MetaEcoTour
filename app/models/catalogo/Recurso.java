@@ -7,7 +7,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name="Recurso.findAll", query="SELECT r FROM Recurso r")
+        @NamedQuery(name = "Recurso.findByPrd", query = "SELECT r FROM Recurso r WHERE r.idProducto = :productId"),
+        @NamedQuery(name = "Recurso.findByPrdByType", query = "SELECT r FROM Recurso r WHERE r.idProducto = :productId and r.tipo = :tipo")
 })
 public class Recurso {
     @Id
@@ -18,13 +19,24 @@ public class Recurso {
     private Long id;
 
     @Column(nullable=false)
+    private Long idProducto;
+    @Column(nullable=false)
     private String tipo;
     @Column(nullable=false)
     private String nombre;
     private String label;
     private String comentario;
-    @Column(nullable=false)
-    private String contenido;
+    @Lob @Column(nullable=false)
+    private byte[] contenido;
+
+    public byte[] getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(byte[] contenido) {
+        this.contenido = contenido;
+    }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -46,8 +58,12 @@ public class Recurso {
         this.comentario = comentario;
     }
 
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
+    public Long getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
     }
 
     public Long getId() {
@@ -70,7 +86,4 @@ public class Recurso {
         return comentario;
     }
 
-    public String getContenido() {
-        return contenido;
-    }
 }
