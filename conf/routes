@@ -21,10 +21,6 @@ DELETE      /api/recursos/:id         controllers.implementacion.catalogos.Recur
 
 GET        /api/recursos/loadPrd/       devUtils.LoadData.loadProductsTest()
 
-GET         /api/itemServ/pqt/:idPaquete         controllers.implementacion.catalogos.ItemServiciosController.getItemsByPaquetes(idPaquete: Long)
-GET         /api/itemServ/srv/:idServicio         controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idServicio: Long)
-POST        /api/itemServ/            controllers.implementacion.catalogos.ItemServiciosController.save()
-DELETE      /api/itemServ/:id         controllers.implementacion.catalogos.ItemServiciosController.delete(id: String)
 
 
 POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
