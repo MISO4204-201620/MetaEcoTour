@@ -19,7 +19,7 @@ GET         /api/recursos/:productId:tipo         controllers.implementacion.cat
 POST        /api/recursos/            controllers.implementacion.catalogos.RecursosController.save()
 DELETE      /api/recursos/:id         controllers.implementacion.catalogos.RecursosController.delete(id: String)
 
-GET        /api/recursos/loadPrd/:prdId       devUtils.LoadData.loadRecursosTest(prdId : Long)
+GET        /api/recursos/loadPrd/       devUtils.LoadData.loadProductsTest()
 
 POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
 POST        /logout                     controllers.implementacion.usuarios.SecurityController.logout()

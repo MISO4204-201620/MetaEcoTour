@@ -25,14 +25,15 @@ public class Recursos implements IRecurso {
 
     @Transactional
     public Recurso save(Recurso recurso) {
-        Long recId = recurso.getId();
-        Recurso recTemp = JPA.em().find(Recurso.class, recId);
+        //Long recId = recurso.getId();
+        //Recurso recTemp = JPA.em().find(Recurso.class, recId);
 
-        if(recTemp == null){
+        //if(recTemp == null){
+            System.out.println(recurso.getId());
             JPA.em().persist(recurso);
-        }else{
+        /*}else{
             //update
-        }
+        }*/
 
         return recurso;
     }

@@ -26,7 +26,7 @@ public class Recurso {
     private String nombre;
     private String label;
     private String comentario;
-    @Lob @Column(nullable=false)
+    @Lob
     private byte[] contenido;
 
     public byte[] getContenido() {
