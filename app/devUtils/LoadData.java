@@ -2,6 +2,7 @@ package devUtils;
 
 import controllers.implementacion.catalogos.Productos;
 import controllers.implementacion.catalogos.Recursos;
+import models.catalogo.Paquete;
 import models.catalogo.Recurso;
 import models.catalogo.Servicio;
 import play.db.jpa.Transactional;
@@ -20,7 +21,7 @@ import java.io.IOException;
  */
 public class LoadData extends Controller{
     @Transactional
-    public Result loadProductsTest(){
+    public Result loadServiciosTest(){
         for(int i=1 ; i<=10; i++){
             //inserta un servicio
             Servicio prd = new Servicio();
@@ -44,6 +45,33 @@ public class LoadData extends Controller{
         }
         return null;
     }
+
+    @Transactional
+    public Result loadPaquetesTest(){
+        for(int i=1 ; i<=10; i++){
+            //inserta un servicio
+            Paquete prd = new Paquete();
+            //prd.setId(i);
+            prd.setNombre("Paquete"+i);
+            prd.setDescripcion("Descripcion Paquete"+i);
+            prd.setPrecioActual(2.5+i);
+            Productos prdImpl = new Productos();
+            prdImpl.save(prd);
+            //inserta un recurso Asociado
+            /*Recurso rcs = new Recurso();
+            //rcs.setId((long) i);
+            rcs.setIdProducto(prd.getId());
+            rcs.setNombre(""+i+".jpg");
+            rcs.setComentario("Descripcion Producto"+rcs.getIdProducto()+" recurso"+i);
+            rcs.setTipo("JPG");
+            rcs.setContenido("ImgsTest/"+i+".jpg");
+            Recursos srcImpl = new Recursos();
+            srcImpl.save(rcs);*/
+
+        }
+        return null;
+    }
+
 
     @Transactional
     public Result loadRecursosTest(Long prdId){
