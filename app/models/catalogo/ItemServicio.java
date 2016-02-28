@@ -5,10 +5,10 @@ import javax.persistence.*;
 /**
  * Created by JoséLuis on 27/02/2016.
  */
-@Entity
+@Entity @IdClass(ItemServicioId.class)
 @NamedQueries({
-        @NamedQuery(name = "ItemServicio.findByPaquete", query = "SELECT is FROM ItemServicio is WHERE is.idPaquete = :idPaquete"),
-        @NamedQuery(name = "ItemServicio.findByServicio", query = "SELECT is FROM ItemServicio is WHERE is.idServicio = :idServicio ")
+        @NamedQuery(name = "ItemServicio.findByPaquete", query = "SELECT r FROM ItemServicio r WHERE r.idPaquete = :idPaquete "),
+        @NamedQuery(name = "ItemServicio.findByServicio", query = "SELECT r FROM ItemServicio r WHERE r.idServicio = :idServicio ")
 })
 public class ItemServicio {
 
@@ -16,8 +16,10 @@ public class ItemServicio {
     private Long idPaquete;
     @Column(nullable=false)
     private Long idServicio;
+
     @Column(nullable=false)
     private int cantidad;
+
 
     public Long getIdPaquete() {
         return idPaquete;
@@ -43,3 +45,5 @@ public class ItemServicio {
         this.cantidad = cantidad;
     }
 }
+
+

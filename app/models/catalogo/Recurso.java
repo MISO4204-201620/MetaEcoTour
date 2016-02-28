@@ -26,17 +26,16 @@ public class Recurso {
     private String nombre;
     private String label;
     private String comentario;
-    @Lob
-    private byte[] contenido;
+    @Column(nullable=false)
+    private String contenido;
 
-    public byte[] getContenido() {
+    public String getContenido() {
         return contenido;
     }
 
-    public void setContenido(byte[] contenido) {
+    public void setContenido(String contenido) {
         this.contenido = contenido;
     }
-
 
     public void setId(Long id) {
         this.id = id;

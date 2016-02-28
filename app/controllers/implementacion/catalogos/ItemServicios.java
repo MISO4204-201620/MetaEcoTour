@@ -1,6 +1,7 @@
 package controllers.implementacion.catalogos;
 
 import controllers.contratos.catalogos.IItemServicio;
+import models.catalogo.Servicio;
 import play.db.jpa.JPA;
 import models.catalogo.ItemServicio;
 
@@ -18,6 +19,11 @@ public class ItemServicios implements IItemServicio {
     @Override
     public List<models.catalogo.ItemServicio> getItemsByServicios(Long idServicio) {
         return JPA.em().createNamedQuery("ItemServicio.findByServicio", ItemServicio.class ).setParameter("idServicio",idServicio).getResultList();
+    }
+
+    @Override
+    public List<Servicio> getServicioByPaquetes(Long idPaquete) {
+        return null;
     }
 
     @Override

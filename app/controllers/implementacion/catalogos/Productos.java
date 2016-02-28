@@ -25,7 +25,7 @@ public class Productos implements IProducto {
         List<Producto> productos = JPA.em().createNamedQuery("Producto.findAll", Producto.class ).getResultList();
         List<Producto> productsByType = new ArrayList<Producto>();
         for (Producto pro : productos ) {
-            System.out.println("La clase :  "+pro.getClass());
+
             if("PAQ".equals(productType)) {
                 if (pro.getClass().equals(Paquete.class)) {
                     productsByType.add(pro);
@@ -38,6 +38,13 @@ public class Productos implements IProducto {
             }
         }
         return productsByType;
+    }
+
+    @Override
+    @Transactional
+    public Producto getProductById(Long id){
+        Producto producto = JPA.em().find(Producto.class, id);
+        return producto;
     }
 
     @Override
@@ -60,4 +67,6 @@ public class Productos implements IProducto {
     public Producto delete(long l) {
         return null;
     }
+
+
 }

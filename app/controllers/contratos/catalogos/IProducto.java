@@ -14,6 +14,8 @@ public interface IProducto {
 
     public List<Producto> getProductosByType(String productType);
 
+    Producto getProductById(Long id);
+
     Producto save(Producto producto);
 
     Producto delete(long l);
