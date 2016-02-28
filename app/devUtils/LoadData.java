@@ -34,10 +34,10 @@ public class LoadData extends Controller{
             Recurso rcs = new Recurso();
             //rcs.setId((long) i);
             rcs.setIdProducto(prd.getId());
-            rcs.setNombre("Producto"+prd.getId()+" recurso"+i);
+            rcs.setNombre(""+i+".jpg");
             rcs.setComentario("Descripcion Producto"+rcs.getIdProducto()+" recurso"+i);
             rcs.setTipo("JPG");
-            rcs.setContenido(this.loadFile(""+i));
+            rcs.setContenido("ImgsTest/"+i+".jpg");
             Recursos srcImpl = new Recursos();
             srcImpl.save(rcs);
 
@@ -55,7 +55,7 @@ public class LoadData extends Controller{
             rcs.setNombre("Producto"+rcs.getIdProducto()+" recurso"+i);
             rcs.setComentario("Descripcion Producto"+rcs.getIdProducto()+" recurso"+i);
             rcs.setTipo("JPG");
-            rcs.setContenido(this.loadFile(""+i));
+            rcs.setContenido("ImgsTest/"+i+".jpg");
             Recursos prdImpl = new Recursos();
             prdImpl.save(rcs);
             System.out.println("Ok_ins.");
