@@ -1,6 +1,7 @@
 package models.catalogo;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Camilo on 26/02/16.
@@ -10,7 +11,8 @@ import javax.persistence.*;
 @DiscriminatorColumn(name="PRODUCT_TYPE",discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("PR")
 @NamedQueries({
-        @NamedQuery(name="Producto.findAll", query="SELECT pr FROM Producto pr")
+        @NamedQuery(name="Producto.findAll", query="SELECT pr FROM Producto pr"),
+        @NamedQuery(name="Producto.findProductById", query="SELECT pr FROM Producto pr where pr.id = :productId")
         })
 public abstract class Producto {
 
@@ -29,6 +31,9 @@ public abstract class Producto {
     @Column(nullable=false)
     private double precioActual;
 
+    @OneToMany
+    @JoinColumn(name = "idProducto")
+    private List<Recurso> recursos ;
 
     public long getId() {
         return id;
@@ -60,5 +65,13 @@ public abstract class Producto {
 
     public void setPrecioActual(double precioActual) {
         this.precioActual = precioActual;
+    }
+
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
     }
 }

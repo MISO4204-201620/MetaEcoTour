@@ -36,4 +36,8 @@ public class ProductosController extends Controller {
         return ok(Json.toJson(productos.getProductosByType(productType)));
     }
 
+    @Transactional(readOnly=true)
+    public Result getProductById(Long productId) {
+        return ok(Json.toJson(productos.getProductById(productId)));
+    }
 }
