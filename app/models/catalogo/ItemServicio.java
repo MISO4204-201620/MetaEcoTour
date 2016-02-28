@@ -14,7 +14,7 @@ public class ItemServicio {
 
     @Id @Column(nullable=false)
     private Long idPaquete;
-    @Id @Column(nullable=false)
+    @Column(nullable=false)
     private Long idServicio;
     @Column(nullable=false)
     private int cantidad;

@@ -12,9 +12,22 @@ libraryDependencies ++= Seq(
   javaWs,
   javaCore,
   cache,
+  "org.apache.directory.studio" % "org.apache.commons.io" % "2.4",
   "org.hibernate" % "hibernate-entitymanager" % "4.3.9.Final",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
 )
+
+libraryDependencies ++= Seq(
+  "com.amazonaws" % "aws-java-sdk" % "1.10.21"
+)
+
+dependencyOverrides += "com.google.guava" % "guava" % "18.0"
+
+dependencyOverrides += "org.scala-lang.modules" % "scala-parser-combinators_2.11" % "1.0.3"
+
+dependencyOverrides += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.3"
+
+dependencyOverrides += "junit" % "junit" % "4.12"
 
 PlayKeys.externalizeResources := false
 
