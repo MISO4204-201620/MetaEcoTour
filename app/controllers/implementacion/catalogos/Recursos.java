@@ -1,10 +1,11 @@
 package controllers.implementacion.catalogos;
 
 import controllers.contratos.catalogos.IRecurso;
-import models.catalogo.Producto;
 import models.catalogo.Recurso;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -13,18 +14,28 @@ import java.util.List;
 public class Recursos implements IRecurso {
 
     @Override
-    public List<Recurso> getRecursosByProd(Long prodId) {
-        return JPA.em().createNamedQuery("Recurso.findAll", Recurso.class ).getResultList();
+    public List<Recurso> getRecursosByProd(Long productId) {
+        return JPA.em().createNamedQuery("Recurso.findByPrd", Recurso.class ).setParameter("productId",productId).getResultList();
     }
 
     @Override
-    public List<Recurso> getRecursosByProdByType(Long prodId, String tipo) {
-        return null;
+    public List<Recurso> getRecursosByProdByType(Long productId, String tipo) {
+        return JPA.em().createNamedQuery("Recurso.findByPrdByType", Recurso.class ).setParameter("productId",productId).setParameter("tipo",tipo).getResultList();
     }
 
-    @Override
-    public Recurso save(Recurso producto) {
-        return null;
+    @Transactional
+    public Recurso save(Recurso recurso) {
+        //Long recId = recurso.getId();
+        //Recurso recTemp = JPA.em().find(Recurso.class, recId);
+
+        //if(recTemp == null){
+            System.out.println(recurso.getId());
+            JPA.em().persist(recurso);
+        /*}else{
+            //update
+        }*/
+
+        return recurso;
     }
 
     @Override

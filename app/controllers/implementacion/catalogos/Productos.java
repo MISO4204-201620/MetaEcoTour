@@ -1,13 +1,11 @@
 package controllers.implementacion.catalogos;
 
 import controllers.contratos.catalogos.IProducto;
-import models.catalogo.Categoria;
-import models.catalogo.Paquete;
-import models.catalogo.Producto;
-import models.catalogo.Servicio;
+import models.catalogo.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +43,17 @@ public class Productos implements IProducto {
     @Override
     @Transactional
     public Producto save(Producto producto) {
-        return null;
+        EntityManager em = JPA.em();
+        // Long prdId = producto.getId();
+        // Producto prdTemp = em.find(Producto.class, prdId);
+
+        // if(prdTemp == null){
+            em.persist(producto);
+        // }else{
+            //update
+        // }
+
+        return producto;
     }
 
     @Override
