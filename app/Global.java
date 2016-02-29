@@ -15,7 +15,7 @@ public class Global extends GlobalSettings {
         //Start S3
         S3Helper.initInstance(application);
         //linea que permite cargar un arhivo en s3
-        S3Helper.uploadObject("20160130101046-m1.jpg", new File("/tmp/20160130101046.jpg"));
+        //S3Helper.uploadObject("20160130101046-m1.jpg", new File("/tmp/20160130101046.jpg"));
 
     }
 

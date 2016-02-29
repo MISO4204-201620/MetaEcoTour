@@ -31,6 +31,11 @@ public abstract class Producto {
     @Column(nullable=false)
     private double precioActual;
 
+    @Transient
+    private int puntuacion;
+
+    private String imagen;
+
     @OneToMany
     @JoinColumn(name = "idProducto")
     private List<Recurso> recursos ;
@@ -74,4 +79,12 @@ public abstract class Producto {
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
     }
+
+    public int getPuntuacion() { return puntuacion; }
+
+    public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
+
+    public String getImagen() { return imagen; }
+
+    public void setImagen(String imagen) { this.imagen = imagen; }
 }

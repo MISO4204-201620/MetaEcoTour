@@ -3,31 +3,28 @@
 # ~~~~
 
 # Home page
-GET         /                            controllers.Application.index()
+GET         /                               controllers.Application.index()
 
-GET         /api/categorias/            controllers.implementacion.catalogos.CategoriasController.getCategorias()
-POST        /api/categorias/            controllers.implementacion.catalogos.CategoriasController.save()
-DELETE      /api/categorias/:id         controllers.implementacion.catalogos.CategoriasController.delete(id: String)
+GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()
+POST        /api/categorias/                controllers.implementacion.catalogos.CategoriasController.save()
+DELETE      /api/categorias/:id             controllers.implementacion.catalogos.CategoriasController.delete(id: String)
 
-GET         /api/productos/            controllers.implementacion.catalogos.ProductosController.getProductos()
-GET         /api/productos/:productType            controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
-GET         /api/producto/:productId            controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
-POST        /api/productos/            controllers.implementacion.catalogos.ProductosController.save()
-DELETE      /api/productos/:id         controllers.implementacion.catalogos.ProductosController.delete(id: String)
+GET         /api/productos/                 controllers.implementacion.catalogos.ProductosController.getProductos()
+GET         /api/productos/:productType     controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
+GET         /api/producto/:productId        controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
+POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
+DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: String)
 
-GET         /api/recursos/:productId            controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
-GET         /api/recursos/:productId/:tipo         controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
-POST        /api/recursos/            controllers.implementacion.catalogos.RecursosController.save()
-DELETE      /api/recursos/:id         controllers.implementacion.catalogos.RecursosController.delete(id: String)
+GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
+GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
+POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
+DELETE      /api/recursos/:id               controllers.implementacion.catalogos.RecursosController.delete(id: String)
 
-GET        /api/recursos/loadServ/       devUtils.LoadData.loadServiciosTest()
-GET        /api/recursos/loadPaqu/       devUtils.LoadData.loadPaquetesTest()
+GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
+GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 
-
-
-POST        /login                      controllers.implementacion.usuarios.SecurityController.login()
-POST        /logout                     controllers.implementacion.usuarios.SecurityController.logout()
-
+POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
+POST        /logout                         controllers.implementacion.usuarios.SecurityController.logout()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /*file                          controllers.Assets.versioned(path="/public", file: Asset)

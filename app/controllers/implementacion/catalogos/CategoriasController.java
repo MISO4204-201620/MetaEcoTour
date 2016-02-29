@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.catalogos.ICategorias;
 import controllers.implementacion.usuarios.Secured;
 import models.catalogo.Categoria;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -19,8 +20,7 @@ public class CategoriasController extends Controller {
 
     @Transactional
     public Result delete(String id) {
-        System.out.println("Se quiere eliminar la categoría con id: " + id);
-        return ok(Json.toJson(categorias.delete(Long.parseLong(id))));
+       return ok(Json.toJson(categorias.delete(Long.parseLong(id))));
     }
 
     @Transactional
@@ -29,8 +29,6 @@ public class CategoriasController extends Controller {
         Categoria categoria = Json.fromJson(json, Categoria.class);
         if(categoria != null){
             categorias.save(categoria);
-        }else{
-            System.out.println("CATEGORIA IS NULL");
         }
         return ok();
     }

@@ -25,21 +25,31 @@ public class Recursos implements IRecurso {
 
     @Transactional
     public Recurso save(Recurso recurso) {
-        //Long recId = recurso.getId();
-        //Recurso recTemp = JPA.em().find(Recurso.class, recId);
+        EntityManager em = JPA.em();
+        if (recurso.getId() == null){
+            em.persist(recurso);
+        } else {
+            Recurso recTemp = em.find(Recurso.class, recurso.getId());
 
-        //if(recTemp == null){
-            System.out.println(recurso.getId());
-            JPA.em().persist(recurso);
-        /*}else{
-            //update
-        }*/
+            if(recTemp != null){
+                recTemp.setComentario(recurso.getComentario());
+                recTemp.setContenido(recurso.getContenido());
+                recTemp.setLabel(recurso.getLabel());
+                recTemp.setNombre(recurso.getNombre());
+                recTemp.setTipo(recurso.getTipo());
+                em.merge(recTemp);
+                return recTemp;
+            }
+        }
 
         return recurso;
     }
 
     @Override
-    public Recurso delete(long l) {
-        return null;
+    public Recurso delete(long id) {
+        EntityManager em = JPA.em();
+        Recurso recurso = em.find(Recurso.class, id);
+        em.remove(recurso);
+        return recurso;
     }
 }

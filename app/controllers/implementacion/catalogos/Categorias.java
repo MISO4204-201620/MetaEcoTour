@@ -26,9 +26,6 @@ public class Categorias  implements ICategorias {
         Categoria categoriaTemp = em.find(Categoria.class, categoriaId);
 
         if(categoriaTemp == null){
-            System.out.println("CATEGORIA ID " + categoria.getId());
-            System.out.println("CATEGORIA Nombre " + categoria.getNombre());
-            System.out.println("CATEGORIA Nombre " + categoria.getIdMarketPlace());
             em.persist(categoria);
         }else{
             categoriaTemp.setNombre(categoria.getNombre());
