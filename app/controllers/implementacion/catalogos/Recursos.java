@@ -46,10 +46,22 @@ public class Recursos implements IRecurso {
     }
 
     @Override
+    @Transactional
     public Recurso delete(long id) {
         EntityManager em = JPA.em();
         Recurso recurso = em.find(Recurso.class, id);
         em.remove(recurso);
         return recurso;
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllResourceByProdId(long id) {
+        EntityManager em = JPA.em();
+        List<Recurso> recursosABorrar = JPA.em().createNamedQuery("Recurso.findByPrd", Recurso.class ).setParameter("productId",id).getResultList();
+        for(Recurso recurso:recursosABorrar){
+            em.remove(recurso);
+        }
+        em.flush();
     }
 }

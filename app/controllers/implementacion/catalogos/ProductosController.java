@@ -23,11 +23,12 @@ public class ProductosController extends Controller {
         JsonNode json = request().body().asJson();
 
         String tipoProducto=json.get("tipoProducto").textValue();
-
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto no existe, para crear uno envíe el id vacío\"}");
         JsonNode productoJson =json.get("producto");
         JsonNode recursos =json.get("producto").get("recursos");
 
         Producto producto = null;
+        Producto productoGuardado = null;
         if("PAQ".equals(tipoProducto)){
             producto = Json.fromJson(productoJson, Paquete.class);
         }else if("SER".equals(tipoProducto)){
@@ -35,27 +36,36 @@ public class ProductosController extends Controller {
         }
 
         if(producto != null){
-           producto=productos.save(producto);
+           productoGuardado=productos.save(producto);
+            if(productoGuardado !=null) {
+                List<Recurso> recursosUpdate = producto.getRecursos();
+                for (int i = 0; i < recursos.size(); i++) {
+                    if (recursosUpdate == null) {
+                        recursosUpdate = new ArrayList<Recurso>();
+                    }
+                    Recurso recursoTmp = Json.fromJson(recursos.get(i), Recurso.class);
+                    recursoTmp.setIdProducto(producto.getId());
+                    recursosUpdate.add(recursoTmp);
+                }
+                producto.setRecursos(recursosUpdate);
+                respuesta = Json.toJson(producto);
+            }
         }
 
-        List<Recurso> recursosUpdate=producto.getRecursos();
-        for(int i=0;i<recursos.size();i++){
-            if(recursosUpdate==null){
-                recursosUpdate=new ArrayList<Recurso>();
-            }
-            Recurso recursoTmp = Json.fromJson(recursos.get(i),Recurso.class);
-            recursoTmp.setIdProducto(producto.getId());
-            recursosUpdate.add(recursoTmp);
-        }
-        System.out.println(recursosUpdate);
-        producto.setRecursos(recursosUpdate);
-        return ok(Json.toJson(producto));
+
+
+        return ok(respuesta);
 
     }
 
     @Transactional
-    public Result delete(String id) {
-        return null;
+    public Result delete(Long id) {
+        Producto producto = productos.delete(id);
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto no existe\"}");
+        if(producto!=null){
+           respuesta= Json.toJson(producto);
+        }
+        return ok(respuesta);
     }
 
     @Transactional(readOnly=true)

@@ -12,8 +12,9 @@ public interface IRecurso {
 
     public List<Recurso> getRecursosByProdByType(Long prodId, String tipo);
 
-    Recurso save(Recurso producto);
+    public Recurso save(Recurso producto);
 
-    Recurso delete(long l);
+    public Recurso delete(long l);
+    public void deleteAllResourceByProdId(long id);
 
 }

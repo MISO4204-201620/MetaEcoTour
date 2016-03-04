@@ -1,6 +1,7 @@
 package controllers.implementacion.catalogos;
 
 import controllers.contratos.catalogos.IProducto;
+import controllers.contratos.catalogos.IRecurso;
 import models.catalogo.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Camilo on 27/02/16.
  */
 public class Productos implements IProducto {
+    private static IRecurso recursos= new Recursos();
 
     @Override
     public List<Producto> getProductos() {
@@ -56,10 +58,30 @@ public class Productos implements IProducto {
         Producto productoTmp = em.find(Producto.class, productoId);
 
         if(productoTmp == null){
-            em.persist(producto);
+            if(0==productoId){
+                em.persist(producto);
+            }else{
+                producto=null;
+            }
+
         }else{
-            System.out.println("Actualizando....");
-            productoTmp.setNombre(productoTmp.getNombre());
+
+            if(!"".equals(producto.getNombre())){
+                productoTmp.setNombre(producto.getNombre());
+            }
+            if(!"".equals(producto.getDescripcion())){
+                productoTmp.setDescripcion(producto.getDescripcion());
+            }
+            if( -1.0 !=producto.getPrecioActual()){
+                productoTmp.setPrecioActual(producto.getPrecioActual());
+            }
+            if(-1 !=producto.getPuntuacion()){
+                productoTmp.setPuntuacion(producto.getPuntuacion());
+            }
+            if(!"".equals(producto.getImagen())){
+                productoTmp.setImagen(producto.getImagen());
+            }
+
             em.merge(productoTmp);
             producto = productoTmp;
         }
@@ -68,8 +90,15 @@ public class Productos implements IProducto {
     }
 
     @Override
-    public Producto delete(long l) {
-        return null;
+    @Transactional
+    public Producto delete(Long id) {
+        EntityManager em = JPA.em();
+        Producto producto = em.find(Producto.class, id);
+        if(producto!=null) {
+            recursos.deleteAllResourceByProdId(id);
+            em.remove(producto);
+        }
+        return producto;
     }
 
 

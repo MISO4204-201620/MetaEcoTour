@@ -18,5 +18,5 @@ public interface IProducto {
 
     Producto save(Producto producto);
 
-    Producto delete(long l);
+    Producto delete(Long id);
 }

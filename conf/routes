@@ -13,7 +13,7 @@ GET         /api/productos/                 controllers.implementacion.catalogos
 GET         /api/productos/:productType     controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
 GET         /api/producto/:productId        controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
-DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: String)
+DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 
 GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
 GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
