@@ -1,5 +1,7 @@
 package models.catalogo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 
 /**
@@ -29,6 +31,9 @@ public class Recurso {
     @Column(nullable=false)
     private String contenido;
 
+    public Recurso(){
+        super();
+    }
     public String getContenido() {
         return contenido;
     }

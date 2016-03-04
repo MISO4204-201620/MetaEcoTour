@@ -1,5 +1,12 @@
 package models.catalogo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +21,12 @@ import java.util.List;
         @NamedQuery(name="Producto.findAll", query="SELECT pr FROM Producto pr"),
         @NamedQuery(name="Producto.findProductById", query="SELECT pr FROM Producto pr where pr.id = :productId")
         })
+/*
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Paquete.class),
+        @JsonSubTypes.Type(value = Servicio.class)
+})
+*/
 public abstract class Producto {
 
     @Id
@@ -36,8 +49,9 @@ public abstract class Producto {
 
     private String imagen;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "idProducto")
+    @JsonIgnore
     private List<Recurso> recursos ;
 
     public long getId() {

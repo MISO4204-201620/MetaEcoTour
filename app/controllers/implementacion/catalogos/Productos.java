@@ -51,14 +51,18 @@ public class Productos implements IProducto {
     @Transactional
     public Producto save(Producto producto) {
         EntityManager em = JPA.em();
-        // Long prdId = producto.getId();
-        // Producto prdTemp = em.find(Producto.class, prdId);
+        Long productoId = producto.getId();
 
-        // if(prdTemp == null){
+        Producto productoTmp = em.find(Producto.class, productoId);
+
+        if(productoTmp == null){
             em.persist(producto);
-        // }else{
-            //update
-        // }
+        }else{
+            System.out.println("Actualizando....");
+            productoTmp.setNombre(productoTmp.getNombre());
+            em.merge(productoTmp);
+            producto = productoTmp;
+        }
 
         return producto;
     }
