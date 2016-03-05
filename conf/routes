@@ -12,6 +12,7 @@ DELETE      /api/categorias/:id             controllers.implementacion.catalogos
 GET         /api/productos/                 controllers.implementacion.catalogos.ProductosController.getProductos()
 GET         /api/productos/:productType     controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
 GET         /api/producto/:productId        controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
+GET         /api/producto/numpage/:numPagina/:productType        controllers.implementacion.catalogos.ProductosController.getProductosByPageByType(numPagina: Integer, productType: String)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 
@@ -19,6 +20,13 @@ GET         /api/recursos/:productId        controllers.implementacion.catalogos
 GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
 POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
 DELETE      /api/recursos/:id               controllers.implementacion.catalogos.RecursosController.delete(id: String)
+
+
+# Servicios para consultar las busquedas o guardar la busqueda del producto
+GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
+GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
+POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
+
 
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()

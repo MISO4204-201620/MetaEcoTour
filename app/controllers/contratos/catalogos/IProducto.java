@@ -14,6 +14,8 @@ public interface IProducto {
 
     public List<Producto> getProductosByType(String productType);
 
+    public List<Producto> getProductosByPageByType(Integer numPage,String productType);
+
     Producto getProductById(Long id);
 
     Producto save(Producto producto);

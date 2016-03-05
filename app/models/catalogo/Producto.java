@@ -24,12 +24,6 @@ import java.util.List;
         @NamedQuery(name="Producto.findAll", query="SELECT pr FROM Producto pr"),
         @NamedQuery(name="Producto.findProductById", query="SELECT pr FROM Producto pr where pr.id = :productId")
         })
-/*
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Paquete.class),
-        @JsonSubTypes.Type(value = Servicio.class)
-})
-*/
 public abstract class Producto {
 
     @Id
@@ -56,6 +50,11 @@ public abstract class Producto {
     @JoinColumn(name = "idProducto")
     @JsonIgnore
     private List<Recurso> recursos ;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idProducto")
+    @JsonIgnore
+    private List<Busqueda> busquedasProducto ;
 
     public long getId() {
         return id;
@@ -104,4 +103,12 @@ public abstract class Producto {
     public String getImagen() { return imagen; }
 
     public void setImagen(String imagen) { this.imagen = imagen; }
+
+    public List<Busqueda> getBusquedasProducto() {
+        return busquedasProducto;
+    }
+
+    public void setBusquedasProducto(List<Busqueda> busquedasProducto) {
+        this.busquedasProducto = busquedasProducto;
+    }
 }
