@@ -32,4 +32,11 @@ public class ItemServiciosController  extends Controller {
     public Result getItemsByServicios(Long idServicio) {
         return ok(Json.toJson(itemServicios.getItemsByServicios(idServicio)));
     }
+
+    @Transactional(readOnly=true)
+    public Result getServicioByPaquetes(Long idServicio) {
+        return ok(Json.toJson(itemServicios.getServicioByPaquetes(idServicio)));
+    }
+
+
 }

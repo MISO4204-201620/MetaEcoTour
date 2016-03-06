@@ -14,6 +14,9 @@ public interface IPaquete {
     public List<ItemServicio> getItemServicios(Long idPaquete);
     public List<Servicio> getServicios(Long idPaquete);
 
+    public ItemServicio addServicioToPaquete(Long isPaquete, Long idServ,int cantidad);
+    public ItemServicio removeServicioFromPaquete(Long isPaquete, Long idServ);
+
     Paquete save(Paquete paquete);
 
     Paquete delete(long l);
