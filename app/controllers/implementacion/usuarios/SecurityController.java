@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.usuario.Usuario;
 
 import play.data.validation.Constraints;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -23,7 +24,7 @@ public class SecurityController extends Controller {
         return (Usuario) Http.Context.current().args.get("user");
     }
 
-
+    @Transactional
     public Result login() {
 
         JsonNode json = request().body().asJson();

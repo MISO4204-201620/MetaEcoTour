@@ -13,10 +13,12 @@ import java.util.UUID;
  */
 public class Usuarios implements IUsuarios{
 
+    @Transactional
     public Usuario findByAuthToken (String authToken){
         return JPA.em().createNamedQuery("Usuario.findByAuthToken", Usuario.class ).setParameter("token", authToken).getSingleResult();
     }
 
+    @Transactional
     public Usuario findByCorreoAndClave (String correo, String clave){
         return JPA.em().createNamedQuery("Usuario.findByCorreoAndClave", Usuario.class ).setParameter("correo", correo).setParameter("clave", clave).getSingleResult();
     }
