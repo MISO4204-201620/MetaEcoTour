@@ -1,7 +1,11 @@
 package models.usuario;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.mensajeria.Comentario;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by manuel on 10/02/16.
@@ -42,6 +46,11 @@ public class Usuario implements Serializable{
 
     @Column(nullable=true)
     private String clave;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idUsuario")
+    @JsonIgnore
+    private List<Comentario> comentarios;
 
     public String getNombre() {
         return nombre;
