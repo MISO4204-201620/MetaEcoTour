@@ -29,7 +29,7 @@ public class Comentario {
     @ManyToOne
     private Comentario origen;
 
-    @OneToMany(mappedBy="parent")
+    @OneToMany(mappedBy="origen")
     private Collection<Comentario> subComentarios;
 
     public long getId() {
