@@ -4,6 +4,11 @@
 
 # Home page
 GET         /                               controllers.Application.index()
+GET         /login                          controllers.Application.login()
+GET         /catalog                        controllers.Application.catalog()
+
+
+
 
 GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()
 POST        /api/categorias/                controllers.implementacion.catalogos.CategoriasController.save()
