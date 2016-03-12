@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import views.html.login;
 
 /**
  * Created by manuel on 26/02/16.
@@ -40,11 +41,12 @@ public class SecurityController extends Controller {
         }
     }
 
+    @Transactional
     @Security.Authenticated(Secured.class)
     public Result logout() {
         response().discardCookie(AUTH_TOKEN);
         usuarios.gestionarToken(getUsuario(), false);
-        return redirect("/"); //Pagina de Logueo
+        return ok(login.render("Login MetaEcoTour")); //Pagina de Logueo
     }
 
     public static class Login {

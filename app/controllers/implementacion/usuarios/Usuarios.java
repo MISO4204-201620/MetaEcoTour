@@ -25,13 +25,12 @@ public class Usuarios implements IUsuarios{
 
     @Transactional
     public String gestionarToken(Usuario usuario, boolean estado){
-        EntityManager em = JPA.em();
         String authToken = null;
         if (estado){
             authToken = UUID.randomUUID().toString();
         }
         usuario.setAuthToken(authToken);
-        em.merge(usuario);
+        JPA.em().merge(usuario);
         return authToken;
     }
 

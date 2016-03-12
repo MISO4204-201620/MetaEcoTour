@@ -3,6 +3,7 @@ package controllers.implementacion.usuarios;
 
 
 import models.usuario.Usuario;
+import play.db.jpa.Transactional;
 import play.mvc.Http;
 import play.mvc.Security;
 
@@ -14,6 +15,7 @@ public class Secured extends Security.Authenticator {
     private static IUsuarios usuarios = new Usuarios();
 
     @Override
+    @Transactional
     public String getUsername(Http.Context ctx) {
 
         Usuario usuario = null;
