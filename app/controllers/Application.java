@@ -20,6 +20,4 @@ public class Application extends Controller {
         return ok(catalog.render("Catálogo MetaEcoTour"));
     }
 
-
-
 }

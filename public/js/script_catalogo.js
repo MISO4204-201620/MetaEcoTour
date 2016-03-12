@@ -1,5 +1,15 @@
 $(function()
 {
+    document.cookie.split('; ').forEach(function(cookieString)
+    {
+        //console.log(cookieString);
+        var cookie = cookieString.split("=");
+        if ((cookie.length === 2) && (cookie[0] === "authToken"))
+        {
+            window.authToken = cookie[1];
+            console.log(window.authToken);
+        }
+    });
     //Reemplazar por la url de Amazon...
     var UrlImagen = "http://localhost:8887/maestria/base/img/portada/";
     var baseItem = function(data)
@@ -30,7 +40,7 @@ $(function()
 
     var elementos = (function elementos()
     {
-        $.getJSON( "/api/productos/SER", function(data)
+        $.getJSON("/api/productos/SER", function(data)
         {
             console.log(data);
             data.forEach(function(item)
@@ -40,4 +50,25 @@ $(function()
         });
         return elementos;
     })();
+
+    $("#logout").click(function(event)
+    {
+        console.log("LLega", window.authToken);
+        $.ajax(
+        {
+            url 		: "/logout",
+            type 		: "POST",
+            dataType 	: "json",
+            headers     : {"X-AUTH-TOKEN": window.authToken}
+        }).done(function(data)
+        {
+            console.log(data);
+            //window.location.href = "/catalog"
+            //console.log(data.authToken);
+            //window.authToken = data.authToken;
+        }).error(function(request, status, error)
+        {
+            sweetAlert("Error", "No ha sido posible realizar la autenticación!", "error");
+        });
+    });
 });
