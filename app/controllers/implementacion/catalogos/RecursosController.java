@@ -9,6 +9,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.db.jpa.Transactional;
 
+import views.html.detail;
+
 /**
  * Created by JoséLuis on 27/02/2016.
  */
@@ -33,7 +35,9 @@ public class RecursosController extends Controller {
 
     @Transactional(readOnly=true)
     public Result getRecursosByProd(Long prodId) {
-        return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
+        //return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
+        //return ok(detail.render("Catálogo MetaEcoTour"));
+        return ok(detail.render(String.valueOf(Json.toJson(recursos.getRecursosByProd(prodId)))));
     }
 
     @Transactional(readOnly=true)
