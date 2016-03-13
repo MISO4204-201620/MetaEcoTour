@@ -24,6 +24,9 @@ GET         /api/producto/numpage/:numPagina/:productType        controllers.imp
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 
+GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
+
+
 GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
 GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
 POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
@@ -34,6 +37,10 @@ DELETE      /api/recursos/:id               controllers.implementacion.catalogos
 GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
 GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
 POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
+
+GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
+GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
+POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
 
 
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
