@@ -20,13 +20,21 @@ public class CalificacionesController extends Controller {
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Transactional
     public Result getCalificaionesByServicio(Long idServicio) {
         return ok(Json.toJson(calificaciones.getCalificacionByServicio(idServicio)));
     }
 
+    @Transactional
     public Result getCalificaionesByUsuario(Long idUsuario) {
         return ok(Json.toJson(calificaciones.getCalificacionByUsuario(idUsuario)));
     }
+
+    @Transactional
+    public Result getPromedioByServicio(Long idServicio) {
+        return ok(Json.toJson(calificaciones.getPromedioByServicio(idServicio)));
+    }
+
 
     @Transactional
     public Result save() {

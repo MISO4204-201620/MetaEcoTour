@@ -12,6 +12,8 @@ public interface ICalificacion {
     public List<Calificacion> getCalificacionByServicio(Long idServicio);
     public List<Calificacion> getCalificacionByUsuario(Long idUsuario);
 
+    public Calificacion getPromedioByServicio(Long idServicio);
+
     Calificacion save(Calificacion calificacion);
 
     Calificacion delete(Calificacion calificacion);

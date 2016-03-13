@@ -15,13 +15,20 @@ import java.util.List;
 public class Calificaciones implements ICalificacion {
     private static ICalificacion calificacion = new Calificaciones();
     @Override
+    @Transactional
     public List<Calificacion> getCalificacionByServicio(Long idServicio) {
         return JPA.em().createNamedQuery("Calificacion.findByServicio", Calificacion.class ).setParameter("idServicio",idServicio).getResultList();
     }
 
     @Override
+    @Transactional
     public List<Calificacion> getCalificacionByUsuario(Long idUsuario) {
         return JPA.em().createNamedQuery("Calificacion.findByUsuario", Calificacion.class ).setParameter("idUsuario",idUsuario).getResultList();
+    }
+
+    @Override
+    public Calificacion getPromedioByServicio(Long idServicio) {
+        return JPA.em().createNamedQuery("Calificacion.findPromedioByServicio", Calificacion.class ).setParameter("idServicio",idServicio).getSingleResult();
     }
 
     @Override

@@ -9,9 +9,11 @@ import java.sql.Date;
 @Entity @IdClass(CalificacionId.class)
 @NamedQueries({
         @NamedQuery(name = "Calificacion.findByUsuario", query = "SELECT r FROM Calificacion r WHERE r.idUsuario = :idUsuario order by r.fecha desc "),
-        @NamedQuery(name = "Calificacion.findByServicio", query = "SELECT r FROM Calificacion r WHERE r.idProducto = :idServicio order by r.fecha desc")
+        @NamedQuery(name = "Calificacion.findByServicio", query = "SELECT r FROM Calificacion r WHERE r.idProducto = :idServicio order by r.fecha desc"),
+        @NamedQuery(name = "Calificacion.findPromedioByServicio", query = "SELECT max(r.idUsuario), r.idProducto, max(r.fecha) as fecha, avg(r.valor) as valor , '' as  comentario FROM Calificacion r WHERE r.idProducto = :idServicio group by r.idProducto ")
 })public class Calificacion {
 
+    @Id
     @Column(nullable=false)
     private Long idUsuario;
     @Column(nullable=false)
@@ -19,7 +21,7 @@ import java.sql.Date;
     @Column(nullable=false)
     private Date fecha  ;
     @Column(nullable=false)
-    private int valor ;
+    private double valor ;
     @Column(nullable=true)
     private String comentario  ;
 
@@ -39,11 +41,11 @@ import java.sql.Date;
         this.idProducto = idProducto;
     }
 
-    public int getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
