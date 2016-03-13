@@ -59,7 +59,7 @@ public class ItemServicios implements IItemServicio {
         return itemServicio;
     }
 
-    @Override
+    @Transactional
     public models.catalogo.ItemServicio delete(Long idPaquete, Long idServicio) {
         EntityManager em = JPA.em();
         ItemServicioId pKey = new ItemServicioId();

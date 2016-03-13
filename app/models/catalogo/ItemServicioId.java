@@ -1,6 +1,6 @@
 package models.catalogo;
 
-import java.io.Serializable;
+        import java.io.Serializable;
 
 /**
  * Created by JoséLuis on 28/02/2016.
