@@ -14,8 +14,8 @@ import java.util.List;
 public class Categorias  implements ICategorias {
 
 
-    public  List<Categoria> getCategorias() {
-        return JPA.em().createNamedQuery("Categoria.findAll", Categoria.class ).getResultList();
+    public  List<Object> getCategorias() {
+        return JPA.em().createNamedQuery("Categoria.findAllCantidadProductos").getResultList();
     }
 
     @Override

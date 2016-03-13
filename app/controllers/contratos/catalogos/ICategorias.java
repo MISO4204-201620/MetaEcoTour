@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ICategorias {
 
-    public List<Categoria> getCategorias();
+    public List<Object> getCategorias();
 
     Categoria save(Categoria categoria);
 
