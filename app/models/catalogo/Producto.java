@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
+import models.mensajeria.Comentario;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -56,6 +57,13 @@ public abstract class Producto {
     @JsonIgnore
     private List<Busqueda> busquedasProducto ;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idProducto")
+    @JsonIgnore
+    private List<Comentario> comentarios ;
+
+    private long idCategoria;
+
     public long getId() {
         return id;
     }
@@ -80,9 +88,11 @@ public abstract class Producto {
         this.descripcion = descripcion;
     }
 
-    public double getPrecioActual() {
-        return precioActual;
-    }
+    public double getPrecioActual() {return precioActual;}
+
+    public long getIdCategoria() { return idCategoria; }
+
+    public void setIdCategoria(long idCategoria) { this.idCategoria = idCategoria; }
 
     public void setPrecioActual(double precioActual) {
         this.precioActual = precioActual;
@@ -111,4 +121,10 @@ public abstract class Producto {
     public void setBusquedasProducto(List<Busqueda> busquedasProducto) {
         this.busquedasProducto = busquedasProducto;
     }
+
+    public List<Comentario> getComentarios() { return comentarios; }
+
+    public void setComentarios(List<Comentario> comentarios) { this.comentarios = comentarios; }
+
+
 }
