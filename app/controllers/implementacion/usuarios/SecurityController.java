@@ -1,6 +1,7 @@
 package controllers.implementacion.usuarios;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.contratos.usuarios.IUsuarios;
 import models.usuario.Usuario;
 
 import play.data.validation.Constraints;

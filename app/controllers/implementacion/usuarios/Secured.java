@@ -2,6 +2,7 @@ package controllers.implementacion.usuarios;
 
 
 
+import controllers.contratos.usuarios.IUsuarios;
 import models.usuario.Usuario;
 import play.db.jpa.Transactional;
 import play.mvc.Http;

@@ -1,17 +1,17 @@
 package controllers.implementacion.usuarios;
 
 
+import controllers.contratos.usuarios.IUsuarios;
 import models.usuario.Usuario;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.UUID;
 
 /**
  * Created by manuel on 26/02/16.
  */
-public class Usuarios implements IUsuarios{
+public class Usuarios implements IUsuarios {
 
     @Transactional
     public Usuario findByAuthToken (String authToken){

@@ -7,8 +7,11 @@ GET         /                               controllers.Application.index()
 GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
 
-
-
+POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
+GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdUsuario(usuarioId: Long)
+GET         /api/comentarios/:productoId    controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdProducto(productoId: Long)
+GET         /api/subcomentarios/:id         controllers.implementacion.mensajerias.ComentariosController.getSubComentarios(id: Long)
+DELETE      /api/comentarios/:id            controllers.implementacion.mensajerias.ComentariosController.delete(id: Long)
 
 GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()
 POST        /api/categorias/                controllers.implementacion.catalogos.CategoriasController.save()

@@ -8,6 +8,10 @@ import java.util.Date;
  * Created by manuel on 9/03/16.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name="Comentario.findByIdProducto", query="SELECT cm FROM Comentario cm where cm.idProducto = :productoId"),
+        @NamedQuery(name="Comentario.findByIdUsuario", query="SELECT cm FROM Comentario cm where cm.idUsuario = :usuarioId")
+})
 public class Comentario {
 
     @Id
@@ -24,13 +28,16 @@ public class Comentario {
     private Date fecha;
 
     @Column(nullable=false)
-    private Long idUsuario;
+    private long idUsuario;
 
     @ManyToOne
     private Comentario origen;
 
     @OneToMany(mappedBy="origen")
     private Collection<Comentario> subComentarios;
+
+    @Column(nullable=false)
+    private long idProducto;
 
     public long getId() {
         return id;
@@ -79,4 +86,10 @@ public class Comentario {
     public void setSubComentarios(Collection<Comentario> subComentarios) {
         this.subComentarios = subComentarios;
     }
+
+    public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+
+    public long getIdProducto() { return idProducto; }
+
+    public void setIdProducto(long idProducto) { this.idProducto = idProducto; }
 }
