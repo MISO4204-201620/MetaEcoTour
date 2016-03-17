@@ -20,7 +20,11 @@ public class Usuarios implements IUsuarios {
 
     @Transactional
     public Usuario findByCorreoAndClave (String correo, String clave){
-        return JPA.em().createNamedQuery("Usuario.findByCorreoAndClave", Usuario.class ).setParameter("correo", correo).setParameter("clave", clave).getSingleResult();
+        try {
+            return JPA.em().createNamedQuery("Usuario.findByCorreoAndClave", Usuario.class ).setParameter("correo", correo).setParameter("clave", clave).getSingleResult();
+        } catch (javax.persistence.NoResultException e){
+            return null;
+        }
     }
 
     @Transactional
