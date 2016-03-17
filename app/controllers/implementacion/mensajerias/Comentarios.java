@@ -12,6 +12,9 @@ import java.util.List;
  * Created by crimago on 11/03/16.
  */
 public class Comentarios implements IComentario {
+
+    private int PAG_NUM_OF_RECORDS_CONTEST = 10;
+
     @Override
     @Transactional
     public Comentario getComentarioById(Long id) {
@@ -59,8 +62,15 @@ public class Comentarios implements IComentario {
 
     @Override
     @Transactional
-    public List<Comentario> getComentariosByIdProducto(Long id) {
-        return JPA.em().createNamedQuery("Comentario.findByIdProducto", Comentario.class ).setParameter("productoId",id).getResultList();
+    public List<Comentario> getComentariosByIdProducto(Long id, int page) {
+        int pageIndex = 0;
+        if(page >= 0){
+            pageIndex = page;
+        }
+        return JPA.em().createNamedQuery("Comentario.findByIdProducto", Comentario.class )
+                .setMaxResults(PAG_NUM_OF_RECORDS_CONTEST)
+                .setFirstResult(pageIndex * PAG_NUM_OF_RECORDS_CONTEST)
+                .setParameter("productoId",id).getResultList();
     }
 
     @Override
