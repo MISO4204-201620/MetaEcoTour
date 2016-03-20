@@ -23,14 +23,23 @@ GET         /api/producto/:productId        controllers.implementacion.catalogos
 GET         /api/producto/numpage/:numPagina/:productType        controllers.implementacion.catalogos.ProductosController.getProductosByPageByType(numPagina: Integer, productType: String)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
-
 GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
+
 
 
 GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
 GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
 POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
 DELETE      /api/recursos/:id               controllers.implementacion.catalogos.RecursosController.delete(id: String)
+
+#Servicios de Compras
+GET         /api/compras/:idCompra			controllers.implementacion.compras.ComprasController.getCompra(idCompra:Long)
+GET         /api/compras/usr/:idUsuario		controllers.implementacion.compras.ComprasController.getCompraActivaByUsuario(idUsuario:Long)
+GET         /api/compras/itm/:idCompra		controllers.implementacion.compras.ComprasController.getItemsCompra(idCompra:Long)
+
+POST        /api/compras/save/             controllers.implementacion.compras.ComprasController.save()
+POST        /api/compras/add/              controllers.implementacion.compras.ComprasController.addItemsCompra()
+POST        /api/compras/remove/           controllers.implementacion.compras.ComprasController.removeItemsCompra()
 
 
 # Servicios para consultar las busquedas o guardar la busqueda del producto

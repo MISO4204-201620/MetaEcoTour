@@ -38,12 +38,13 @@ public class CalificacionesController extends Controller {
 
     @Transactional
     public Result save() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode json = request().body().asJson();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
         Calificacion calificaProducto = Json.fromJson(json,Calificacion.class);
         if(calificaProducto!=null){
-
             calificaProducto= calificaciones.save(calificaProducto);
             objectMapper.setDateFormat(df);
             Json.setObjectMapper(objectMapper);
