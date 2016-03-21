@@ -12,6 +12,7 @@ GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajeri
 GET         /api/comentarios/:productoId/:numPagina    controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdProducto(productoId: Long, numPagina: Integer)
 GET         /api/subcomentarios/:id         controllers.implementacion.mensajerias.ComentariosController.getSubComentarios(id: Long)
 DELETE      /api/comentarios/:id            controllers.implementacion.mensajerias.ComentariosController.delete(id: Long)
+GET         /api/subcomentario/:id         controllers.implementacion.mensajerias.ComentariosController.getComentariosByPadre(id: Long)
 
 GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()
 POST        /api/categorias/                controllers.implementacion.catalogos.CategoriasController.save()

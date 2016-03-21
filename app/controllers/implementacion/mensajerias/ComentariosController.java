@@ -37,6 +37,11 @@ public class ComentariosController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    public Result getComentariosByPadre(Long id) {
+        return ok(Json.toJson(comentarios.getComentariosByIdPadreComentario(id)));
+    }
+
+    @Transactional(readOnly=true)
     public Result getComentariosByIdUsuario(Long id) {
         return ok(Json.toJson(comentarios.getComentariosByIdUsuario(id)));
     }
