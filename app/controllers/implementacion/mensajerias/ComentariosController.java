@@ -40,6 +40,10 @@ public class ComentariosController extends Controller {
                 comentario.setOrigen(null);
                 comentario.setSubComentarios(null);
                 comentario.setIdUsuario(usuario.getId());
+                if (comentarioDTO.getOrigen() != 0){
+                    comentario.setOrigen(new Comentario(comentarioDTO.getOrigen()));
+                }
+
 
             } else {
                 respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"Por favor iniciar sesión para agregar el comentario.\"}");

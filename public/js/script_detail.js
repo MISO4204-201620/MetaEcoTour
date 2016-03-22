@@ -95,7 +95,7 @@ $(function()
             '</ul>' +
             '<p class="media-comment">' + data.comentario +
             '</p>' +
-            '<a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
+            '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" onclick="createForm('+data.id +')" href="#new'+data.id +'" ><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
         if (data.numeroComentarios > 0){
             txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" onclick="callcoments('+data.id +')" href="#reply'+data.id +'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + 'comments</a>';
         }
@@ -105,6 +105,7 @@ $(function()
         if (data.numeroComentarios > 0){
             txt += '<div class="collapse" id="reply'+data.id +'"> </div>';
         }
+        txt += '<div class="collapse" id="new'+data.id +'"> </div>';
         return txt;
     };
 
@@ -172,13 +173,14 @@ $(function()
     //Evento para CONSTRUCCION COMENTARIO
     $( "#commentForm" ).submit(function( event )
     {
+
         var comment = {
             id : null,
             nombreUsuario : window.authToken,
             comentario : $("#commentText").val(),
             fecha : new Date(),
-            numeroComentarios : idProducto
-
+            numeroComentarios : idProducto,
+            origen : $("#origen ").val()
         };
         $.ajax(
             {
@@ -236,6 +238,27 @@ var baseSubItemComentario = function(data, txt)
         txt += '<div class="collapse" id="reply'+data.id +'"> </div>';
     }
     return txt;
+};
+
+// Eventos para llamar los subcomentarios
+var createForm = function(data)
+{
+
+    var elemento = "#new"+data;
+    $(elemento).empty();
+
+    var txt = '<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">'+
+    '<div class="form-group"> <label for="email" class="col-sm-2 control-label">Comentario</label> <div class="col-sm-10">'+
+    '<textarea class="form-control" name="commentText" id="commentText" rows="5"></textarea> ' +
+    '</div> <input type="hidden" name="idOrigen" value="'+ data +'"></div>'+
+    '<div class="form-group"> <div class="col-sm-offset-2 col-sm-10">'+
+    '<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Enviar Comentario</button>'+
+    '</div> </div> </form>';
+
+    $(elemento).append(txt);
+
+
+    return null;
 };
 
 // Eventos para llamar los subcomentarios

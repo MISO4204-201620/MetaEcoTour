@@ -12,6 +12,7 @@ public class ComentarioDTO {
     private String comentario;
     private Date fecha;
     private long numeroComentarios;
+    private long origen;
 
     public ComentarioDTO() {
 
@@ -64,5 +65,13 @@ public class ComentarioDTO {
 
     public void setNumeroComentarios(long numeroComentarios) {
         this.numeroComentarios = numeroComentarios;
+    }
+
+    public long getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(long origen) {
+        this.origen = origen;
     }
 }

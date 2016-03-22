@@ -105,5 +105,13 @@ public class Comentario {
     public long getIdUsuario() { return idUsuario; }
 
     public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+
+    public Comentario(long id) {
+        this.id = id;
+    }
+
+    public Comentario() {
+
+    }
 }
 
