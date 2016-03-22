@@ -38,8 +38,7 @@ public class Comentario {
             sequenceName = "comentario_seq")
     private long id;
 
-    @Column(nullable=false)
-    //TODO CAMBTIADAD
+    @Column(columnDefinition = "text")
     private String texto;
 
     @Column(nullable=false)
