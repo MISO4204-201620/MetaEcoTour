@@ -55,6 +55,8 @@ public class Usuario implements Serializable{
     @JsonIgnore
     private List<Comentario> comentarios;
 
+    @Transient
+    private String tipo;
 
     public String getNombre() {
         return nombre;
@@ -127,4 +129,8 @@ public class Usuario implements Serializable{
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
+
+    public String getTipo() {return tipo;}
+
+    public void setTipo(String tipo) { this.tipo = tipo;}
 }

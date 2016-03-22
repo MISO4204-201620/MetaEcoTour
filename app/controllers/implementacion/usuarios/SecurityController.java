@@ -2,6 +2,9 @@ package controllers.implementacion.usuarios;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.usuarios.IUsuarios;
+import models.usuario.Administrador;
+import models.usuario.Cliente;
+import models.usuario.Proveedor;
 import models.usuario.Usuario;
 
 import play.data.validation.Constraints;
@@ -38,6 +41,13 @@ public class SecurityController extends Controller {
         }else {
             String authToken = usuarios.gestionarToken(usuario, true);
             response().setCookie(AUTH_TOKEN, authToken);
+            if (usuario instanceof Proveedor){
+                usuario.setTipo("Proveedor");
+            } else if (usuario instanceof Administrador){
+                usuario.setTipo("Administrador");
+            } else if (usuario instanceof Cliente){
+                usuario.setTipo("Cliente");
+            }
             return ok(Json.toJson(usuario));
         }
     }

@@ -1,6 +1,34 @@
 $(function()
 {
+    //paginador
+    var numPage = 1;
+    var paginacion = function(valor)
+    {
+        console.log(numPage, valor);
+        if(numPage + valor >= 1)
+        {
+            $(".previous").removeClass("disabled");
+            numPage += valor;
+            //TODO elementos();
+        }
+        else
+        {
+            $(".previous").addClass("disabled");
+        }
+    };
 
+    $(".previous").click(function(e)
+    {
+        if($(".next").hasClass("disabled"))
+        {
+            $(".next").removeClass("disabled");
+        }
+        paginacion(-1);
+    });
+
+    $(".next").click(function(e){
+        paginacion(1);
+    });
 
     //Capturar los datos del producto...
     var servicio = JSON.parse($("#dataType").html());
@@ -96,8 +124,51 @@ $(function()
             window.location = "/login";
         });
     });
+
+    //Evento para CONSTRUCCION COMENTARIO
+    $( "#commentForm" ).submit(function( event )
+    {
+        var comment = {
+            id : null,
+            nombreUsuario : window.authToken,
+            comentario : $("#commentText").val(),
+            fecha : new Date(),
+            numeroComentarios : idProducto
+
+        };
+        $.ajax(
+            {
+                url 		: "/api/comentarios/",
+                type 		: "POST",
+                data 		: JSON.stringify(comment),
+                dataType 	: "json",
+                contentType: "application/json; charset=utf-8"
+            }).done(function(data)
+        {
+            if(data.errorCode === undefined)
+            {
+                //todo bn vamos a redireccionar
+                sweetAlert("Info", "Se ha adicionado su comentario");
+                location.reload();
+            }
+            else
+            {
+                sweetAlert("Error", data.desCode, "error");
+                //alert(data.desCode);
+            }
+        }).error(function(request, status, error)
+        {
+            //sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+        });
+        event.preventDefault();
+    });
+
+
+
+
 });
 
+// Eventos para llamar los subcomentarios
 var callcoments = function(data){
 
     var elemento = "#reply"+data;
