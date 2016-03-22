@@ -1,9 +1,11 @@
 package controllers.implementacion.catalogos;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.contratos.catalogos.IProducto;
 import controllers.contratos.catalogos.IRecurso;
 import models.catalogo.Categoria;
 import models.catalogo.Recurso;
+import models.catalogo.Producto;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -11,11 +13,14 @@ import play.db.jpa.Transactional;
 
 import views.html.detail;
 
+import java.util.List;
+
 /**
  * Created by JoséLuis on 27/02/2016.
  */
 public class RecursosController extends Controller {
     private static IRecurso recursos = new Recursos();
+    private static IProducto productos = new Productos();
 
 
     @Transactional
@@ -37,7 +42,10 @@ public class RecursosController extends Controller {
     public Result getRecursosByProd(Long prodId) {
         //return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
         //return ok(detail.render("Catálogo MetaEcoTour"));
-        return ok(detail.render(String.valueOf(Json.toJson(recursos.getRecursosByProd(prodId)))));
+        //return ok(detail.render(String.valueOf(Json.toJson(recursos.getRecursosByProd(prodId)))));
+        //List<Recurso> recurso = recursos.getRecursosByProd(prodId);
+        //return ok(detail.render(recurso, productos.getProductById(prodId)));
+        return ok(detail.render(productos.getProductById(prodId)));
     }
 
     @Transactional(readOnly=true)

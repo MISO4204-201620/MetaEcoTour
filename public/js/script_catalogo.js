@@ -12,13 +12,14 @@ $(function()
         }
     });
     //Reemplazar por la url de Amazon...
-    var UrlImagen = "http://localhost:8887/maestria/base/img/portada/";
+    //var UrlImagen = "http://localhost:8887/maestria/base/img/portada/";
     var baseItem = function(data)
     {
         //debugger;
         //http://localhost:9000/api/recursos/50
         var urlDetalle = "api/recursos/" + data.id;
-        var imagen = UrlImagen + "/" + data.imagen;
+        //var imagen = UrlImagen + "/" + data.imagen;
+        var imagen = data.imagen;
         var txt = '<div class="col-sm-4 col-lg-4 col-md-4">' +
                   '<div class="thumbnail">' +
                   '<img src = "'+(imagen)+'" alt="">' +
@@ -27,7 +28,7 @@ $(function()
                   '<h4><a href="'+(urlDetalle)+'">'+(data.nombre)+'</a>' +
                   '</h4>' +
                   '<p>'+(data.descripcion)+'</p>' +
-                  '<button type="button" class="btn btn-primary text-center">' +
+                  '<button type="button" class="btn btn-primary text-center" id = "uno">' +
                   '<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Añadir al carrito</button>' +
                   '</div>' +
                   '<div class="ratings">' +
@@ -77,7 +78,28 @@ $(function()
         paginacion(1);
     });
 
-    var elementos = (function elementos()
+    //Traer las categorías...
+    var categorias = (function()
+    {
+        $.getJSON("api/categorias/", function(data)
+        {
+            var total   = 0,
+                txt     = "";
+            console.log(data);
+
+            for(var i = 0; i < data.length; i++)
+            {
+                total += data[i].cantidad;
+                txt += "<li class=\"list-group-item\"><a href = \"#\">"+(data[i].nombre)+"</a> <span class=\"badge\">"+(data[i].cantidad)+"</span></li>";
+            }
+            txt = "<li class=\"list-group-item\"><a href = \"#\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>" + txt;
+            $("#categoriesList").html(txt);
+            elementos();
+        });
+    })();
+
+
+    var elementos = function()
     {
         //Para validar la paginación...
         //var url = "/api/producto/numpage/" + numPage + "/" + $("#tipoSel").val();
@@ -85,13 +107,16 @@ $(function()
         console.log(url);
         $.getJSON(url, function(data)
         {
-            console.log(data);
+            //console.log(data);
             if(data.errorCode === undefined)
             {
                 $("#catalog").html("");
                 data.forEach(function(item)
                 {
                     $("#catalog").append(baseItem(item));
+                    $("#uno").click(function(e){
+                       console.log("Botón");
+                    });
                 });
             }
             else
@@ -102,9 +127,6 @@ $(function()
             }
             //console.log(data);
         });
-        return elementos;
-
-
         /*
         $("#catalog").html("");
         $.getJSON("/api/productos/" + $("#tipoSel").val(), function(data)
@@ -117,7 +139,7 @@ $(function()
         });
         return elementos;
         */
-    })();
+    };
 
     $("#logout").click(function(event)
     {

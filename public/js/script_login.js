@@ -40,7 +40,8 @@ $(function()
             contentType: "application/json; charset=utf-8"
         }).done(function(data)
         {
-            //console.log(data);
+            localStorage.setItem("user", JSON.stringify(data));
+            console.log(data);
             window.location.href = "/catalog"
             console.log(data.authToken);
         }).error(function(request, status, error)
