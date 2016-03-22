@@ -65,8 +65,9 @@ public class Comentarios implements IComentario {
     public List<Object> getComentariosByIdProducto(Long id, int page) {
         int pageIndex = 0;
         if(page >= 0){
-            pageIndex = page;
+            pageIndex = page -1;
         }
+
         return JPA.em().createNamedQuery("ComentarioDTO.findByIdProductoUsuario")
                 .setMaxResults(PAG_NUM_OF_RECORDS_CONTEST)
                 .setFirstResult(pageIndex * PAG_NUM_OF_RECORDS_CONTEST)

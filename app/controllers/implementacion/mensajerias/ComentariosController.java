@@ -42,7 +42,7 @@ public class ComentariosController extends Controller {
                 comentario.setIdUsuario(usuario.getId());
 
             } else {
-                respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El usuario es invalido para crear el comentario.\"}");
+                respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"Por favor iniciar sesión para agregar el comentario.\"}");
             }
 
             if(comentario != null){

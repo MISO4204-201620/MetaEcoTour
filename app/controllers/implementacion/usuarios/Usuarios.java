@@ -15,7 +15,11 @@ public class Usuarios implements IUsuarios {
 
     @Transactional
     public Usuario findByAuthToken (String authToken){
-        return JPA.em().createNamedQuery("Usuario.findByAuthToken", Usuario.class ).setParameter("token", authToken).getSingleResult();
+        try {
+            return JPA.em().createNamedQuery("Usuario.findByAuthToken", Usuario.class ).setParameter("token", authToken).getSingleResult();
+        } catch (javax.persistence.NoResultException e){
+            return null;
+        }
     }
 
     @Transactional
