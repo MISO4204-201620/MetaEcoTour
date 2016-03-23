@@ -15,6 +15,8 @@ public interface IComentario {
 
     Comentario delete(Long id);
 
+    Comentario getComentario(Long id);
+
     List<Object> getComentariosByIdProducto(Long id, int page);
 
     List<Comentario> getComentariosByIdUsuario(Long id);

@@ -50,8 +50,14 @@ public class ComentariosController extends Controller {
             }
 
             if(comentario != null){
-                comentarios.save(comentario);
-                respuesta = Json.toJson(comentario);
+                Comentario comentarioHijo = comentarios.save(comentario);
+                respuesta = Json.toJson(comentarioHijo);
+                //actualizar el padre, con el nuevo hijo
+                if (comentarioDTO.getOrigen() != 0) {
+                    Comentario comentarioPadre = comentarios.getComentario(comentarioDTO.getOrigen());
+                    comentarioPadre.getSubComentarios().add(comentarioHijo);
+                    comentarios.save(comentarioPadre);
+                }
             }
 
         } catch (Exception e){

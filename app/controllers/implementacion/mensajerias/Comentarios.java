@@ -62,6 +62,19 @@ public class Comentarios implements IComentario {
 
     @Override
     @Transactional
+    public Comentario getComentario(Long id) {
+        Comentario comentario = null;
+        try {
+            EntityManager em = JPA.em();
+            comentario = em.find(Comentario.class, id);
+        } catch (javax.persistence.NoResultException e){
+            return comentario;
+        }
+        return comentario;
+    }
+
+    @Override
+    @Transactional
     public List<Object> getComentariosByIdProducto(Long id, int page) {
         int pageIndex = 0;
         if(page >= 0){

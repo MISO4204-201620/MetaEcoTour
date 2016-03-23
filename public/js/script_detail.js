@@ -261,7 +261,8 @@ $(function()
             '<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitReply_'+(token)+'"><span class="glyphicon glyphicon-send"></span> Responder Comentario</button>'+
             '</div> </div> </form>';
         //console.log(txt);
-        $(elemento).show().html(txt);
+        $(elemento).html(txt);
+        $(elemento).toggle();
         $( "#foreply_" + token ).submit(function( event )
         {
             if($("#commentReply_" + token).val().length !== 0)
@@ -320,10 +321,13 @@ $(function()
 // Eventos para llamar los subcomentarios
     var callcoments = function(token)
     {
+        console.log("callcoments" );
+        console.log("token" + token );
         var elemento = "#reply_" + token;
         var idComenta = $("#coment_" + token).attr("data-id");
+        console.log("idComenta" + idComenta);
         $(elemento).empty();
-        var url = "/api/subcomentario/" + data ;
+        var url = "/api/subcomentario/" + idComenta ;
         $.getJSON(url, function(data)
         {
             if(data.errorCode === undefined)
@@ -341,6 +345,7 @@ $(function()
                     var txtf = '</li></ul>';
                     $(elemento).append(txtf);
                 });
+                $(elemento).toggle();
             }
             else
             {
