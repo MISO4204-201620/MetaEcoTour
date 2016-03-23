@@ -6,6 +6,7 @@
 GET         /                               controllers.Application.index()
 GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
+GET         /cpaqser                        controllers.Application.creapaqser()
 
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
 GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdUsuario(usuarioId: Long)
