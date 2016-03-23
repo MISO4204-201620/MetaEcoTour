@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(name="Categoria.findAll", query="SELECT p FROM Categoria p"),
-        @NamedQuery(name="Categoria.findAllCantidadProductos", query="SELECT NEW models.catalogo.CategoriaDTO(c.nombre, COUNT(p)) FROM Categoria c LEFT JOIN c.productos p GROUP BY c")
+        @NamedQuery(name="Categoria.findAllCantidadProductos", query="SELECT NEW models.catalogo.CategoriaDTO(c.id, c.nombre, COUNT(p)) FROM Categoria c LEFT JOIN c.productos p GROUP BY c")
 })
 public class Categoria {
 
@@ -61,6 +61,8 @@ public class Categoria {
 
 class CategoriaDTO {
 
+    public long id;
+
     public String nombre;
 
     public long cantidad;
@@ -68,6 +70,12 @@ class CategoriaDTO {
     public CategoriaDTO(String nombre, long cantidad) {
         this.cantidad = cantidad;
         this.nombre = nombre;
+    }
+
+    public CategoriaDTO(long id, String nombre, long cantidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
     }
 
     public String getNombre() {
@@ -84,5 +92,13 @@ class CategoriaDTO {
 
     public void setCantidad(long cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

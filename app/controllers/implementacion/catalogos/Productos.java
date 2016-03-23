@@ -74,6 +74,57 @@ public class Productos implements IProducto {
         return productosConsultados;
     }
 
+    @Override
+    public List<Producto> getProductosByPageByTypeAndCategory(Integer numPage,String productType, long idCategory) {
+        List<Producto> productos=null;
+        List<Producto> productosConsultados=null;
+        int pageIndex = 0;
+        if(numPage >= 0){
+            pageIndex = numPage-1;
+        }
+        Query query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.idCategoria= :categoriaId",Producto.class);
+
+        if("ALL"!=productType){
+            if("PAQ".equals(productType)){
+
+                query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.class = 'PAQ' and pr.idCategoria= :categoriaId");
+
+            }else if("SER".equals(productType)){
+                query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.class = 'SER' and pr.idCategoria= :categoriaId");
+            }
+        }
+        query.setParameter("categoriaId", idCategory);
+        productos=query.getResultList();
+        int countResult = productos.size();
+
+        int primerResultado= pageIndex * 5;
+        if(countResult==0 && numPage ==1){
+            productosConsultados = new ArrayList<Producto>();
+        }else {
+            if(!(countResult<5 && numPage >=2)) {
+
+                if (primerResultado <= countResult) {
+                    if (primerResultado == countResult && countResult>5) {
+                        primerResultado = primerResultado - 1;
+                    }
+                    query = query.setMaxResults(5)
+                            .setFirstResult(primerResultado);
+                    productosConsultados = query.getResultList();
+                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
+                } else if ((primerResultado - countResult) <= 5) {
+                    query = query.setMaxResults(5)
+                            .setFirstResult(((pageIndex - 1) * 5) + (5 - (primerResultado - countResult)));
+                    productosConsultados = query.getResultList();
+                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
+                }
+
+            }
+
+        }
+
+        return productosConsultados;
+    }
+
 
     @Override
     public List<Producto> getProductosByType(String productType) {

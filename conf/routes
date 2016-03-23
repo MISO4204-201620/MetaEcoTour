@@ -22,6 +22,7 @@ GET         /api/productos/                 controllers.implementacion.catalogos
 GET         /api/productos/:productType     controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
 GET         /api/producto/:productId        controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
 GET         /api/producto/numpage/:numPagina/:productType        controllers.implementacion.catalogos.ProductosController.getProductosByPageByType(numPagina: Integer, productType: String)
+GET         /api/producto/numpage/:numPagina/:productType/:categoriaId        controllers.implementacion.catalogos.ProductosController.getProductosByPageByTypeAndCategory(numPagina: Integer, productType: String, categoriaId: Long)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)

@@ -93,4 +93,14 @@ public class ProductosController extends Controller {
         return ok(respuesta);
     }
 
+    @Transactional(readOnly=true)
+    public Result getProductosByPageByTypeAndCategory(Integer numPagina,String productType, long categoriaId){
+        List<Producto> productosList =productos.getProductosByPageByTypeAndCategory(numPagina,productType, categoriaId);
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"La página solicitada no existe\"}");
+        if(productosList!=null){
+            respuesta= Json.toJson(productosList);
+        }
+        return ok(respuesta);
+    }
+
 }
