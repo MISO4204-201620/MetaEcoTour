@@ -28,7 +28,7 @@ public class Recurso {
     private String nombre;
     private String label;
     private String comentario;
-    @Column(nullable=false)
+    @Column(nullable=false, columnDefinition = "text")//@Column(columnDefinition = "text")
     private String contenido;
 
     public Recurso(){

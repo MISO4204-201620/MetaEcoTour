@@ -1,5 +1,6 @@
 $(function()
 {
+    //Se obtiene el token de validación del usuario...
     document.cookie.split('; ').forEach(function(cookieString)
     {
         //console.log(cookieString);
@@ -11,7 +12,16 @@ $(function()
         }
     });
 
-    //paginador
+    //Generar un token único...
+    function guid() {
+        function _p8(s) {
+            var p = (Math.random().toString(16)+"000000000").substr(2,8);
+            return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+        }
+        return _p8() + _p8(true) + _p8(true) + _p8();
+    }
+
+    //Paginador de comentarios...
     var numPage = 1;
     var paginacion = function(valor)
     {
@@ -44,25 +54,36 @@ $(function()
 
     });
 
+    //Se listan los comentarios de un servicio...
     var comentarios = (function elementos()
     {
         $("#comentario").html("");
         $("#commentText").val("");
         //falta validar la paginacion
         var url = "/api/comentarios/" + idProducto + "/" + numPage;
-        console.log(url);
+        //console.log(url);
         $.getJSON(url, function(data)
         {
-
             if(data.errorCode === undefined)
             {
-
-                if (data.length < 10){
+                if (data.length < 10)
+                {
                     $(".next").addClass("disabled");
                 }
                 data.forEach(function(item)
                 {
-                    $("#comentario").append(baseItemComentario(item));
+                    //console.log(item, i);
+                    var idToken = guid();
+                    $("#comentario").append(baseItemComentario(item, idToken));
+                    $("#rep_" + idToken).click(function(e)
+                    {
+                        createForm(this.id.split("_")[1]);
+                    });
+
+                    $("#coment_" + idToken).click(function(e)
+                    {
+                        callcoments(this.id.split("_")[1]);
+                    });
                 });
             }
             else
@@ -71,16 +92,16 @@ $(function()
                 $(".next").addClass("disabled");
 
             }
-            //console.log(data);
         });
         return elementos;
-
     })();
 
-    var baseItemComentario = function(data)
+    var baseItemComentario = function(data, token)
     {
+        //onclick="createForm('+data.id +')" href="#new'+data.id +'"
+        //onclick="callcoments('+data.id +')" href="#reply'+data.id +'"
         var date = new Date(data.fecha);
-        var month = date.getMonth()+1;
+        var month = date.getMonth() + 1;
 
         var txt =   '<a class="pull-left" href="#">' +
             '<img class="media-object img-circle" src="https://s3.amazonaws.com/fabricas/avatar.jpg" alt="profile">' +
@@ -95,17 +116,18 @@ $(function()
             '</ul>' +
             '<p class="media-comment">' + data.comentario +
             '</p>' +
-            '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" onclick="createForm('+data.id +')" href="#new'+data.id +'" ><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
-        if (data.numeroComentarios > 0){
-            txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" onclick="callcoments('+data.id +')" href="#reply'+data.id +'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + 'comments</a>';
+            '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
+        if (data.numeroComentarios > 0)
+        {
+            txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + 'comments</a>';
         }
 
         txt += '</div>' +
             '</div>';
         if (data.numeroComentarios > 0){
-            txt += '<div class="collapse" id="reply'+data.id +'"> </div>';
+            txt += '<div class="collapse" id = "reply_'+ (token) +'"> </div>';
         }
-        txt += '<div class="collapse" id="new'+data.id +'"> </div>';
+        txt += '<div class="collapse" id = "new_' + (token) +'"> </div>';
         return txt;
     };
 
@@ -170,17 +192,16 @@ $(function()
         });
     });
 
-    //Evento para CONSTRUCCION COMENTARIO
-    $( "#commentForm" ).submit(function( event )
-    {
 
+    var guardaComentarios = function(valores, callback)
+    {
         var comment = {
             id : null,
             nombreUsuario : window.authToken,
-            comentario : $("#commentText").val(),
+            comentario : valores.comentario,
             fecha : new Date(),
             numeroComentarios : idProducto,
-            origen : $("#origen ").val()
+            origen : valores.origen
         };
         $.ajax(
             {
@@ -190,111 +211,149 @@ $(function()
                 dataType 	: "json",
                 contentType: "application/json; charset=utf-8"
             }).done(function(data)
-        {
-            if(data.errorCode === undefined)
             {
-                comentarios();
-
-            }
-            else
+                if(data.errorCode === undefined)
+                {
+                    callback(false);
+                }
+                else
+                {
+                    sweetAlert("Error", data.desCode, "error");
+                    callback(true);
+                }
+            }).error(function(request, status, error)
             {
-                sweetAlert("Error", data.desCode, "error");
-            }
-        }).error(function(request, status, error)
-        {
-            sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
-        });
-        event.preventDefault();
-    });
+                sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+                callback(true);
+            });
+    };
 
-});
-
-var baseSubItemComentario = function(data, txt)
-{
-    var date = new Date(data.fecha);
-    var month = date.getMonth()+1;
-
-    txt += '<a class="pull-left" href="#">' +
-        '<img class="media-object img-circle" src="https://s3.amazonaws.com/fabricas/avatar.jpg" alt="profile">' +
-        '</a>' +
-        '<div class="media-body">' +
-        '<div class="well well-lg">' +
-        '<h4 class="media-heading text-uppercase reviews">' + data.nombreUsuario + '</h4>' +
-        '<ul class="media-date text-uppercase reviews list-inline">' +
-        '<li class="dd">' + date.getDate() +'</li>' +
-        '<li class="mm">' + month + '</li>' +
-        '<li class="aaaa">' + date.getFullYear() +'</li>' +
-        '</ul>' +
-        '<p class="media-comment">' + data.comentario +
-        '</p>' +
-        '<a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
-    if (data.numeroComentarios > 0){
-        txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "com_'+(data.id)+'" href="#reply'+data.id +'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + 'comments</a>';
-    }
-
-    txt += '</div>' +
-        '</div>';
-    if (data.numeroComentarios > 0){
-        txt += '<div class="collapse" id="reply'+data.id +'"> </div>';
-    }
-    return txt;
-};
-
-// Eventos para llamar los subcomentarios
-var createForm = function(data)
-{
-
-    var elemento = "#new"+data;
-    $(elemento).empty();
-
-    var txt = '<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">'+
-    '<div class="form-group"> <label for="email" class="col-sm-2 control-label">Comentario</label> <div class="col-sm-10">'+
-    '<textarea class="form-control" name="commentText" id="commentText" rows="5"></textarea> ' +
-    '</div> <input type="hidden" name="idOrigen" value="'+ data +'"></div>'+
-    '<div class="form-group"> <div class="col-sm-offset-2 col-sm-10">'+
-    '<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Enviar Comentario</button>'+
-    '</div> </div> </form>';
-
-    $(elemento).append(txt);
-
-
-    return null;
-};
-
-// Eventos para llamar los subcomentarios
-var callcoments = function(data)
-{
-
-    var elemento = "#reply"+data;
-    $(elemento).empty();
-    var url = "/api/subcomentario/" + data ;
-
-    $.getJSON(url, function(data)
+    //Evento para CONSTRUCCION COMENTARIO
+    $( "#commentForm" ).submit(function( event )
     {
-
-        if(data.errorCode === undefined)
+        if($("#commentText").val().length !== 0)
         {
-            data.forEach(function(item)
-            {
-                var txt = '<ul class="media-list">' +
-                    '<li class="media media-replied">';
-                $(elemento).append(txt);
-                $(elemento).append(baseSubItemComentario(item, txt));
-                $("#com_" + item.id).click(function(e){
-                    console.log(this.id);
-                });
-                var txtf = '</li></ul>';
-                $(elemento).append(txtf);
+            guardaComentarios({comentario :  $("#commentText").val(), origen : 0}, function(error){
+                if(!error)
+                {
+                    comentarios();
+                }
             });
         }
         else
         {
-            numPage--;
-            $(".next").addClass("disabled");
-
+            sweetAlert("Error", "Por favor escribe tu comentario", "error");
         }
-        //console.log(data);
+        event.preventDefault();
     });
-    return null;
-};
+
+
+    var createForm = function(token)
+    {
+        var elemento = "#new_" + token;
+        var idComenta = $("#rep_" + token).attr("data-id");
+
+        var txt = '<form action = "#" method = "post" class = "form-horizontal" id = "foreply_'+(token)+'" role="form">'+
+            '<div class="form-group"> <label for="email" class="col-sm-2 control-label">Comentario</label> <div class="col-sm-10">'+
+            '<textarea class="form-control" id = "commentReply_'+(token)+'" rows="5"></textarea> ' +
+            '</div>'+
+            '<div class="form-group"> <div class="col-sm-offset-2 col-sm-10">'+
+            '<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitReply_'+(token)+'"><span class="glyphicon glyphicon-send"></span> Responder Comentario</button>'+
+            '</div> </div> </form>';
+        //console.log(txt);
+        $(elemento).show().html(txt);
+        $( "#foreply_" + token ).submit(function( event )
+        {
+            if($("#commentReply_" + token).val().length !== 0)
+            {
+                guardaComentarios({comentario :  $("#commentReply_" + token).val(), origen : idComenta}, function(error){
+                    if(!error)
+                    {
+                        comentarios();
+                    }
+                });
+            }
+            else
+            {
+                $("#commentReply_" + token).focus();
+                sweetAlert("Error", "Por favor escribe tu respuesta al comentario", "error");
+            }
+            event.preventDefault();
+        });
+    };
+
+
+    var baseSubItemComentario = function(data, txt)
+    {
+        var date = new Date(data.fecha);
+        var month = date.getMonth()+1;
+
+        txt += '<a class="pull-left" href="#">' +
+            '<img class="media-object img-circle" src="https://s3.amazonaws.com/fabricas/avatar.jpg" alt="profile">' +
+            '</a>' +
+            '<div class="media-body">' +
+            '<div class="well well-lg">' +
+            '<h4 class="media-heading text-uppercase reviews">' + data.nombreUsuario + '</h4>' +
+            '<ul class="media-date text-uppercase reviews list-inline">' +
+            '<li class="dd">' + date.getDate() +'</li>' +
+            '<li class="mm">' + month + '</li>' +
+            '<li class="aaaa">' + date.getFullYear() +'</li>' +
+            '</ul>' +
+            '<p class="media-comment">' + data.comentario +
+            '</p>' +
+            '<a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>' ;
+        if (data.numeroComentarios > 0){
+            txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "com_'+(data.id)+'" href="#reply'+data.id +'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + 'comments</a>';
+        }
+
+        txt += '</div>' +
+            '</div>';
+        if (data.numeroComentarios > 0){
+            txt += '<div class="collapse" id = "reply'+data.id +'"> </div>';
+        }
+        return txt;
+    };
+
+// Eventos para llamar los subcomentarios
+
+
+// Eventos para llamar los subcomentarios
+    var callcoments = function(token)
+    {
+        var elemento = "#reply_" + token;
+        var idComenta = $("#coment_" + token).attr("data-id");
+        $(elemento).empty();
+        var url = "/api/subcomentario/" + data ;
+        $.getJSON(url, function(data)
+        {
+            if(data.errorCode === undefined)
+            {
+                data.forEach(function(item)
+                {
+                    var txt = '<ul class="media-list">' +
+                        '<li class="media media-replied">';
+                    $(elemento).append(txt);
+                    $(elemento).append(baseSubItemComentario(item, txt));
+                    $("#com_" + item.id).click(function(e)
+                    {
+                        console.log(this.id);
+                    });
+                    var txtf = '</li></ul>';
+                    $(elemento).append(txtf);
+                });
+            }
+            else
+            {
+                numPage--;
+                $(".next").addClass("disabled");
+
+            }
+            //console.log(data);
+        });
+        return null;
+    };
+
+});
+
+
 
