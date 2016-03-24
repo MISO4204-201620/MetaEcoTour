@@ -144,46 +144,18 @@ $(function()
 
     var user = JSON.parse(localStorage.getItem("user")) || {};
     console.log(user);
-    $('#starts').barrating('show',
+    $('#example-movie').barrating('show', {
+        theme: 'bars-movie',
+        onSelect: function(value, text, event)
         {
-            theme: 'fontawesome-stars',
-            onSelect: function(value, text, event)
+            if (typeof(event) !== 'undefined')
             {
-                if (typeof(event) !== 'undefined')
-                {
-                    // rating was selected by a user
-                    var puntuaUser = Number(value);
-                    console.log(puntuaUser);
-                    /*
-                    if(Number(putuaVideo) !== puntuaUser)
-                    {
-                        //Para guardar la puntación...
-                        conectaServer(17, puntuaUser, function(data)
-                        {
-                            if(data.status)
-                            {
-                                //console.log(data.data);
-                                putuaVideo = puntuaUser;
-                            }
-                            $('#starts').barrating('set', putuaVideo);
-                        });
-                    }
-                    */
-                }
-                /*
-                 else
-                 {
-                 // rating was selected programmatically
-                 // by calling `set` method
-                 console.log("Ingresa");
-                 }
-                 */
+                // rating was selected by a user
+                var puntuaUser = Number(value);
+                console.log(puntuaUser);
             }
-        });
-
-
-    //console.log(servicio);
-
+        }
+    });
 
     $("#logout").click(function(event)
     {

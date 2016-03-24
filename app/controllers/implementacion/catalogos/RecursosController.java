@@ -48,13 +48,20 @@ public class RecursosController extends Controller {
     }
 
     @Transactional(readOnly=true)
-    public Result getRecursosByProd(Long prodId) {
-        return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
+    public Result getRecursosByProd(Long prodId, Long tipo) {
+        //return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
         //return ok(detail.render("Catálogo MetaEcoTour"));
         //return ok(detail.render(String.valueOf(Json.toJson(recursos.getRecursosByProd(prodId)))));
         //List<Recurso> recurso = recursos.getRecursosByProd(prodId);
         //return ok(detail.render(recurso, productos.getProductById(prodId)));
-        //return ok(detail.render(productos.getProductById(prodId)));
+        if(tipo == 1)
+        {
+            return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
+        }
+        else
+        {
+            return ok(detail.render(productos.getProductById(prodId)));
+        }
     }
 
     @Transactional(readOnly=true)

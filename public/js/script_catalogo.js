@@ -17,7 +17,7 @@ $(function()
     {
         //debugger;
         //http://localhost:9000/api/recursos/50
-        var urlDetalle = "api/recursos/" + data.id;
+        var urlDetalle = "api/recursos/" + data.id + "/0";
         //var imagen = UrlImagen + "/" + data.imagen;
         var imagen = data.imagen;
         var txt = '<div class="col-sm-4 col-lg-4 col-md-4">' +
@@ -94,6 +94,8 @@ $(function()
             }
             txt = "<li class=\"list-group-item\"><a href = \"#\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>" + txt;
             $("#categoriesList").html(txt);
+            //Para adicionar el valor de las categorias...
+            //http://localhost:9000/api/producto/numpage/1/SER/1
             elementos();
         });
     })();

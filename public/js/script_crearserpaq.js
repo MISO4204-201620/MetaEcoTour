@@ -139,6 +139,7 @@ $(function()
                 var recursos = listadoRecursos();
                 if(recursos.completo)
                 {
+                    productos.producto.idProveedor = 1;
                     productos.producto.recursos = recursos.listado;
                 }
                 else

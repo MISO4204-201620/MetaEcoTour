@@ -34,10 +34,10 @@ GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.c
 
 
 #Servicios asociados a los recursos:
-GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
-GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
-POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
-DELETE      /api/recursos/:id               controllers.implementacion.catalogos.RecursosController.delete(id: String)
+GET         /api/recursos/:productId/:tipo          controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long, tipo : Long)
+GET         /api/recursos/:productId/:tipo          controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
+POST        /api/recursos/                          controllers.implementacion.catalogos.RecursosController.save()
+DELETE      /api/recursos/:id                       controllers.implementacion.catalogos.RecursosController.delete(id: String)
 
 #Servicios de Compras:
 GET         /api/compras/:idCompra			controllers.implementacion.compras.ComprasController.getCompra(idCompra:Long)

@@ -43,7 +43,6 @@ public abstract class Producto {
     @Column(nullable=false)
     private double precioActual;
 
-    @Transient
     private int puntuacion;
 
     private String imagen;
