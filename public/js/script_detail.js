@@ -1,6 +1,7 @@
 $(function()
 {
     //Se obtiene el token de validación del usuario...
+    /*
     document.cookie.split('; ').forEach(function(cookieString)
     {
         //console.log(cookieString);
@@ -11,6 +12,7 @@ $(function()
             console.log(window.authToken);
         }
     });
+    */
 
     //Generar un token único...
     function guid() {
@@ -141,38 +143,77 @@ $(function()
         }
         return txt;
     };
-
-    var user = JSON.parse(localStorage.getItem("user")) || {};
-    console.log(user);
-    $('#example-movie').barrating('show', {
-        theme: 'bars-movie',
-        onSelect: function(value, text, event)
-        {
-            if (typeof(event) !== 'undefined')
+    var user = tipoUser.datosUser();
+    var calificaciones = function(valor)
+    {
+        //console.log(user);
+        $('#example-movie').barrating('show', {
+            theme: 'bars-movie',
+            onSelect: function(value, text, event)
             {
-                // rating was selected by a user
-                var puntuaUser = Number(value);
-                console.log(puntuaUser);
+                if (typeof(event) !== 'undefined')
+                {
+                    // rating was selected by a user
+                    var calificacion = {
+                        idUsuario : user.data.id,
+                        idProducto : idProducto,
+                        fecha : "2016-03-19",
+                        valor : Number(value),
+                        comentario : "Nada"
+                    };
+                    console.log(calificacion);
+                    if(user.existe)
+                    {
+                        $.ajax({
+                            url 		: "/api/calificacion/",
+                            type 		: "POST",
+                            data 		: JSON.stringify(calificacion),
+                            dataType 	: "json",
+                            contentType: "application/json; charset=utf-8"
+                        }).done(function(data)
+                        {
+                            console.log(data);
+                            //window.location = "/paqser";
+                        }).error(function(request, status, error)
+                        {
+                            sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+                            //callback(true);
+                        });
+                    }
+                    else
+                    {
+                        sweetAlert("Error", "No te encuentras auténticad@", "error");
+                    }
+                }
             }
-        }
-    });
+        });
+        $('#example-movie').barrating('set', valor);
+    };
+
+    if(user.existe)
+    {
+        //Traer las puntuaciones realizadas por el usaurio...
+        //http://localhost:9000/api/calificacion/usr/2341
+        $.getJSON("/api/calificacion/usr/" + user.data.id, function(data)
+        {
+            console.log(data);
+            //Saber si el usuario actual ya ha realizado el proceso de calificación...
+            var valUsuario = 0;
+            for(var i = 0; i < data.length; i++)
+            {
+                if(Number(data[i].idProducto) === idProducto)
+                {
+                    valUsuario = Number(data[i].valor);
+                    break;
+                }
+            }
+            calificaciones(valUsuario);
+        });
+    }
 
     $("#logout").click(function(event)
     {
-        console.log("LLega", window.authToken);
-        $.ajax(
-        {
-            url 		: "/logout",
-            type 		: "POST",
-            dataType 	: "json",
-            headers     : {"X-AUTH-TOKEN": window.authToken}
-        }).done(function(data)
-        {
-            window.location = "/login";
-        }).error(function(request, status, error)
-        {
-            window.location = "/login";
-        });
+        tipoUser.logout();
     });
 
 

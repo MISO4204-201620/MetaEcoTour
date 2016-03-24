@@ -92,7 +92,7 @@ $(function()
                 total += data[i].cantidad;
                 txt += "<li class=\"list-group-item\"><a href = \"#\">"+(data[i].nombre)+"</a> <span class=\"badge\">"+(data[i].cantidad)+"</span></li>";
             }
-            txt = "<li class=\"list-group-item\"><a href = \"#\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>" + txt;
+            txt = "<li class=\"list-group-item active\"><a href = \"#\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>" + txt;
             $("#categoriesList").html(txt);
             //Para adicionar el valor de las categorias...
             //http://localhost:9000/api/producto/numpage/1/SER/1

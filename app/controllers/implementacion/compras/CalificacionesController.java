@@ -43,12 +43,12 @@ public class CalificacionesController extends Controller {
 
         JsonNode json = request().body().asJson();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
-        Calificacion calificaProducto = Json.fromJson(json,Calificacion.class);
-        if(calificaProducto!=null){
+        Calificacion calificaProducto = Json.fromJson(json, Calificacion.class);
+        if(calificaProducto != null){
             calificaProducto= calificaciones.save(calificaProducto);
-            objectMapper.setDateFormat(df);
-            Json.setObjectMapper(objectMapper);
-            respuesta=Json.toJson(calificaProducto);
+            //objectMapper.setDateFormat(df);
+            //Json.setObjectMapper(objectMapper);
+            respuesta = Json.toJson(calificaProducto);
         }
         return ok(Json.toJson(respuesta));
     }

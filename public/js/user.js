@@ -32,9 +32,12 @@ var tipoUser = (function()
     {
         var user    = datosUser(),
             regresa = false;
-        if(user.existe && user.data.tipo.toLowerCase() === "proveedor")
+        if(user.existe && user.data.tipo !== null)
         {
-            regresa = true;
+            if(user.data.tipo.toLowerCase() === "proveedor")
+            {
+                regresa = true;
+            }
         }
         return regresa;
     };
