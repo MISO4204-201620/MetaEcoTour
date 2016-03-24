@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Entity
 public class Administrador extends Usuario implements Serializable{
 
-
-
+    @Override
+    public String getTipo() {
+        return "Administrador";
+    }
 }

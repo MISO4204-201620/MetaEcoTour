@@ -89,6 +89,7 @@ public class Productos implements IProducto {
         Query query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.idProveedor= :idProveedor");
         List<Producto> productos = null;
         query.setParameter("idProveedor", idProveedor);
+
         productos=query.getResultList();
 
         return productos;

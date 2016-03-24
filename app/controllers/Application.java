@@ -2,10 +2,7 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.crearserpaq;
-import views.html.index;
-import views.html.login;
-import views.html.catalog;
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -16,6 +13,11 @@ public class Application extends Controller {
     public Result creapaqser()
     {
         return ok(crearserpaq.render());
+    }
+
+    public Result crudproviders()
+    {
+        return ok(crudproveedores.render());
     }
 
     public Result login() {

@@ -7,6 +7,7 @@ GET         /                               controllers.Application.index()
 GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
 GET         /cpaqser                        controllers.Application.creapaqser()
+GET         /crudproviders                  controllers.Application.crudproviders()
 
 #Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
@@ -58,6 +59,13 @@ POST        /api/busqueda/           controllers.implementacion.catalogos.Busque
 GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
 GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
 POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
+
+#Servicios asociados al CRUD de usuarios o proveedores
+
+POST        /api/usuarios/crear                       controllers.implementacion.usuarios.UsuariosController.crearUsuario()
+GET        /api/usuarios/:numPage/:userType           controllers.implementacion.usuarios.UsuariosController.getUsuariosByPageByType(numPage : Integer,userType : String)
+GET        /api/usuarios/userId/:userId/:typeOperation          controllers.implementacion.usuarios.UsuariosController.getProveedorById(userId : Long,typeOperation : Long)
+
 
 #Servicios iniciales para la carga de datos... creo que ya no son necesarios
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()

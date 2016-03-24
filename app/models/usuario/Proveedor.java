@@ -41,5 +41,8 @@ public class Proveedor extends Usuario implements Serializable{
         this.activo = activo;
     }
 
-
+    @Override
+    public String getTipo() {
+        return "Proveedor";
+    }
 }
