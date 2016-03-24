@@ -46,6 +46,7 @@ public class Compras implements ICompra {
     public Compra save(Compra compra) {
         EntityManager em = JPA.em();
         Compra compratMP = new Compra();
+        System.out.println("El id de la compra :   "+compra.getIdCompra());
         compratMP.setIdCompra(compra.getIdCompra());
         Compra compradb = em.find(Compra.class, compratMP);
         if(compradb == null){

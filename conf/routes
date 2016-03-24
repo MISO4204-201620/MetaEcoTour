@@ -8,6 +8,7 @@ GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
 GET         /cpaqser                        controllers.Application.creapaqser()
 
+#Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
 GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdUsuario(usuarioId: Long)
 GET         /api/comentarios/:productoId/:numPagina    controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdProducto(productoId: Long, numPagina: Integer)
@@ -15,10 +16,12 @@ GET         /api/subcomentarios/:id         controllers.implementacion.mensajeri
 DELETE      /api/comentarios/:id            controllers.implementacion.mensajerias.ComentariosController.delete(id: Long)
 GET         /api/subcomentario/:id         controllers.implementacion.mensajerias.ComentariosController.getComentariosByPadre(id: Long)
 
+#servicios de las categorias:
 GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()
 POST        /api/categorias/                controllers.implementacion.catalogos.CategoriasController.save()
 DELETE      /api/categorias/:id             controllers.implementacion.catalogos.CategoriasController.delete(id: String)
 
+#servicios asociados a los productos:
 GET         /api/productos/                 controllers.implementacion.catalogos.ProductosController.getProductos()
 GET         /api/productos/:productType     controllers.implementacion.catalogos.ProductosController.getProductosByType(productType: String)
 GET         /api/producto/:productId        controllers.implementacion.catalogos.ProductosController.getProductById(productId: Long)
@@ -27,15 +30,16 @@ GET         /api/producto/numpage/:numPagina/:productType/:categoriaId        co
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
+GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
 
 
-
+#Servicios asociados a los recursos:
 GET         /api/recursos/:productId        controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long)
 GET         /api/recursos/:productId/:tipo  controllers.implementacion.catalogos.RecursosController.getRecursosByProdByType(productId: Long,tipo : String)
 POST        /api/recursos/                  controllers.implementacion.catalogos.RecursosController.save()
 DELETE      /api/recursos/:id               controllers.implementacion.catalogos.RecursosController.delete(id: String)
 
-#Servicios de Compras
+#Servicios de Compras:
 GET         /api/compras/:idCompra			controllers.implementacion.compras.ComprasController.getCompra(idCompra:Long)
 GET         /api/compras/usr/:idUsuario		controllers.implementacion.compras.ComprasController.getCompraActivaByUsuario(idUsuario:Long)
 GET         /api/compras/itm/:idCompra		controllers.implementacion.compras.ComprasController.getItemsCompra(idCompra:Long)
@@ -50,11 +54,12 @@ GET         /api/busqueda/                  controllers.implementacion.catalogos
 GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
 POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
 
+#Servicios Asociados a las calificaciones:
 GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
 GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
 POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
 
-
+#Servicios iniciales para la carga de datos... creo que ya no son necesarios
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 

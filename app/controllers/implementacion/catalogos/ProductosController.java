@@ -84,6 +84,11 @@ public class ProductosController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    public Result getProductsByProveedorId(Long proveedorId) {
+        return ok(Json.toJson(productos.getProductsByProveedorId(proveedorId)));
+    }
+
+    @Transactional(readOnly=true)
     public Result getProductosByPageByType(Integer numPagina,String productType){
         List<Producto> productosList =productos.getProductosByPageByType(numPagina,productType);
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"La página solicitada no existe\"}");

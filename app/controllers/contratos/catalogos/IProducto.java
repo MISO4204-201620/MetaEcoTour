@@ -18,6 +18,8 @@ public interface IProducto {
 
     public List<Producto> getProductosByPageByTypeAndCategory(Integer numPage,String productType, long idCategory);
 
+    public List<Producto> getProductsByProveedorId(Long idProveedor);
+
     Producto getProductById(Long id);
 
     Producto save(Producto producto);

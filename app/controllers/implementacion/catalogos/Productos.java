@@ -28,10 +28,7 @@ public class Productos implements IProducto {
     public List<Producto> getProductosByPageByType(Integer numPage,String productType) {
         List<Producto> productos=null;
         List<Producto> productosConsultados=null;
-        int pageIndex = 0;
-        if(numPage >= 0){
-            pageIndex = numPage-1;
-        }
+
         Query query = JPA.em().createQuery("SELECT pr FROM Producto pr",Producto.class);
 
         if("ALL"!=productType){
@@ -44,33 +41,8 @@ public class Productos implements IProducto {
             }
         }
         productos=query.getResultList();
-        int countResult = productos.size();
 
-        int primerResultado= pageIndex * 5;
-        if(countResult==0 && numPage ==1){
-            productosConsultados = new ArrayList<Producto>();
-        }else {
-            if(!(countResult<5 && numPage >=2)) {
-
-                if (primerResultado <= countResult) {
-                    if (primerResultado == countResult && countResult>5) {
-                        primerResultado = primerResultado - 1;
-                    }
-                    query = query.setMaxResults(5)
-                            .setFirstResult(primerResultado);
-                    productosConsultados = query.getResultList();
-                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
-                } else if ((primerResultado - countResult) <= 5) {
-                    query = query.setMaxResults(5)
-                            .setFirstResult(((pageIndex - 1) * 5) + (5 - (primerResultado - countResult)));
-                    productosConsultados = query.getResultList();
-                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
-                }
-
-            }
-
-        }
-
+        productosConsultados=paginarResultados(productos,query,numPage);
         return productosConsultados;
     }
 
@@ -78,10 +50,7 @@ public class Productos implements IProducto {
     public List<Producto> getProductosByPageByTypeAndCategory(Integer numPage,String productType, long idCategory) {
         List<Producto> productos=null;
         List<Producto> productosConsultados=null;
-        int pageIndex = 0;
-        if(numPage >= 0){
-            pageIndex = numPage-1;
-        }
+
         Query query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.idCategoria= :categoriaId",Producto.class);
 
         if("ALL"!=productType){
@@ -95,33 +64,7 @@ public class Productos implements IProducto {
         }
         query.setParameter("categoriaId", idCategory);
         productos=query.getResultList();
-        int countResult = productos.size();
-
-        int primerResultado= pageIndex * 5;
-        if(countResult==0 && numPage ==1){
-            productosConsultados = new ArrayList<Producto>();
-        }else {
-            if(!(countResult<5 && numPage >=2)) {
-
-                if (primerResultado <= countResult) {
-                    if (primerResultado == countResult && countResult>5) {
-                        primerResultado = primerResultado - 1;
-                    }
-                    query = query.setMaxResults(5)
-                            .setFirstResult(primerResultado);
-                    productosConsultados = query.getResultList();
-                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
-                } else if ((primerResultado - countResult) <= 5) {
-                    query = query.setMaxResults(5)
-                            .setFirstResult(((pageIndex - 1) * 5) + (5 - (primerResultado - countResult)));
-                    productosConsultados = query.getResultList();
-                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
-                }
-
-            }
-
-        }
-
+        productosConsultados =paginarResultados(productos,query,numPage);
         return productosConsultados;
     }
 
@@ -138,6 +81,52 @@ public class Productos implements IProducto {
     public Producto getProductById(Long id){
         Producto producto = JPA.em().find(Producto.class, id);
         return producto;
+    }
+
+    @Override
+    @Transactional
+    public List<Producto> getProductsByProveedorId(Long idProveedor){
+        Query query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.idProveedor= :idProveedor");
+        List<Producto> productos = null;
+        query.setParameter("idProveedor", idProveedor);
+        productos=query.getResultList();
+
+        return productos;
+    }
+
+    public List<Producto> paginarResultados(List<Producto> productos, Query query, int numPage){
+
+        List<Producto> productosConsultados=null;
+        int countResult = productos.size();
+        int pageIndex = 0;
+        if(numPage >= 0){
+            pageIndex = numPage-1;
+        }
+        int primerResultado= pageIndex * 5;
+        if(countResult==0 && numPage ==1){
+            productosConsultados = new ArrayList<Producto>();
+        }else {
+            if(!(countResult<5 && numPage >=2)) {
+
+                if (primerResultado <= countResult) {
+                    if (primerResultado == countResult && countResult>5) {
+                        primerResultado = primerResultado - 1;
+                    }
+                    query = query.setMaxResults(5)
+                            .setFirstResult(primerResultado);
+                    productosConsultados = query.getResultList();
+                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
+                } else if ((primerResultado - countResult) <= 5) {
+                    query = query.setMaxResults(5)
+                            .setFirstResult(((pageIndex - 1) * 5) + (5 - (primerResultado - countResult)));
+                    productosConsultados = query.getResultList();
+                    productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
+                }
+
+            }
+
+        }
+        return productosConsultados;
     }
 
     @Override

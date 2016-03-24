@@ -13,6 +13,7 @@ import play.db.jpa.Transactional;
 
 import views.html.detail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,11 +27,19 @@ public class RecursosController extends Controller {
     @Transactional
     public Result save() {
         JsonNode json = request().body().asJson();
-        Recurso recurso = Json.fromJson(json, Recurso.class);
-        if (recurso != null){
-            recursos.save(recurso);
+        List<Recurso> recursosGuardados = new ArrayList<Recurso>();
+        Long idProducto = json.get("idProducto").asLong();
+        for (JsonNode recursoFromArray : json.withArray("recursos")) {
+            Recurso recurso = Json.fromJson(recursoFromArray, Recurso.class);
+
+            if (recurso != null) {
+                recurso.setIdProducto(idProducto);
+
+                recurso = recursos.save(recurso);
+                recursosGuardados.add(recurso);
+            }
         }
-        return ok();
+        return ok(Json.toJson(recursosGuardados));
     }
 
     @Transactional
@@ -40,12 +49,12 @@ public class RecursosController extends Controller {
 
     @Transactional(readOnly=true)
     public Result getRecursosByProd(Long prodId) {
-        //return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
+        return ok(Json.toJson(recursos.getRecursosByProd(prodId)));
         //return ok(detail.render("Catálogo MetaEcoTour"));
         //return ok(detail.render(String.valueOf(Json.toJson(recursos.getRecursosByProd(prodId)))));
         //List<Recurso> recurso = recursos.getRecursosByProd(prodId);
         //return ok(detail.render(recurso, productos.getProductById(prodId)));
-        return ok(detail.render(productos.getProductById(prodId)));
+        //return ok(detail.render(productos.getProductById(prodId)));
     }
 
     @Transactional(readOnly=true)

@@ -1,7 +1,12 @@
 package models.usuario;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.catalogo.Producto;
+import models.catalogo.Recurso;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by manuel on 10/02/16.
@@ -14,6 +19,11 @@ public class Proveedor extends Usuario implements Serializable{
 
     @Column(nullable=false)
     private Boolean activo;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idProveedor")
+    @JsonIgnore
+    private List<Producto> productos ;
 
     public String getDescripcion() {
         return descripcion;
@@ -30,4 +40,6 @@ public class Proveedor extends Usuario implements Serializable{
     public void setActivo(Boolean activo) {
         this.activo = activo;
     }
+
+
 }

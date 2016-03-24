@@ -23,8 +23,9 @@ import java.util.List;
 @DiscriminatorValue("PR")
 @NamedQueries({
         @NamedQuery(name="Producto.findAll", query="SELECT pr FROM Producto pr"),
-        @NamedQuery(name="Producto.findProductById", query="SELECT pr FROM Producto pr where pr.id = :productId")
-        })
+        @NamedQuery(name="Producto.findProductById", query="SELECT pr FROM Producto pr where pr.id = :productId"),
+        @NamedQuery(name="Producto.findProductByProveedorId", query="SELECT pr FROM Producto pr where pr.idProveedor = :idProveedor"),
+             })
 public abstract class Producto {
 
     @Id
@@ -63,6 +64,9 @@ public abstract class Producto {
     private List<Comentario> comentarios ;
 
     private long idCategoria;
+
+    @Column(nullable=false)
+    private Long idProveedor;
 
     public long getId() {
         return id;
@@ -126,5 +130,11 @@ public abstract class Producto {
 
     public void setComentarios(List<Comentario> comentarios) { this.comentarios = comentarios; }
 
+    public Long getIdProveedor() {
+        return idProveedor;
+    }
 
+    public void setIdProveedor(Long idProveedor) {
+        this.idProveedor = idProveedor;
+    }
 }

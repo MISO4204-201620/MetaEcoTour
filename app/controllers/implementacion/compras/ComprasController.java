@@ -41,12 +41,15 @@ public class ComprasController extends Controller {
 
         JsonNode json = request().body().asJson();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
+        System.out.println("Antes de la serializacion");
         Compra compra = Json.fromJson(json,Compra.class);
+        System.out.println("Despues de la serializacion");
         if(compra!=null){
-
+            System.out.println(compra.getFechaCreacion());
             compra= compras.save(compra);
             objectMapper.setDateFormat(df);
             Json.setObjectMapper(objectMapper);
+            System.out.println("Antes del json to json");
             respuesta=Json.toJson(compra);
         }
         return ok(Json.toJson(respuesta));
