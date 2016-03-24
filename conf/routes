@@ -8,6 +8,7 @@ GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
 GET         /cpaqser                        controllers.Application.creapaqser()
 GET         /crudproviders                  controllers.Application.crudproviders()
+GET         /paqser                         controllers.Application.paqser()
 
 #Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()

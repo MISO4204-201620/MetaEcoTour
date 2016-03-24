@@ -19,6 +19,10 @@ public class Application extends Controller {
     {
         return ok(crudproveedores.render());
     }
+    public Result paqser()
+    {
+        return ok(serpaq.render());
+    }
 
     public Result login() {
         return ok(login.render("Login MetaEcoTour"));
