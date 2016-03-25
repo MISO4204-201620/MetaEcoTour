@@ -13,7 +13,10 @@ import java.sql.Date;
         @NamedQuery(name = "Compra.findByCompra", query = "SELECT r FROM Compra r WHERE r.idCompra = :idCompra  ")
 })public class Compra {
     @Id
-    @Column(nullable=false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "compraGen")
+    @SequenceGenerator(name = "compraGen",
+            sequenceName = "compra_seq")
     private Long idCompra;
     @Column(nullable=false)
     private Long idUsuario;
