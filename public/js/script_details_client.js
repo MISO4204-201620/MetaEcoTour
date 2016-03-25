@@ -30,16 +30,16 @@ $(function()
         });
     });
 
-    $("#createEditProvider").submit(function(event)
+    $("#createEditClient").submit(function(event)
     {
 
         //Primero saber si los campos no están vacios...
-        var proveedor = {tipoUsuario:"PROVIDER",usuario : {}},
-            campos = ["nombre", "correo", "clave", "documento", "tipoDoc","descripcion","activo"],
+        var cliente = {tipoUsuario:"CLIENT",usuario : {}},
+            campos = ["nombre", "apellido","correo", "clave", "documento", "tipoDoc"],
             procesa = true;
         for(var i = 0; i < campos.length; i++)
         {
-            proveedor.usuario[campos[i]] = $("#" + campos[i]).val();
+            cliente.usuario[campos[i]] = $("#" + campos[i]).val();
 
             if($("#" + campos[i]).val().length === 0)
             {
@@ -52,7 +52,7 @@ $(function()
 
         if(procesa)
         {
-            proveedor.usuario["id"] = idProveedor;
+            cliente.usuario["id"] = idCliente;
 
             //http://localhost:9000/api/productos/
             //http://localhost:9000/api/usuarios/crear
@@ -60,17 +60,17 @@ $(function()
                 {
                     url 		: "/api/usuarios/crear",
                     type 		: "POST",
-                    data 		: JSON.stringify(proveedor),
+                    data 		: JSON.stringify(cliente),
                     dataType 	: "json",
                     contentType: "application/json; charset=utf-8"
                 }).done(function(data)
             {
 
-                window.location = "/crudproviders";
+                window.location = "/crudclients";
 
             }).error(function(request, status, error)
             {
-                sweetAlert("Error", "No ha sido posible guardar el proveedor", "error");
+                sweetAlert("Error", "No ha sido posible guardar el cliente", "error");
 
             });
         }

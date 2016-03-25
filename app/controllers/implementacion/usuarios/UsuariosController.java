@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.contratos.usuarios.IUsuarios;
 import models.usuario.Administrador;
+import models.usuario.Cliente;
 import models.usuario.Proveedor;
 import models.usuario.Usuario;
 import play.db.jpa.Transactional;
@@ -11,7 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.provider_details;
-import views.html.crudproveedores;
+import views.html.clientes_details;
 
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class UsuariosController extends Controller {
             usuario = Json.fromJson(usuarioJson, Administrador.class);
         }else if("PROVIDER".equals(tipoUsuario)){
             usuario = Json.fromJson(usuarioJson, Proveedor.class);
+        }else if("CLIENT".equals(tipoUsuario)){
+            usuario = Json.fromJson(usuarioJson, Cliente.class);
         }
 
         if(usuario != null){
@@ -72,15 +75,19 @@ public class UsuariosController extends Controller {
     }
 
     @Transactional(readOnly=true)
-    public Result getProveedorById(Long providerId, Long tipo) {
+    public Result getUsuarioById(Long providerId, Long tipo) {
 
         if(tipo == 1)
         {
-            return ok(Json.toJson(usuarios.getProveedorById(providerId)));
+            return ok(Json.toJson(usuarios.getUsuarioById(providerId)));
         }
-        else
+        else if(tipo == 2)
         {
-            return ok(provider_details.render((Proveedor) usuarios.getProveedorById(providerId)));
+            return ok(provider_details.render((Proveedor) usuarios.getUsuarioById(providerId)));
+        }else if(tipo == 3){
+            return ok(clientes_details.render((Cliente) usuarios.getUsuarioById(providerId)));
+        }else{
+            return ok();
         }
     }
 
@@ -88,7 +95,7 @@ public class UsuariosController extends Controller {
     public Result deleteUserById(Long userId){
         Usuario usuario= usuarios.deleteUserById(userId);
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El Usuario no existe\"}");
-        System.out.println("Y BORRO el usuario.....");
+
         if(usuario!=null){
             respuesta= Json.toJson(usuario);
         }

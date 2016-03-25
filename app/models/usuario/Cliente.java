@@ -19,4 +19,9 @@ public class Cliente extends Usuario implements Serializable{
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+
+    @Override
+    public String getTipo() {
+        return "Cliente";
+    }
 }

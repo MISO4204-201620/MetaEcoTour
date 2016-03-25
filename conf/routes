@@ -8,6 +8,7 @@ GET         /login                          controllers.Application.login()
 GET         /catalog                        controllers.Application.catalog()
 GET         /cpaqser                        controllers.Application.creapaqser()
 GET         /crudproviders                  controllers.Application.crudproviders()
+GET         /crudclients                    controllers.Application.crudclients()
 GET         /paqser                         controllers.Application.paqser()
 
 #Servicios de los comentarios:
@@ -33,6 +34,9 @@ POST        /api/productos/                 controllers.implementacion.catalogos
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
 GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
 GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
+
+#productos by filters
+GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String)
 
 
 #Servicios asociados a los recursos:
@@ -66,7 +70,7 @@ POST        /api/calificacion/                      controllers.implementacion.c
 POST        /api/usuarios/crear                       controllers.implementacion.usuarios.UsuariosController.crearUsuario()
 GET        /api/usuarios/:numPage/:userType           controllers.implementacion.usuarios.UsuariosController.getUsuariosByPageByType(numPage : Integer,userType : String)
 GET        /api/usuarios/:userType                    controllers.implementacion.usuarios.UsuariosController.getUsuariosByType(userType : String)
-GET        /api/usuarios/userId/:userId/:typeOperation          controllers.implementacion.usuarios.UsuariosController.getProveedorById(userId : Long,typeOperation : Long)
+GET        /api/usuarios/userId/:userId/:typeOperation          controllers.implementacion.usuarios.UsuariosController.getUsuarioById(userId : Long,typeOperation : Long)
 DELETE     /api/usuarios/borrar/:userId                 controllers.implementacion.usuarios.UsuariosController.deleteUserById(userId : Long)
 
 

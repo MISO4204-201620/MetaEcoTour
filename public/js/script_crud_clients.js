@@ -42,29 +42,28 @@ $(function()
     });
 
 
-    var proveedores = function()
+    var clientes = function()
     {
         //Para validar la paginación...
         //var url = "/api/producto/numpage/" + numPage + "/" + $("#tipoSel").val();
-        var url = "/api/usuarios/PROVIDER";
+        var url = "/api/usuarios/CLIENT";
 
         $.getJSON(url, function(data)
         {
             //console.log(data);
             if(data.errorCode === undefined)
             {
-                var tabla = "<table class=\"table table-hover\" id = \"tablaProveedores\"><thead><tr>";
-                tabla += "<th>Nombre</th><th>Descripcion</th><th>Correo</th><th>Tipo Documento</th><th>Número Documento</th></tr> </thead><tbody>";
-                $("#providers").append(tabla);
+                var tabla = "<table class=\"table table-hover\" id = \"tablaClientes\"><thead><tr>";
+                tabla += "<th>Nombre</th><th>Apellido</th><th>Correo</th><th>Tipo Documento</th><th>Número Documento</th></tr> </thead><tbody>";
+                $("#clients").append(tabla);
                 var txt="";
                 data.forEach(function(item)
                 {
                     var token = guid();
-                    var urlDetalle = "api/recursos/" + this.id + "/0";
 
                     var tr = "<tr id = \"tr_"+(token)+"\" data-id = \""+(item.id)+"\">" +
                         "<td>" + (item.nombre) + "</td>" +
-                        "<td>" + (item.descripcion) + "</td>" +
+                        "<td>" + (item.apellido) + "</td>" +
                         "<td>" + (item.correo)+ "</td>" +
                         "<td>" + (item.tipoDoc) + "</td>" +
                         "<td>" + (item.documento) + "</td>" +
@@ -73,13 +72,13 @@ $(function()
                         "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"del_"+(token)+"\">" +
                         "<span class=\"glyphicon glyphicon-remove\"></span> Eliminar </button></td>" +
                         "</tr>";
-                    $("#tablaProveedores").append(tr);
+                    $("#tablaClientes").append(tr);
                     $("#del_" + token).click(function(e){
                         var token = this.id.split("_")[1];
                         var id = $("#tr_" + token).attr("data-id");
                         swal({
                             title: "¿Estás segur@?",
-                            text: "¿Deseas Eliminar este Proveedor?",
+                            text: "¿Deseas Eliminar este Cliente?",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -94,11 +93,13 @@ $(function()
                                 headers     : {"X-AUTH-TOKEN": window.authToken}
                             }).done(function(data)
                             {
-                                swal({title: "Eliminado!", text: "Se ha eliminado el proveedor.",   timer: 2000, type : "success" });
+                                swal({title: "Eliminado!", text: "Se ha eliminado el cliente.",   timer: 2000, type : "success" });
                                 $("#tr_" + token).fadeOut("fast", function(){
                                     $(this).remove();
                                 })
 
+                                //window.location = "/login";
+                                //localStorage.setItem("user", "");
                             }).error(function(request, status, error)
                             {
                                 console.log(request, status, error);
@@ -107,9 +108,9 @@ $(function()
                         });
                     });
                     $("#edit_" + token).click(function() {
-                        window.location = "/api/usuarios/userId/" + $("#tr_" + this.id.split("_")[1]).attr("data-id")+"/0";
+                        window.location = "/api/usuarios/userId/" + $("#tr_" + this.id.split("_")[1]).attr("data-id")+"/3";
                     });
-             });
+                });
 
             }
             else
@@ -131,7 +132,7 @@ $(function()
         return _p8() + _p8(true) + _p8(true) + _p8();
     }
 
-    proveedores();
+    clientes();
 
 
     $("#logout").click(function(event)
@@ -145,12 +146,9 @@ $(function()
                 headers     : {"X-AUTH-TOKEN": window.authToken}
             }).done(function(data)
         {
-
             window.location = "/login";
-
         }).error(function(request, status, error)
         {
-
             window.location = "/login";
         });
     });

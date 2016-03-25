@@ -19,6 +19,7 @@ public class Application extends Controller {
     {
         return ok(crudproveedores.render());
     }
+    public Result crudclients(){return ok(crudclientes.render());}
     public Result paqser()
     {
         return ok(serpaq.render());

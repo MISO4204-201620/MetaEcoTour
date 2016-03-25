@@ -22,7 +22,7 @@ public interface IUsuarios {
 
     public List<Usuario> getUsuariosByType(String tipo);
 
-    public Usuario getProveedorById(Long idProvider);
+    public Usuario getUsuarioById(Long idProvider);
 
     public Usuario deleteUserById(Long userId);
 }

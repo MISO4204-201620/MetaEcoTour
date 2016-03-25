@@ -61,6 +61,8 @@ public class Usuarios implements IUsuarios {
             usuarioTmp = em.find(Administrador.class, userId);
         }else if ("PROVIDER".equals(tipo)){
             usuarioTmp = em.find(Proveedor.class, userId);
+        }else if ("CLIENT".equals(tipo)){
+            usuarioTmp = em.find(Cliente.class, userId);
         }
 
         if(usuarioTmp == null){
@@ -95,6 +97,12 @@ public class Usuarios implements IUsuarios {
                 if(!"".equals(descripcion)){
                     ((Proveedor)usuarioTmp).setDescripcion(descripcion);
                 }
+            }else if ("CLIENT".equals(tipo)){
+
+                String apellido = ((Cliente)usuario).getApellido();
+                if(!"".equals(apellido)){
+                    ((Cliente)usuarioTmp).setApellido(apellido);
+                }
             }
             usuario=em.merge(usuarioTmp);
         }
@@ -104,9 +112,9 @@ public class Usuarios implements IUsuarios {
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario getProveedorById(Long idProvider) {
-        Usuario proveedor =JPA.em().find(Proveedor.class, idProvider);
-        return proveedor;
+    public Usuario getUsuarioById(Long idProvider) {
+        Usuario usuario =JPA.em().find(Usuario.class, idProvider);
+        return usuario;
     }
 
     @Override
@@ -125,14 +133,7 @@ public class Usuarios implements IUsuarios {
         List<Usuario> usuarios =null;
         List<Usuario> usuariosConsultados=null;
 
-        Query query = null;
-
-        if("PROVIDER".equals(tipo)){
-            query = JPA.em().createQuery("SELECT us FROM Proveedor us",Proveedor.class);
-
-        }else if("ADMIN".equals(tipo)){
-            query = JPA.em().createQuery("SELECT us FROM Administrador us",Administrador.class);
-        }
+        Query query = getQueryFromUserType(tipo);
         usuarios= query.getResultList();
 
         usuariosConsultados=paginarResultados(usuarios,query,numPage);
@@ -144,19 +145,24 @@ public class Usuarios implements IUsuarios {
     @Transactional(readOnly = true)
     public List<Usuario> getUsuariosByType(String tipo) {
         List<Usuario> usuarios =null;
-        Query query = null;
-
-        if("PROVIDER".equals(tipo)){
-            query = JPA.em().createQuery("SELECT us FROM Proveedor us",Proveedor.class);
-
-        }else if("ADMIN".equals(tipo)){
-            query = JPA.em().createQuery("SELECT us FROM Administrador us",Administrador.class);
-        }
+        Query query = getQueryFromUserType(tipo);
         usuarios= query.getResultList();
 
         return usuarios;
     }
 
+    public Query getQueryFromUserType(String tipo){
+        Query query = null;
+        if("PROVIDER".equals(tipo)){
+            query = JPA.em().createQuery("SELECT us FROM Proveedor us",Proveedor.class);
+
+        }else if("ADMIN".equals(tipo)){
+            query = JPA.em().createQuery("SELECT us FROM Administrador us",Administrador.class);
+        }else if("CLIENT".equals(tipo)){
+            query = JPA.em().createQuery("SELECT us FROM Cliente us",Cliente.class);
+        }
+        return query;
+    }
     public List<Usuario> paginarResultados(List<Usuario> usuarios, Query query, int numPage){
 
         List<Usuario> usuariosConsultados=null;

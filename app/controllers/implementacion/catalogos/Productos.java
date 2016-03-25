@@ -68,6 +68,42 @@ public class Productos implements IProducto {
         return productosConsultados;
     }
 
+    @Override
+    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,double precioInicial, double precioFinal, String productType) {
+        List<Producto> productos=null;
+        List<Producto> productosConsultados=null;
+
+        String parameterSentence="SELECT pr FROM Producto pr where 1=1";
+        if(!"0name".equals(name)){
+            parameterSentence += " and pr.nombre like :name";
+        }
+        if(precioInicial >= 0 && precioFinal >= 0){
+            parameterSentence += " and (pr.precioActual between :precioInicial and :precioFinal)";
+        }
+
+        if("SER".equals(productType) && "PAQ".equals(productType)){
+            parameterSentence += " and (pr.class = :productType )";
+        }
+
+        Query query = JPA.em().createQuery(parameterSentence,Producto.class);
+
+        if(!"0name".equals(name)){
+            query.setParameter("name","%"+ name+"%");
+        }
+        if(precioInicial >= 0 && precioFinal >= 0){
+            query.setParameter("precioInicial",precioInicial);
+            query.setParameter("precioFinal",precioFinal);
+        }
+
+        if(!"0type".equals(productType) && !"ALL".equals(productType)){
+            query.setParameter("productType",productType);
+        }
+
+        productos=query.getResultList();
+        productosConsultados =paginarResultados(productos,query,numPage);
+        return productosConsultados;
+    }
+
 
     @Override
     public List<Producto> getProductosByType(String productType) {
