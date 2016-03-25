@@ -52,7 +52,7 @@ public class ComprasController extends Controller {
             System.out.println("Antes del json to json");
             respuesta=Json.toJson(compra);
         }
-        return ok(Json.toJson(respuesta));
+        return ok(respuesta);
     }
 
     @Transactional

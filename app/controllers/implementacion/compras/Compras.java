@@ -46,21 +46,23 @@ public class Compras implements ICompra {
     public Compra save(Compra compra) {
         EntityManager em = JPA.em();
         Compra compratMP = new Compra();
+
         System.out.println("El id de la compra :   "+compra.getIdCompra());
-        compratMP.setIdCompra(compra.getIdCompra());
-        Compra compradb = em.find(Compra.class, compratMP);
+        compratMP.setIdCompra((compra.getIdCompra() != null ? compra.getIdCompra(): 0l));
+        //compratMP.setIdCompra(0l);
+        Compra compradb = em.find(Compra.class, compratMP.getIdCompra());
         if(compradb == null){
-            compra.setEstado("A");
+            compra.setEstado("O");
             compra.setFechaCreacion(new Date(System.currentTimeMillis()));
             em.persist(compra);
         }else{
             compradb.setEstado(compra.getEstado());
             compradb.setFechaActualizacion(new Date(System.currentTimeMillis()));
-            em.merge(compradb);
-            compradb = compra;
+            compra = em.merge(compradb);
+
         }
 
-        return compradb;
+        return compra;
     }
 
     @Transactional
