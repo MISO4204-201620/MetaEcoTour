@@ -18,7 +18,7 @@ public interface IProducto {
 
     public List<Producto> getProductosByPageByTypeAndCategory(Integer numPage,String productType, long idCategory);
 
-    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,double precioInicial, double precioFinal, String productType);
+    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType);
 
     public List<Producto> getProductsByProveedorId(Long idProveedor);
 

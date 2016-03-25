@@ -69,34 +69,40 @@ public class Productos implements IProducto {
     }
 
     @Override
-    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,double precioInicial, double precioFinal, String productType) {
+    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType) {
         List<Producto> productos=null;
         List<Producto> productosConsultados=null;
 
         String parameterSentence="SELECT pr FROM Producto pr where 1=1";
         if(!"0name".equals(name)){
             parameterSentence += " and pr.nombre like :name";
+            System.out.println("Añado el nombre");
         }
         if(precioInicial >= 0 && precioFinal >= 0){
             parameterSentence += " and (pr.precioActual between :precioInicial and :precioFinal)";
+            System.out.println("Añado el Precio");
         }
 
-        if("SER".equals(productType) && "PAQ".equals(productType)){
+        if(!"0name".equals(productType) && !"ALL".equals(productType)){
             parameterSentence += " and (pr.class = :productType )";
+            System.out.println("Añado el tipo");
         }
 
         Query query = JPA.em().createQuery(parameterSentence,Producto.class);
 
         if(!"0name".equals(name)){
             query.setParameter("name","%"+ name+"%");
+            System.out.println("parametro nombre");
         }
         if(precioInicial >= 0 && precioFinal >= 0){
             query.setParameter("precioInicial",precioInicial);
             query.setParameter("precioFinal",precioFinal);
+            System.out.println("parametro Precio");
         }
 
         if(!"0type".equals(productType) && !"ALL".equals(productType)){
             query.setParameter("productType",productType);
+            System.out.println("parametro tipo");
         }
 
         productos=query.getResultList();
