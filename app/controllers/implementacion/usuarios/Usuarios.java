@@ -109,6 +109,15 @@ public class Usuarios implements IUsuarios {
         return proveedor;
     }
 
+    @Override
+    public Usuario deleteUserById(Long userId) {
+        EntityManager em = JPA.em();
+        Usuario usuario = em.find(Usuario.class, userId);
+        if(usuario!=null) {
+            em.remove(usuario);
+        }
+            return usuario;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -129,6 +138,23 @@ public class Usuarios implements IUsuarios {
         usuariosConsultados=paginarResultados(usuarios,query,numPage);
         return usuariosConsultados;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Usuario> getUsuariosByType(String tipo) {
+        List<Usuario> usuarios =null;
+        Query query = null;
+
+        if("PROVIDER".equals(tipo)){
+            query = JPA.em().createQuery("SELECT us FROM Proveedor us",Proveedor.class);
+
+        }else if("ADMIN".equals(tipo)){
+            query = JPA.em().createQuery("SELECT us FROM Administrador us",Administrador.class);
+        }
+        usuarios= query.getResultList();
+
+        return usuarios;
     }
 
     public List<Usuario> paginarResultados(List<Usuario> usuarios, Query query, int numPage){

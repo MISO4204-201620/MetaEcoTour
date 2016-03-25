@@ -65,7 +65,9 @@ POST        /api/calificacion/                      controllers.implementacion.c
 
 POST        /api/usuarios/crear                       controllers.implementacion.usuarios.UsuariosController.crearUsuario()
 GET        /api/usuarios/:numPage/:userType           controllers.implementacion.usuarios.UsuariosController.getUsuariosByPageByType(numPage : Integer,userType : String)
+GET        /api/usuarios/:userType                    controllers.implementacion.usuarios.UsuariosController.getUsuariosByType(userType : String)
 GET        /api/usuarios/userId/:userId/:typeOperation          controllers.implementacion.usuarios.UsuariosController.getProveedorById(userId : Long,typeOperation : Long)
+DELETE     /api/usuarios/borrar/:userId                 controllers.implementacion.usuarios.UsuariosController.deleteUserById(userId : Long)
 
 
 #Servicios iniciales para la carga de datos... creo que ya no son necesarios

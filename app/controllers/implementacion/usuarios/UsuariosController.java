@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.provider_details;
+import views.html.crudproveedores;
 
 import java.util.List;
 
@@ -61,6 +62,16 @@ public class UsuariosController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    public Result getUsuariosByType(String tipo){
+        List<Usuario> usuariosList =usuarios.getUsuariosByType(tipo);
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"La página solicitada no existe\"}");
+        if(usuariosList!=null){
+            respuesta= Json.toJson(usuariosList);
+        }
+        return ok(respuesta);
+    }
+
+    @Transactional(readOnly=true)
     public Result getProveedorById(Long providerId, Long tipo) {
 
         if(tipo == 1)
@@ -71,5 +82,19 @@ public class UsuariosController extends Controller {
         {
             return ok(provider_details.render((Proveedor) usuarios.getProveedorById(providerId)));
         }
+    }
+
+    @Transactional
+    public Result deleteUserById(Long userId){
+        Usuario usuario= usuarios.deleteUserById(userId);
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El Usuario no existe\"}");
+        System.out.println("Y BORRO el usuario.....");
+        if(usuario!=null){
+            respuesta= Json.toJson(usuario);
+        }
+        return ok(respuesta);
+        //return ok(crudproveedores.render());
+        //return ok();
+
     }
 }

@@ -20,5 +20,9 @@ public interface IUsuarios {
 
     public List<Usuario> getUsuariosByTypeAndPage(Integer numPage, String tipo);
 
+    public List<Usuario> getUsuariosByType(String tipo);
+
     public Usuario getProveedorById(Long idProvider);
+
+    public Usuario deleteUserById(Long userId);
 }

@@ -32,7 +32,7 @@ $(function()
 
     $("#createEditProvider").submit(function(event)
     {
-        console.log(idProveedor);
+
         //Primero saber si los campos no están vacios...
         var proveedor = {tipoUsuario:"PROVIDER",usuario : {}},
             campos = ["nombre", "correo", "clave", "documento", "tipoDoc","descripcion","activo"],
@@ -40,8 +40,7 @@ $(function()
         for(var i = 0; i < campos.length; i++)
         {
             proveedor.usuario[campos[i]] = $("#" + campos[i]).val();
-            console.log(campos[i]);
-            console.log($("#" + campos[i]).val());
+
             if($("#" + campos[i]).val().length === 0)
             {
                 $("#" + campos[i]).focus();

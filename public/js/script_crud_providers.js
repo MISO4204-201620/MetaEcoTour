@@ -41,37 +41,78 @@ $(function()
         paginacion(1);
     });
 
+
     var proveedores = function()
     {
         //Para validar la paginación...
         //var url = "/api/producto/numpage/" + numPage + "/" + $("#tipoSel").val();
-        var url = "/api/usuarios/" + numPage + "/PROVIDER";
+        var url = "/api/usuarios/PROVIDER";
         console.log(url);
         $.getJSON(url, function(data)
         {
             //console.log(data);
             if(data.errorCode === undefined)
             {
+                var tabla = "<table class=\"table table-hover\" id = \"tablaProveedores\"><thead><tr>";
+                tabla += "<th>Nombre</th><th>Descripcion</th><th>Correo</th><th>Tipo Documento</th><th>Número Documento</th></tr> </thead><tbody>";
+                $("#providers").append(tabla);
                 var txt="";
                 data.forEach(function(item)
                 {
-                    var urlDetalle = "/api/usuarios/userId/"+item.id+"/0";
-                    txt += "<li class=\"list-group-item\">" +
-                        '<div class="col-sm-4 col-lg-4 col-md-4">' +
-                        '<div class="caption">' +
-                        '<h3>'+(item.nombre) + '</h3>' +
-                        '<p>'+(item.descripcion)+'</p>' +
-                        '<h4><a href="'+(urlDetalle)+'">Editar Proveedor'+'</a></h4>' +
-                        '<h4><a href="'+(urlDetalle)+'">Eliminar Proveedor'+'</a>'+
-                        '</h4>' +
-                        '</div></div>'
-                        +"</span></li>";
+                    var token = guid();
+                    var urlDetalle = "api/recursos/" + this.id + "/0";
 
-                    $("#uno").click(function(e){
-                        console.log("Botón");
+                    var tr = "<tr id = \"tr_"+(token)+"\" data-id = \""+(item.id)+"\">" +
+                        "<td>" + (item.nombre) + "</td>" +
+                        "<td>" + (item.descripcion) + "</td>" +
+                        "<td>" + (item.correo)+ "</td>" +
+                        "<td>" + (item.tipoDoc) + "</td>" +
+                        "<td>" + (item.documento) + "</td>" +
+                        "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"edit_"+(token)+"\">" +
+                        "<span class=\"glyphicon glyphicon-edit\"></span> Editar </button></td>" +
+                        "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"del_"+(token)+"\">" +
+                        "<span class=\"glyphicon glyphicon-remove\"></span> Eliminar </button></td>" +
+                        "</tr>";
+                    $("#tablaProveedores").append(tr);
+                    $("#del_" + token).click(function(e){
+                        var token = this.id.split("_")[1];
+                        var id = $("#tr_" + token).attr("data-id");
+                        swal({
+                            title: "¿Estás segur@?",
+                            text: "¿Deseas Eliminar este Proveedor?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Si, Eliminar",
+                            closeOnConfirm: false
+                        }, function ()
+                        {
+                            $.ajax({
+                                url 		: "/api/usuarios/borrar/" + id,
+                                type 		: "DELETE",
+                                dataType 	: "json",
+                                headers     : {"X-AUTH-TOKEN": window.authToken}
+                            }).done(function(data)
+                            {
+                                swal({title: "Eliminado!", text: "Se ha eliminado el proveedor.",   timer: 2000, type : "success" });
+                                $("#tr_" + token).fadeOut("fast", function(){
+                                    $(this).remove();
+                                })
+                                console.log(data);
+                                //window.location = "/login";
+                                //localStorage.setItem("user", "");
+                            }).error(function(request, status, error)
+                            {
+                                console.log(request, status, error);
+                                swal({title: "Error!", text: "No ha sido posible relizar la acción.",   timer: 2000, type : "error" });
+                            });
+                        });
                     });
-                });
-                $("#providersList").html(txt);
+                    $("#edit_" + token).click(function() {
+                        window.location = "/api/usuarios/userId/" + $("#tr_" + this.id.split("_")[1]).attr("data-id")+"/0";
+                    });
+             });
+
             }
             else
             {
@@ -84,7 +125,16 @@ $(function()
 
     };
 
+    function guid() {
+        function _p8(s) {
+            var p = (Math.random().toString(16)+"000000000").substr(2,8);
+            return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+        }
+        return _p8() + _p8(true) + _p8(true) + _p8();
+    }
+
     proveedores();
+
 
     $("#logout").click(function(event)
     {

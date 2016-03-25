@@ -47,8 +47,27 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/catalog">Catálogo</a></li>
-                        <li class="active"><a href="javascript:void(0)">Nuevo Producto</a></li>
+                        <li class="active"><a href="javascript:void(0)">Catálogo</a></li>
+                        <li class="dropdown">
+                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Proveedor
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/paqser">Mis Servicios/Paquetes</a></li>
+                                <li><a href="/cpaqser">Nuevo Paquete y servicio</a></li>
+                            </ul>
+                        </li>
+
+
+
+
+                        <li class="dropdown">
+                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Administración
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/crudproviders">Proveedores</a></li>
+                                <li><a href="javascript:void(0)">Usuarios</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="javascript:void(0)">My Carrito</a></li>
@@ -70,26 +89,23 @@
             <!-- Page Content -->
         <div class="container">
             <h2>Administrar Proveedores</h2>
+            <div class="col-md-12">
+                <a href="/api/usuarios/userId/0/0" class="btn btn-info btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span> Nuevo Proveedor
+                </a>
+            </div>
+            <div id="delete_modify" class="tab-pane fade in active">
+                <h3>SUS PROVEEDORES</h3>
+                <p>Esta sección esta destinada para que pueda eliminar o modificar los proveedores asociados al  Marketplace.</p>
+            </div>
             <div class="row">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#delete_modify">Modificar o Eliminar Proveedores</a></li>
-                    <li><a href="/api/usuarios/userId/0/0">Crear Proveedor</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="delete_modify" class="tab-pane fade in active">
-                        <h3>SUS PROVEEDORES</h3>
-                        <p>Esta sección esta destinada para que pueda eliminar o modificar los proveedores asociados al  Marketplace.</p>
-                        <div class="row" id = "providers">
-                            <ul class="list-group" id="providersList"></ul>
+                <div class="col-md-12">
+                    <div class="row" id = "providers">
+
                         </div>
-                        <div align="center">
-                            <ul class="pager">
-                                <li class="previous disabled"><a href="javascript:;">&larr; Anterior</a></li>
-                                <li class="next"><a href="javascript:;">Siguiente &rarr;</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
+
+
             </div>
             </div>
                 <!-- /.container -->
