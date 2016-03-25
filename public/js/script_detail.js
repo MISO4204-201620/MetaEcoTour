@@ -56,13 +56,55 @@ $(function()
 
     });
 
+    //Se listan las preguntas de un servicio...
+    var preguntas = (function elementos()
+    {
+        $("#pregunta").html("");
+        $("#preguntaText").val("");
+        //falta validar la paginacion
+        var url = "/api/comentarios/" + idProducto + "/" + numPage + "/PREGUNTA";
+        //console.log(url);
+        $.getJSON(url, function(data)
+        {
+            if(data.errorCode === undefined)
+            {
+                if (data.length < 10)
+                {
+                    $(".next").addClass("disabled");
+                }
+                data.forEach(function(item)
+                {
+                    //console.log(item, i);
+                    var idToken = guid();
+                    $("#pregunta").append(baseItemPregunta(item, idToken, false));
+                    $("#rep_" + idToken).click(function(e)
+                    {
+                        createForm(this.id.split("_")[1]);
+                    });
+
+                    $("#coment_" + idToken).click(function(e)
+                    {
+                        callcoments(this.id.split("_")[1]);
+                    });
+                });
+            }
+            else
+            {
+                numPage--;
+                $(".next").addClass("disabled");
+
+            }
+        });
+        return elementos;
+    })();
+
     //Se listan los comentarios de un servicio...
     var comentarios = (function elementos()
     {
         $("#comentario").html("");
         $("#commentText").val("");
         //falta validar la paginacion
-        var url = "/api/comentarios/" + idProducto + "/" + numPage;
+        var url = "/api/comentarios/" + idProducto + "/" + numPage + "/COMENTARIO";
         //console.log(url);
         $.getJSON(url, function(data)
         {
@@ -97,6 +139,52 @@ $(function()
         });
         return elementos;
     })();
+
+    var baseItemPregunta = function(data, token, subcomentario)
+    {
+        var date = new Date(data.fecha);
+        var month = date.getMonth() + 1;
+
+        var txt ="";
+
+        if(subcomentario){
+            txt = '<ul class="media-list">' +
+                '<li class="media media-replied">';
+        }
+
+        txt +=   '<a class="pull-left" href="#">' +
+            '<img class="media-object img-circle" src="https://s3.amazonaws.com/fabricas/avatar.jpg" alt="profile">' +
+            '</a>' +
+            '<div class="media-body">' +
+            '<div class="well well-lg">' +
+            '<h4 class="media-heading text-uppercase reviews">' + data.nombreUsuario + '</h4>' +
+            '<ul class="media-date text-uppercase reviews list-inline">' +
+            '<li class="dd">' + date.getDate() +'</li>' +
+            '<li class="mm">' + month + '</li>' +
+            '<li class="aaaa">' + date.getFullYear() +'</li>' +
+            '</ul>' +
+            '<p class="media-comment">' + data.comentario +
+            '</p>';
+
+        if (data.numeroComentarios > 0)
+        {
+            txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + ' Respuesta</a>';
+        } else {
+            txt += '<a class="btn btn-warning btn-circle text-uppercase"><span class="glyphicon glyphicon-comment"></span> El proveedor no ha respondido la Pregunta</a>';
+        }
+
+        txt += '</div>' +
+            '</div>';
+        if (data.numeroComentarios > 0){
+            txt += '<div class="collapse" id = "reply_'+ (token) +'"> </div>';
+        }
+
+
+        if(subcomentario){
+            txt += '</li></ul>';
+        }
+        return txt;
+    };
 
     var baseItemComentario = function(data, token, subcomentario)
     {
@@ -225,7 +313,8 @@ $(function()
             comentario : valores.comentario,
             fecha : new Date(),
             numeroComentarios : idProducto,
-            origen : valores.origen
+            origen : valores.origen,
+            tipo: valores.tipo
         };
         $.ajax(
             {
@@ -252,12 +341,31 @@ $(function()
             });
     };
 
+    //Evento para CONSTRUCCION PREGUNTA
+    $( "#preguntaForm" ).submit(function( event )
+    {
+        if($("#preguntaText").val().length !== 0)
+        {
+            guardaComentarios({comentario :  $("#preguntaText").val(), origen : 0, tipo : 'PREGUNTA'}, function(error){
+                if(!error)
+                {
+                    preguntas();
+                }
+            });
+        }
+        else
+        {
+            sweetAlert("Error", "Por favor escribe tu comentario", "error");
+        }
+        event.preventDefault();
+    });
+
     //Evento para CONSTRUCCION COMENTARIO
     $( "#commentForm" ).submit(function( event )
     {
         if($("#commentText").val().length !== 0)
         {
-            guardaComentarios({comentario :  $("#commentText").val(), origen : 0}, function(error){
+            guardaComentarios({comentario :  $("#commentText").val(), origen : 0, tipo : 'COMENTARIO'}, function(error){
                 if(!error)
                 {
                     comentarios();
@@ -291,7 +399,7 @@ $(function()
         {
             if($("#commentReply_" + token).val().length !== 0)
             {
-                guardaComentarios({comentario :  $("#commentReply_" + token).val(), origen : idComenta}, function(error){
+                guardaComentarios({comentario :  $("#commentReply_" + token).val(), origen : idComenta, tipo : 'COMENTARIO'}, function(error){
                     if(!error)
                     {
                         comentarios();

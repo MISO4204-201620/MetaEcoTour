@@ -17,7 +17,7 @@ public interface IComentario {
 
     Comentario getComentario(Long id);
 
-    List<Object> getComentariosByIdProducto(Long id, int page);
+    List<Object> getComentariosByIdProductoAndType(Long id, int page, Comentario.Tipo type);
 
     List<Comentario> getComentariosByIdUsuario(Long id);
 
