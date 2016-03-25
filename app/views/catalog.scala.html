@@ -25,8 +25,31 @@
 
         <link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
 
-
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <style>
+        input[type=range]
+        {
+            -webkit-appearance: none;
+            background-color: rgba(0, 150, 136, 0.41); /*silver*/
+            height:20px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb
+        {
+            -webkit-appearance: none;
+            background-color: #666;
+            opacity: 0.8;
+            width: 10px;
+            height: 30px;
+
+        }
+
+        .input-group-addon{
+            border: none;
+        }
+        </style>
     </head>
     <body>
             <!-- Navigation -->
@@ -104,36 +127,25 @@
                         <div class="panel-heading">Filtros</div>
                         <div class="panel-body">
 
-                            <div class="panel-body">
-                                <div class="input-group">
-                                    <input type="search" placeholder="Buscar Paquete o servicio" class="search-product form-control">
-                                    <span class="input-group-btn">
-                                        <button disabled="disabled" class="btn btn-default clear-search-result-btn" type="button">×</button>
-                                    </span>
-                                </div><!-- /input-group -->
-                                <small id="searchedProductCounts"></small>
-                            </div>
-
-                            <form class="form-inline">
+                                <input type="search" placeholder="Buscar Paquete o servicio" class="form-control" id = "textBusca">
                                 <div class="form-group">
-                                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">$</div>
-                                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="Precio">
-                                        <div class="input-group-addon">.00</div>
-                                    </div>
+                                    <input type="range" id="rangoMin" min = "0" max="5000000" value="0" step="50000">
+                                    <div class="input-group-addon" id = "div_rangoMin">Min: 0.00 $</div>
+                                    <input type="range" id="rangoMax" min = "0" max="5000000" value="0" step="50000">
+                                    <div class="input-group-addon" id = "div_rangoMax">Max: 0.00 $</div>
                                 </div>
                                 <div class="input-group">
-                                    <div class="input-group-addon">Tipo</div>
+                                    <div class="input-group-addon"></div>
                                     <select class="form-control" id = "tipoSel">
+                                        <option value="ALL">Paquete/Servicio</option>
                                         <option value="SER">Servicios</option>
                                         <option value="PAQ">Paquetes</option>
                                     </select>
                                 </div>
-
-                                <br>
-                                <button type="submit" class="btn btn-primary">Filtrar</button>
-                            </form>
+                                <div align="center">
+                                    <button type="button" class="btn btn-primary" id = "executeFilter"><span class="glyphicon glyphicon-filter"></span> Aplicar Filtro</button>
+                                    <button type="button" class="btn btn-primary" id = "eraseFilter"><span class="glyphicon glyphicon-erase"></span> Borrar Filtro</button>
+                                </div>
                         </div>
                     </div>
 

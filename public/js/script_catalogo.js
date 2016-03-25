@@ -11,6 +11,64 @@ $(function()
             console.log(window.authToken);
         }
     });
+
+    //Para la moneda...
+    function format2(n, currency) {
+        return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+    }
+
+    //Para el filtro que se relizará...
+    var filtro = {
+                    name : "",
+                    inicial : "",
+                    final : "",
+                    type : ""
+    };
+
+    //Para los rangos de precios...
+    var precios = {
+                    rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
+                    rangoMax : {valor : 0, label : "Max", filtro : "final"}
+    };
+
+    var preciosFiltro = function(idSel)
+    {
+        precios[idSel].valor = Number($("#" + idSel).val());
+        $("#div_" + idSel).html(precios[idSel].label + " : " + format2(precios[idSel].valor, "$"));
+        filtro[precios[idSel].filtro] = precios[idSel].valor;
+    };
+
+    $('input[type=range]').change(function(e)
+    {
+        preciosFiltro(e.currentTarget.id);
+    });
+
+    $("#eraseFilter").click(function(e)
+    {
+        //Reiniciar los rangos de precios...
+        for(var i = 0, elemento = Object.keys(precios); i < elemento.length; i++)
+        {
+            $("#" + elemento[i]).val(0);
+            preciosFiltro(elemento[i]);
+        }
+        $("#tipoSel").val("ALL");
+        filtro.name = filtro.type = "";
+        $("#textBusca").val("");
+        elementos();
+    });
+
+    $("#executeFilter").click(function(e)
+    {
+        filtro.name = $("#textBusca").val();
+        elementos();
+        //console.log(filtro);
+    });
+
+    $("#tipoSel").change(function(e){
+        filtro.type = $(this).val();
+        console.log(filtro);
+    });
+
     //Reemplazar por la url de Amazon...
     //var UrlImagen = "http://localhost:8887/maestria/base/img/portada/";
     var baseItem = function(data)
@@ -44,11 +102,6 @@ $(function()
         return txt;
     };
 
-    /*
-    $("#tipoSel").change(function(e){
-        elementos();
-    });
-    */
 
     var paginacion = function(valor)
     {
@@ -100,34 +153,60 @@ $(function()
         });
     })();
 
-
     var elementos = function()
     {
+        $("#catalog").html("<div class = 'thumbnail' align='center'><img src = '/images/loading.gif' border = '0'/></div>");
         //Para validar la paginación...
         //var url = "/api/producto/numpage/" + numPage + "/" + $("#tipoSel").val();
-        var url = "/api/producto/numpage/" + numPage + "/SER";
+        //var url = "/api/producto/numpage/" + numPage + "/SER";
+        var inicial    = filtro.inicial,
+            finaliza   = filtro.final;
+        if(filtro.inicial > filtro.final)
+        {
+            finaliza = filtro.inicial;
+            inicial = filtro.final;
+        }
+        //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/ALL
+        //debugger;
+        var url = "/api/productos/numpage/"+ numPage;
+        url += "/name/" + (filtro.name !== "" ? filtro.name : "0name");
+        url += "/inicial/" + (inicial > 0 ? inicial : "-1");
+        url += "/final/" + (finaliza > 0 ? finaliza : "-1");
+        url += "/type/" + (filtro.type !== "" ? filtro.type : "ALL");
         console.log(url);
         $.getJSON(url, function(data)
         {
-            //console.log(data);
-            if(data.errorCode === undefined)
+            if(data.length !== 0)
             {
-                $("#catalog").html("");
-                data.forEach(function(item)
+                $(".next").show();
+                $(".previous").show();
+                if(data.errorCode === undefined)
                 {
-                    $("#catalog").append(baseItem(item));
-                    $("#uno").click(function(e){
-                       console.log("Botón");
+                    $("#catalog").html("");
+                    data.forEach(function(item)
+                    {
+                        $("#catalog").append(baseItem(item));
+                        $("#uno").click(function(e){
+                            console.log("Botón");
+                        });
                     });
-                });
+                }
+                else
+                {
+                    numPage--;
+                    $(".next").addClass("disabled");
+
+                }
             }
             else
             {
-                numPage--;
-                $(".next").addClass("disabled");
-
+                $(".next").hide();
+                $(".previous").hide();
+                var txtError = "<div align='center'><img src = '/images/error.png' border = '0'/>";
+                txtError += "<div>No se ha encontrado información con el filtro establecido</div></div>"
+                $("#catalog").html(txtError);
+                //error.png
             }
-            //console.log(data);
         });
         /*
         $("#catalog").html("");
