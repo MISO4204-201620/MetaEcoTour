@@ -13,7 +13,7 @@ GET         /paqser                         controllers.Application.paqser()
 #Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
 GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdUsuario(usuarioId: Long)
-GET         /api/comentarios/:productoId/:numPagina    controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdProducto(productoId: Long, numPagina: Integer)
+GET         /api/comentarios/:productoId/:numPagina/:tipo    controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdProductoAndType(productoId: Long, numPagina: Integer, tipo: String)
 GET         /api/subcomentarios/:id         controllers.implementacion.mensajerias.ComentariosController.getSubComentarios(id: Long)
 DELETE      /api/comentarios/:id            controllers.implementacion.mensajerias.ComentariosController.delete(id: Long)
 GET         /api/subcomentario/:id         controllers.implementacion.mensajerias.ComentariosController.getComentariosByPadre(id: Long)

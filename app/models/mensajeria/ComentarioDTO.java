@@ -13,6 +13,7 @@ public class ComentarioDTO {
     private Date fecha;
     private long numeroComentarios;
     private long origen;
+    private String tipo;
 
     public ComentarioDTO() {
 
@@ -74,4 +75,8 @@ public class ComentarioDTO {
     public void setOrigen(long origen) {
         this.origen = origen;
     }
+
+    public String getTipo() { return tipo; }
+
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

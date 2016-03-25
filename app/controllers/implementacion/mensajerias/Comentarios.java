@@ -75,7 +75,7 @@ public class Comentarios implements IComentario {
 
     @Override
     @Transactional
-    public List<Object> getComentariosByIdProducto(Long id, int page) {
+    public List<Object> getComentariosByIdProductoAndType(Long id, int page, Comentario.Tipo type) {
         int pageIndex = 0;
         if(page >= 0){
             pageIndex = page -1;
@@ -84,7 +84,8 @@ public class Comentarios implements IComentario {
         return JPA.em().createNamedQuery("ComentarioDTO.findByIdProductoUsuario")
                 .setMaxResults(PAG_NUM_OF_RECORDS_CONTEST)
                 .setFirstResult(pageIndex * PAG_NUM_OF_RECORDS_CONTEST)
-                .setParameter("productoId",id).getResultList();
+                .setParameter("productoId",id)
+                .setParameter("tipo", type).getResultList();
     }
 
     @Override

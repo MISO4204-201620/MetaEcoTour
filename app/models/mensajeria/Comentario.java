@@ -19,6 +19,7 @@ import java.util.List;
                 "where cm.idProducto = :productoId " +
                 "and us.id = cm.idUsuario " +
                 "and cm.origen IS NULL " +
+                "and cm.tipo = :tipo " +
                 "GROUP BY cm, us.nombre " +
                 "ORDER BY cm.fecha desc"),
         @NamedQuery(name="ComentarioDTO.findComentariosByPadre", query="SELECT new models.mensajeria.ComentarioDTO(cm.id, us.nombre, cm.texto, COUNT(scm), cm.fecha ) " +
@@ -30,6 +31,10 @@ import java.util.List;
         @NamedQuery(name="Comentario.findByIdUsuario", query="SELECT cm FROM Comentario cm where cm.idUsuario = :usuarioId")
 })
 public class Comentario {
+
+    public enum Tipo {
+        COMENTARIO, PREGUNTA;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
@@ -49,6 +54,10 @@ public class Comentario {
 
     @ManyToOne
     private Comentario origen;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private Tipo tipo;
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "origen")
@@ -105,6 +114,10 @@ public class Comentario {
     public long getIdUsuario() { return idUsuario; }
 
     public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+
+    public Tipo getTipo() { return tipo; }
+
+    public void setTipo(Tipo tipo) { this.tipo = tipo; }
 
     public Comentario(long id) {
         this.id = id;

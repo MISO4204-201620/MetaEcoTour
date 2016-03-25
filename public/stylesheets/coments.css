@@ -83,3 +83,6 @@ input[type="file"]{
     cursor: pointer;
 }
 .custom-input-file:hover .uploadPhoto { display: block; }
+.form-control, .form-group .form-control{
+    background-color: #FFFFFF !important;
+}

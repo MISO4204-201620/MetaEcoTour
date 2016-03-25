@@ -43,6 +43,11 @@ public class ComentariosController extends Controller {
                 if (comentarioDTO.getOrigen() != 0){
                     comentario.setOrigen(new Comentario(comentarioDTO.getOrigen()));
                 }
+                if (comentarioDTO.getTipo().equals(Comentario.Tipo.COMENTARIO.toString())){
+                    comentario.setTipo(Comentario.Tipo.COMENTARIO);
+                } else {
+                    comentario.setTipo(Comentario.Tipo.PREGUNTA);
+                }
 
 
             } else {
@@ -68,8 +73,13 @@ public class ComentariosController extends Controller {
 
 
     @Transactional(readOnly=true)
-    public Result getComentariosByIdProducto(Long id, int page) {
-        return ok(Json.toJson(comentarios.getComentariosByIdProducto(id, page)));
+    public Result getComentariosByIdProductoAndType(Long id, int page, String type) {
+        Comentario.Tipo tipo = Comentario.Tipo.PREGUNTA;
+        if (type.equals(Comentario.Tipo.COMENTARIO.name()))
+        {
+            tipo = Comentario.Tipo.COMENTARIO;
+        }
+        return ok(Json.toJson(comentarios.getComentariosByIdProductoAndType(id, page, tipo)));
     }
 
     @Transactional(readOnly=true)
