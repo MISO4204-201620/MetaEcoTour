@@ -34,6 +34,7 @@ public class ComentariosController extends Controller {
             Comentario comentario = null;
             if (usuario != null){
                 comentario = new Comentario();
+                comentario.setId(comentarioDTO.getId());
                 comentario.setFecha(comentarioDTO.getFecha());
                 comentario.setTexto(comentarioDTO.getComentario());
                 comentario.setIdProducto(comentarioDTO.getNumeroComentarios());
@@ -43,7 +44,7 @@ public class ComentariosController extends Controller {
                 if (comentarioDTO.getOrigen() != 0){
                     comentario.setOrigen(new Comentario(comentarioDTO.getOrigen()));
                 }
-                if (comentarioDTO.getTipo().equals(Comentario.Tipo.COMENTARIO.toString())){
+                if (comentarioDTO.getTipo().name().equals(Comentario.Tipo.COMENTARIO.toString())){
                     comentario.setTipo(Comentario.Tipo.COMENTARIO);
                 } else {
                     comentario.setTipo(Comentario.Tipo.PREGUNTA);

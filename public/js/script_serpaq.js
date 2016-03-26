@@ -96,7 +96,7 @@ $(function()
                          "<span class=\"glyphicon glyphicon-edit\"></span> Editar </button></td>" +
                          "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"del_"+(token)+"\">" +
                          "<span class=\"glyphicon glyphicon-remove\"></span> Eliminar </button></td>" +
-                         "<td><button type=\"button\" class=\"btn btn-default btn-sm\">" +
+                         "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"preg_"+(token)+"\">" +
                          "<span class=\"glyphicon glyphicon-comment\"></span> Preguntas </button></td></tr>";
                 $("#tabla").append(tr);
                 $("#del_" + token).click(function(e){
@@ -135,6 +135,9 @@ $(function()
                 });
                 $("#edit_" + token).click(function() {
                     window.location = "/cpaqser?id=" + $("#tr_" + this.id.split("_")[1]).attr("data-id");
+                });
+                $("#preg_" + token).click(function() {
+                    window.location = "/preguntas?id=" + $("#tr_" + this.id.split("_")[1]).attr("data-id");
                 });
             });
             //$("#listado").append("</tbody></table>");

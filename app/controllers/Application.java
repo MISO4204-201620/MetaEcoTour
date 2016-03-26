@@ -25,6 +25,11 @@ public class Application extends Controller {
         return ok(serpaq.render());
     }
 
+    public Result preguntas()
+    {
+        return ok(preguntas.render());
+    }
+
     public Result login() {
         return ok(login.render("Login MetaEcoTour"));
     }
