@@ -5,29 +5,27 @@ import javax.persistence.*;
 /**
  * Created by JoséLuis on 27/02/2016.
  */
-@Entity @IdClass(ItemServicioId.class)
+@Entity
 @NamedQueries({
-        @NamedQuery(name = "ItemServicio.findByPaquete", query = "SELECT r FROM ItemServicio r WHERE r.idPaquete = :idPaquete "),
+        @NamedQuery(name = "ItemServicio.findByPaquete", query = "SELECT r FROM ItemServicio r WHERE r.idProducto = :idProducto "),
         @NamedQuery(name = "ItemServicio.findByServicio", query = "SELECT r FROM ItemServicio r WHERE r.idServicio = :idServicio ")
 })
 public class ItemServicio {
 
-    @Id @Column(nullable=false)
-    private Long idPaquete;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "itemservGen")
+    @SequenceGenerator(name = "itemservGen",
+            sequenceName = "itemserv_seq")
+    private Long id;
+
+    @Column(nullable=false)
+    private Long idProducto;
     @Column(nullable=false)
     private Long idServicio;
 
     @Column(nullable=false)
     private int cantidad;
-
-
-    public Long getIdPaquete() {
-        return idPaquete;
-    }
-
-    public void setIdPaquete(Long idPaquete) {
-        this.idPaquete = idPaquete;
-    }
 
     public Long getIdServicio() {
         return idServicio;
@@ -43,6 +41,22 @@ public class ItemServicio {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Long getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
     }
 }
 

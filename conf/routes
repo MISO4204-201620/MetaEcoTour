@@ -32,8 +32,10 @@ GET         /api/producto/numpage/:numPagina/:productType        controllers.imp
 GET         /api/producto/numpage/:numPagina/:productType/:categoriaId        controllers.implementacion.catalogos.ProductosController.getProductosByPageByTypeAndCategory(numPagina: Integer, productType: String, categoriaId: Long)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
-GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
+GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getServicioByPaquetes(idPaquete:Long)
+GET         /api/itemServ/items/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByPaquetes(idPaquete:Long)
 GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
+POST        /api/itemServ/crear/    controllers.implementacion.catalogos.ItemServiciosController.save()
 
 #productos by filters
 GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String)
