@@ -1,3 +1,5 @@
+import _root_.sbt.Keys._
+
 name := """demo"""
 
 version := "1.0-SNAPSHOT"
@@ -28,6 +30,10 @@ dependencyOverrides += "org.scala-lang.modules" % "scala-parser-combinators_2.11
 dependencyOverrides += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.3"
 
 dependencyOverrides += "junit" % "junit" % "4.12"
+
+//SendGrid
+libraryDependencies += "com.sendgrid" % "sendgrid-java" % "2.2.2"
+
 
 PlayKeys.externalizeResources := false
 

@@ -1,5 +1,7 @@
 import aws.S3Helper;
+import email.STSendGridManager;
 import play.GlobalSettings;
+import play.Logger;
 
 import java.io.File;
 
@@ -16,7 +18,15 @@ public class Global extends GlobalSettings {
         S3Helper.initInstance(application);
         //linea que permite cargar un arhivo en s3
         //S3Helper.uploadObject("20160130101046-m1.jpg", new File("/tmp/20160130101046.jpg"));
-
+        //Start SendGrid
+        try {
+            STSendGridManager.initInstance(application);
+            STSendGridManager.getInstance().sendEmail("manuel.mancipe@gmail.com",
+                "manuel.mancipe@gmail.com", "Notificación de Aplicación MetaEcotour - AWS!!",
+                "Señor Usuario, ");
+        } catch (Exception e) {
+            Logger.error("Ocurrio un error enviando el mensaje", e.fillInStackTrace());
+        }
     }
 
 }
