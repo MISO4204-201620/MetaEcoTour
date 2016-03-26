@@ -67,6 +67,9 @@ public abstract class Producto {
     @Column(nullable=false)
     private Long idProveedor;
 
+    @Transient
+    private String tipo;
+
     public long getId() {
         return id;
     }
@@ -136,4 +139,8 @@ public abstract class Producto {
     public void setIdProveedor(Long idProveedor) {
         this.idProveedor = idProveedor;
     }
+
+    public String getTipo() { return tipo; }
+
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

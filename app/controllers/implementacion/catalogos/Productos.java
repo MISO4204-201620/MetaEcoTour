@@ -133,9 +133,16 @@ public class Productos implements IProducto {
         Query query = JPA.em().createQuery("SELECT pr FROM Producto pr where pr.idProveedor= :idProveedor");
         List<Producto> productos = null;
         query.setParameter("idProveedor", idProveedor);
-
         productos=query.getResultList();
 
+        for (Producto producto: productos) {
+            if (producto instanceof Servicio){
+                producto.setTipo("SER");
+            } else {
+                producto.setTipo("PAQ");
+            }
+        }
+        
         return productos;
     }
 
