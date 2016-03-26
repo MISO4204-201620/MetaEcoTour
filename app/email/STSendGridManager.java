@@ -18,10 +18,12 @@ public class STSendGridManager {
     private static STSendGridManager instance;
 
     private STSendGridManager(Application application){
+        Logger.info("Init SendGrid ");
         this.application = application;
         String username = application.configuration().getString(SENDGRID_USERNAME);
+        Logger.info("UserName " + username);
         String password = application.configuration().getString(SENDGRID_PASSWORD);
-
+        Logger.info("Password" + password);
         if(username != null && password != null){
             sendgrid = new SendGrid(username, password);
             Logger.info("Sendgrid enabled");
