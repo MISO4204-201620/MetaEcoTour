@@ -9,7 +9,7 @@ $(function()
         {
             $(".previous").removeClass("disabled");
             numPage += valor;
-            preguntasProducto();
+            preguntas();
         }
         else
         {
@@ -76,8 +76,9 @@ $(function()
             {
                 if (data.length < 10)
                 {
-                    $(".next").addClass("disabled");
+                   $(".next").addClass("disabled");
                 }
+
                 data.forEach(function(item)
                 {
                     //console.log(item, i);
@@ -91,7 +92,6 @@ $(function()
                     $("#coment_" + idToken).click(function(e)
                     {
                         callcoments(this.id.split("_")[1]);
-                        console.log("entro aca");
                         //createForm(this.id.split("_")[1], true, item);
                     });
                 });
