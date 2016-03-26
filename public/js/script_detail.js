@@ -56,13 +56,47 @@ $(function()
 
     });
 
+    //Paginador de preguntas...
+    var numPagePreg = 1;
+    var paginacionPreg = function(valor)
+    {
+        console.log(numPagePreg, valor);
+        if(numPagePreg + valor >= 1)
+        {
+            $(".previousPreg").removeClass("disabled");
+            numPagePreg += valor;
+            preguntas();
+        }
+        else
+        {
+            $(".previousPreg").addClass("disabled");
+        }
+    };
+
+    $(".previous").click(function(e)
+    {
+        if($(".nextPreg").hasClass("disabled"))
+        {
+            $(".nextPreg").removeClass("disabled");
+        }
+        paginacionPreg(-1);
+    });
+
+    $(".nextPreg").click(function(e){
+        if(!$(".nextPreg").hasClass("disabled")) {
+            paginacionPreg(1);
+        }
+
+    });
+
+
     //Se listan las preguntas de un servicio...
     var preguntas = (function elementos()
     {
         $("#pregunta").html("");
         $("#preguntaText").val("");
         //falta validar la paginacion
-        var url = "/api/comentarios/" + idProducto + "/" + numPage + "/PREGUNTA";
+        var url = "/api/comentarios/" + idProducto + "/" + numPagePreg + "/PREGUNTA";
         //console.log(url);
         $.getJSON(url, function(data)
         {
@@ -70,7 +104,10 @@ $(function()
             {
                 if (data.length < 10)
                 {
-                    $(".next").addClass("disabled");
+                    $(".nextPreg").addClass("disabled");
+                }
+                if (data.length = 10){
+                    $(".nextPreg").removeClass("disabled");
                 }
                 data.forEach(function(item)
                 {
@@ -91,7 +128,7 @@ $(function()
             else
             {
                 numPage--;
-                $(".next").addClass("disabled");
+                $(".nextPreg").addClass("disabled");
 
             }
         });
@@ -114,11 +151,15 @@ $(function()
                 {
                     $(".next").addClass("disabled");
                 }
+                if (data.length = 10)
+                {
+                    $(".next").removeClass("disabled");
+                }
                 data.forEach(function(item)
                 {
                     //console.log(item, i);
                     var idToken = guid();
-                    $("#comentario").append(baseItemComentario(item, idToken, false));
+                    $("#comentario").append(baseItemComentario(item, idToken, false, false));
                     $("#rep_" + idToken).click(function(e)
                     {
                         createForm(this.id.split("_")[1]);
@@ -186,7 +227,7 @@ $(function()
         return txt;
     };
 
-    var baseItemComentario = function(data, token, subcomentario)
+    var baseItemComentario = function(data, token, subcomentario, pregunta)
     {
         //onclick="createForm('+data.id +')" href="#new'+data.id +'"
         //onclick="callcoments('+data.id +')" href="#reply'+data.id +'"
@@ -212,8 +253,10 @@ $(function()
             '<li class="aaaa">' + date.getFullYear() +'</li>' +
             '</ul>' +
             '<p class="media-comment">' + data.comentario +
-            '</p>' +
-            '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Respuesta </a>' ;
+            '</p>';
+        if (!pregunta){
+            txt += '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Respuesta </a>' ;
+        }
         if (data.numeroComentarios > 0)
         {
             txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + ' Comentario(s)</a>';
@@ -224,8 +267,9 @@ $(function()
         if (data.numeroComentarios > 0){
             txt += '<div class="collapse" id = "reply_'+ (token) +'"> </div>';
         }
-        txt += '<div class="collapse" id = "new_' + (token) +'"> </div>';
-
+        if (!pregunta) {
+            txt += '<div class="collapse" id = "new_' + (token) + '"> </div>';
+        }
         if(subcomentario){
             txt += '</li></ul>';
         }
@@ -307,6 +351,8 @@ $(function()
 
     var guardaComentarios = function(valores, callback)
     {
+        console.log("vamos a almacenar el tipo");
+        console.log(valores.tipo);
         var comment = {
             id : null,
             nombreUsuario : window.authToken,
@@ -432,9 +478,9 @@ $(function()
             {
                 data.forEach(function(item)
                 {
-
+                    var pregunta = (item.tipo === 'PREGUNTA' ? true :false);
                     var idToken = guid();
-                    $(elemento).append(baseItemComentario(item, idToken, true));
+                    $(elemento).append(baseItemComentario(item, idToken, true, pregunta));
                     $("#rep_" + idToken).click(function(e)
                     {
                         createForm(this.id.split("_")[1]);

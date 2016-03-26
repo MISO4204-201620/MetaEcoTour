@@ -22,7 +22,7 @@ import java.util.List;
                 "and cm.tipo = :tipo " +
                 "GROUP BY cm, us.nombre " +
                 "ORDER BY cm.fecha desc"),
-        @NamedQuery(name="ComentarioDTO.findComentariosByPadre", query="SELECT new models.mensajeria.ComentarioDTO(cm.id, us.nombre, cm.texto, COUNT(scm), cm.fecha ) " +
+        @NamedQuery(name="ComentarioDTO.findComentariosByPadre", query="SELECT new models.mensajeria.ComentarioDTO(cm.id, us.nombre, cm.texto, COUNT(scm), cm.fecha, cm.tipo ) " +
                 "FROM Usuario us, Comentario cm LEFT JOIN cm.subComentarios scm " +
                 "where cm.origen = :comentarioId " +
                 "and us.id = cm.idUsuario " +
