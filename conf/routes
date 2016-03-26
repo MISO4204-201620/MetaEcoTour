@@ -38,6 +38,7 @@ GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos
 GET         /api/itemServ/items/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByPaquetes(idPaquete:Long)
 GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
 POST        /api/itemServ/crear/    controllers.implementacion.catalogos.ItemServiciosController.save()
+DELETE      /api/itemServ/delete/:idItem    controllers.implementacion.catalogos.ItemServiciosController.delete(idItem:Long)
 
 GET         /api/producto/atr/:productId    controllers.implementacion.catalogos.ProductosController.getAttributeByProductId(productId: Long)
 POST        /api/producto/atr/add/          controllers.implementacion.catalogos.ProductosController.addAtributo()

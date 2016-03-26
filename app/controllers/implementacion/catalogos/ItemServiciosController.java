@@ -38,9 +38,16 @@ public class ItemServiciosController  extends Controller {
     }
 
     @Transactional
-    public Result delete(String id) {
-        return null;
+    public Result delete(Long idItemServicio) {
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"No se ha podido eliminar el Item Servicio\"}");
+
+        ItemServicio itmSrv = itemServicios.delete(idItemServicio);
+        if (itmSrv != null){
+            respuesta = Json.toJson(itmSrv);
+        }
+        return ok(respuesta);
     }
+
 
     @Transactional(readOnly=true)
     public Result getItemsByPaquetes(Long idPaquete) {

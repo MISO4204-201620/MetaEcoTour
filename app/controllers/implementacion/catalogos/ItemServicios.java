@@ -73,4 +73,14 @@ public class ItemServicios implements IItemServicio {
         }
         return itmSrv;
     }
+
+    @Transactional
+    public ItemServicio delete(Long idItemServicio) {
+        ItemServicio itmSrv = JPA.em().find(ItemServicio.class, idItemServicio);
+        if(itmSrv!=null) {
+            JPA.em().remove(itmSrv);
+            return itmSrv;
+        }
+        return null;
+    }
 }

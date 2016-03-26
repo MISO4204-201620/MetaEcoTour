@@ -21,6 +21,8 @@ public interface IItemServicio {
 
     ItemServicio delete(Long idPaquete, Long idServicio);
 
+    public ItemServicio delete(Long idItemServicio);
+
 
 
 }
