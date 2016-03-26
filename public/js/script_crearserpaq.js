@@ -63,10 +63,10 @@ $(function()
         });
     };
 
-    if(tipoUser.esProveedor())
+    if(tipoUser.esProveedor("menuOpc"))
     {
         var user = tipoUser.datosUser();
-        console.log(user);
+        //console.log(user);
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
         categorias();
     }
@@ -305,9 +305,6 @@ $(function()
         }
         return _p8() + _p8(true) + _p8(true) + _p8();
     }
-
-
-
 });
 
 

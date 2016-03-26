@@ -24,15 +24,18 @@ public class ItemCompras implements IItemCompra {
     }
 
     @Transactional
-    public ItemCompra save(ItemCompra itemCompra) {
+    public ItemCompra save(ItemCompra itemCompra)
+    {
         EntityManager em = JPA.em();
         ItemCompraId pKey = new ItemCompraId();
         pKey.setIdCompra(itemCompra.getIdCompra());
         pKey.setIdProducto(itemCompra.getIdProducto());
         ItemCompra itmCompra = em.find(ItemCompra.class, pKey);
-        if(itmCompra == null){
+        if(itmCompra == null) {
             em.persist(itemCompra);
-        }else{
+        }
+        else
+        {
             itmCompra.setCantidad(itemCompra.getCantidad());
             itmCompra.setPrecio(itemCompra.getPrecio());
             em.merge(itmCompra);
@@ -53,5 +56,5 @@ public class ItemCompras implements IItemCompra {
             em.remove(itmSrv);
         }
         return itmSrv;
-   }
+    }
 }

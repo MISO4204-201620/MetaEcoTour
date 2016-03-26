@@ -35,6 +35,27 @@
                 border-radius: 50%;
                 vertical-align: middle;
             }
+            .cantidad
+            {
+                width: 100px;
+                text-align: center;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+            hr
+            {
+                border: 1px solid silver;
+            }
+
+            #totalPrice, #totalCantidad
+            {
+                font-weight: bold;
+                font-size: 1.3em;
+            }
+            th
+            {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -52,9 +73,19 @@
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav" id = "menuOpc">
                         <li><a href="/catalog">Catálogo</a></li>
+                        <!--
+                        <li class="dropdown">
+                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Proveedor
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/paqser">Mis Servicios/Paquetes</a></li>
+                                <li><a href="/cpaqser">Nuevo Paquetes y servicio</a></li>
+                            </ul>
+                        </li>
+                        //-->
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="javascript:void(0)">My Carrito</a></li>
+                        <li class="active" id = "divCarrito"><a href = "/shopping">Mi Carrito <sup class="badge" style="background: #4CAF50;" id = "numCompras">0</sup></a></li>
                         <li class="dropdown">
                             <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" id = "usuario"></a>
                             <ul class="dropdown-menu">
@@ -75,14 +106,16 @@
                 <div class="col-md-12">
                     <ol class="breadcrumb">
                         <li><a href="/catalog">Catálogo</a></li>
-                        <li class="active">Mis Paquetes y servicios</li>
+                        <li class="active">Mi Carrito de Compras</li>
                     </ol>
                 </div>
+                <!--
                 <div class="col-md-12">
                     <a href="/cpaqser" class="btn btn-info btn-lg">
                         <span class="glyphicon glyphicon-plus"></span> Nuevo Paquete/Servicio
                     </a>
                 </div>
+                //-->
                 <div class="col-md-12">
                     <div id = "listado"></div>
                 </div>
@@ -105,6 +138,7 @@
             <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
             <script src = "@routes.Assets.versioned("libs/swal/sweetalert.min.js")" type="text/javascript"></script>
             <script src = "@routes.Assets.versioned("js/user.js")" type="text/javascript"></script>
-            <script src = "@routes.Assets.versioned("js/script_serpaq.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/shopping.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/script_shopping.js")" type="text/javascript"></script>
     </body>
 </html>
