@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name="Atributo.findByProductId", query="SELECT a FROM Atributo a where a.idProducto = :productId order by  idAtributo")
+        @NamedQuery(name="Atributo.findByProductId", query="SELECT a FROM Atributo a where a.idProducto = :idProducto order by  idAtributo")
 })
 public class Atributo {
     @Id
@@ -20,7 +20,7 @@ public class Atributo {
     private Long idProducto;
     @Column(nullable=false)
     private String nombre;
-    @Column(nullable=false)
+    @Column(nullable=true)
     private String tipo;
     @Column(nullable=false)
     private String valor;

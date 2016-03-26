@@ -1,5 +1,6 @@
 package controllers.implementacion.catalogos;
 
+import controllers.contratos.catalogos.IAtributo;
 import controllers.contratos.catalogos.IBusqueda;
 import controllers.contratos.catalogos.IProducto;
 import controllers.contratos.catalogos.IRecurso;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Productos implements IProducto {
     private static IRecurso recursos= new Recursos();
     private static IBusqueda busquedas = new Busquedas();
+    private static IAtributo atributos = new Atributos();
 
     @Override
     public List<Producto> getProductos() {
@@ -244,4 +246,21 @@ public class Productos implements IProducto {
         return productsByType;
     }
 
+    @Override
+    @Transactional
+    public List<Atributo> getAttributeByProductId(Long idProducto) {
+        return atributos.getAtributoByProducto(idProducto);
+    }
+
+    @Override
+    @Transactional
+    public Atributo addAtributo(Atributo atributo) {
+        return atributos.save(atributo);
+    }
+
+    @Override
+    @Transactional
+    public Atributo removeAtributo(Atributo atributo) {
+        return atributos.delete(atributo);
+    }
 }
