@@ -28,7 +28,7 @@ var tipoUser = (function()
         return dataUser;
     };
 
-    var esProveedor = function()
+    var esProveedor = function(div)
     {
         var user    = datosUser(),
             regresa = false;
@@ -39,6 +39,16 @@ var tipoUser = (function()
                 regresa = true;
             }
         }
+        //Para poner las opciones del proveedor...
+        var txtHTML = "<li class=\"dropdown\">" +
+            "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
+            "<b class=\"caret\"></b></a>" +
+            "<ul class=\"dropdown-menu\">" +
+            "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
+            "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
+            "</ul>" +
+            "</li>";
+        $("#" + div).append(txtHTML);
         return regresa;
     };
 

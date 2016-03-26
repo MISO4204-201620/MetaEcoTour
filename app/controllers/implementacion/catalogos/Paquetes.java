@@ -46,9 +46,9 @@ public class Paquetes implements IPaquete {
     }
 
     @Transactional(readOnly=true)
-    public ItemServicio addServicioToPaquete(Long isPaquete, Long idServ, int cantidad) {
+    public ItemServicio addServicioToPaquete(Long idProducto, Long idServ, int cantidad) {
         ItemServicio itmSrv = new ItemServicio();
-        itmSrv.setIdPaquete(isPaquete);
+        itmSrv.setIdProducto(idProducto);
         itmSrv.setIdServicio(idServ);
         itmSrv.setCantidad(cantidad);
         return itemServicios.save(itmSrv);

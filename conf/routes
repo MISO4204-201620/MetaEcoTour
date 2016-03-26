@@ -11,6 +11,8 @@ GET         /crudproviders                  controllers.Application.crudprovider
 GET         /crudclients                    controllers.Application.crudclients()
 GET         /paqser                         controllers.Application.paqser()
 GET         /preguntas                      controllers.Application.preguntas()
+GET         /shopping                       controllers.Application.shoppingCar()
+
 #Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
 GET         /api/comentarios/:usuarioId     controllers.implementacion.mensajerias.ComentariosController.getComentariosByIdUsuario(usuarioId: Long)
@@ -32,8 +34,14 @@ GET         /api/producto/numpage/:numPagina/:productType        controllers.imp
 GET         /api/producto/numpage/:numPagina/:productType/:categoriaId        controllers.implementacion.catalogos.ProductosController.getProductosByPageByTypeAndCategory(numPagina: Integer, productType: String, categoriaId: Long)
 POST        /api/productos/                 controllers.implementacion.catalogos.ProductosController.save()
 DELETE      /api/productos/:id              controllers.implementacion.catalogos.ProductosController.delete(id: Long)
-GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByServicios(idPaquete:Long)
+GET         /api/itemServ/pqt/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getServicioByPaquetes(idPaquete:Long)
+GET         /api/itemServ/items/:idPaquete    controllers.implementacion.catalogos.ItemServiciosController.getItemsByPaquetes(idPaquete:Long)
 GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
+POST        /api/itemServ/crear/    controllers.implementacion.catalogos.ItemServiciosController.save()
+
+GET         /api/producto/atr/:productId    controllers.implementacion.catalogos.ProductosController.getAttributeByProductId(productId: Long)
+POST        /api/producto/atr/add/          controllers.implementacion.catalogos.ProductosController.addAtributo()
+POST        /api/producto/atr/rmv/          controllers.implementacion.catalogos.ProductosController.removeAtributo()
 
 #productos by filters
 GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String)

@@ -1,36 +1,35 @@
 $(function()
 {
-    var numPage = 1;
-    document.cookie.split('; ').forEach(function(cookieString)
-    {
-        //console.log(cookieString);
-        var cookie = cookieString.split("=");
-        if ((cookie.length === 2) && (cookie[0] === "authToken"))
-        {
-            window.authToken = cookie[1];
-            console.log(window.authToken);
-        }
-    });
-
+    var numPage = 1,
+        producServicio = [],
+        filtro = {name : "", inicial : "", final : "", type : ""},
+        precios = {
+                    rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
+                    rangoMax : {valor : 0, label : "Max", filtro : "final"}
+                  };
     //Para la moneda...
-    function format2(n, currency) {
+    function format2(n, currency)
+    {
         return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+    }
+    //Para los datos del usuario...
+    var user = tipoUser.datosUser();
+    if(user.existe)
+    {
+        $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
+        //Saber la cantidad de compras que tiene...
+        //numCompras
+        shopping.numCompras(user.data.id, "numCompras");
+        tipoUser.esProveedor("menuOpc");
+    }
+    else
+    {
+        $("#usuario").html("Iniciar Sesión").attr("href", "/login").removeAttr("data-toggle");
+        $("#opcMenu").remove();
+        $("#divCarrito").remove();
     }
 
     //Para el filtro que se relizará...
-    var filtro = {
-                    name : "",
-                    inicial : "",
-                    final : "",
-                    type : ""
-    };
-
-    //Para los rangos de precios...
-    var precios = {
-                    rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
-                    rangoMax : {valor : 0, label : "Max", filtro : "final"}
-    };
-
     var preciosFiltro = function(idSel)
     {
         precios[idSel].valor = Number($("#" + idSel).val());
@@ -75,18 +74,20 @@ $(function()
     {
         //debugger;
         //http://localhost:9000/api/recursos/50
+        var token = guid();
         var urlDetalle = "api/recursos/" + data.id + "/0";
-        //var imagen = UrlImagen + "/" + data.imagen;
         var imagen = data.imagen;
+        producServicio.push({token: token, id : data.id, price : data.precioActual, name : data.nombre, img : imagen});
+        //var imagen = UrlImagen + "/" + data.imagen;
         var txt = '<div class="col-sm-4 col-lg-4 col-md-4">' +
                   '<div class="thumbnail">' +
                   '<img src = "'+(imagen)+'" alt="">' +
                   '<div class="caption">' +
-                  '<h4 class="pull-right">$'+(data.precioActual)+'</h4>' +
+                  '<h4 class="pull-right">'+format2(data.precioActual, "$")+'</h4>' +
                   '<h4><a href="'+(urlDetalle)+'">'+(data.nombre)+'</a>' +
                   '</h4>' +
                   '<p>'+(data.descripcion)+'</p>' +
-                  '<button type="button" class="btn btn-primary text-center" id = "uno">' +
+                  '<button type="button" class="btn btn-primary text-center shoping" id = "sh_'+(token)+'">' +
                   '<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Añadir al carrito</button>' +
                   '</div>' +
                   '<div class="ratings">' +
@@ -134,6 +135,7 @@ $(function()
     //Traer las categorías...
     var categorias = (function()
     {
+        $("#catalog").html("<div class = 'thumbnail' align='center'><img src = '/images/loading.gif' border = '0'/></div>");
         $.getJSON("api/categorias/", function(data)
         {
             var total   = 0,
@@ -155,6 +157,7 @@ $(function()
 
     var elementos = function()
     {
+        producServicio = [];
         $("#catalog").html("<div class = 'thumbnail' align='center'><img src = '/images/loading.gif' border = '0'/></div>");
         //Para validar la paginación...
         //var url = "/api/producto/numpage/" + numPage + "/" + $("#tipoSel").val();
@@ -176,6 +179,7 @@ $(function()
         console.log(url);
         $.getJSON(url, function(data)
         {
+            //producServicio = data;
             if(data.length !== 0)
             {
                 $(".next").show();
@@ -186,16 +190,16 @@ $(function()
                     data.forEach(function(item)
                     {
                         $("#catalog").append(baseItem(item));
-                        $("#uno").click(function(e){
-                            console.log("Botón");
-                        });
+                    });
+                    console.log(producServicio);
+                    $(".shoping").click(function(e){
+                        selShopping(e.currentTarget.id.split("_")[1]);
                     });
                 }
                 else
                 {
                     numPage--;
                     $(".next").addClass("disabled");
-
                 }
             }
             else
@@ -208,6 +212,7 @@ $(function()
                 //error.png
             }
         });
+
         /*
         $("#catalog").html("");
         $.getJSON("/api/productos/" + $("#tipoSel").val(), function(data)
@@ -222,30 +227,73 @@ $(function()
         */
     };
 
+
+    //Para añadir al carrito de compras...
+    var selShopping = function(token)
+    {
+        //console.log(idDiv);
+        if(!user.existe)
+        {
+            swal({
+                    title: "Autenticación",
+                    text: "Para realizar está acción tienes que estar auténticado, ¿Deseas autenticarte ahora?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    closeOnConfirm: false
+                },
+                function()
+                {
+                    window.location = "/login";
+                });
+        }
+        else
+        {
+            //Obtener el id del producto...
+            //console.log(idDiv);
+            var productoSel = (function(){
+                for(var i = 0; i < producServicio.length; i++)
+                {
+                    if(producServicio[i].token === token)
+                    {
+                        return producServicio[i];
+                    }
+                }
+            })();
+
+            shopping.newCar({productoSel : productoSel, user : user, div : "numCompras"}, function(err, data)
+            {
+                if(err)
+                {
+                    sweetAlert("Error", "No ha sido posible realizar la acción", "error");
+                }
+                else
+                {
+                    //console.log(data);
+                    //producServicio.push({token: token, id : data.id, price : data.precioActual, name : data.nombre, img : imagen});
+                    $.meow({
+                        title: 'Item Asociado',
+                        message: "Se ha asociado " + productoSel.name + ", " + data.cantidad + " veces",
+                        icon: productoSel.img
+                    });
+                }
+            });
+        }
+    };
+
+    //Generar un token único...
+    function guid() {
+        function _p8(s) {
+            var p = (Math.random().toString(16)+"000000000").substr(2,8);
+            return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+        }
+        return _p8() + _p8(true) + _p8(true) + _p8();
+    }
+
     $("#logout").click(function(event)
     {
-        console.log("LLega", window.authToken);
-        $.ajax(
-        {
-            url 		: "/logout",
-            type 		: "POST",
-            dataType 	: "json",
-            headers     : {"X-AUTH-TOKEN": window.authToken}
-        }).done(function(data)
-        {
-            //console.log(data);
-            window.location = "/login";
-            //window.location.href = "/catalog"
-            //console.log(data.authToken);
-            //window.authToken = data.authToken;
-        }).error(function(request, status, error)
-        {
-            //console.log(request);
-            //console.log(status);
-            //console.log(error);
-            //sweetAlert("Error", "No ha sido posible realizar la autenticación!", "error");
-            //console.log("Error...");
-            window.location = "/login";
-        });
+        tipoUser.logout();
     });
 });
