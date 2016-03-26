@@ -31,7 +31,7 @@ public class ItemCompras implements IItemCompra {
         pKey.setIdProducto(itemCompra.getIdProducto());
         ItemCompra itmCompra = em.find(ItemCompra.class, pKey);
         if(itmCompra == null){
-            em.persist(itmCompra);
+            em.persist(itemCompra);
         }else{
             itmCompra.setCantidad(itemCompra.getCantidad());
             itmCompra.setPrecio(itemCompra.getPrecio());
