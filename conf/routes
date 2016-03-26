@@ -37,6 +37,10 @@ GET         /api/itemServ/items/:idPaquete    controllers.implementacion.catalog
 GET         /api/producto/proveedor/:idProveedor    controllers.implementacion.catalogos.ProductosController.getProductsByProveedorId(idProveedor: Long)
 POST        /api/itemServ/crear/    controllers.implementacion.catalogos.ItemServiciosController.save()
 
+GET         /api/producto/atr/:productId    controllers.implementacion.catalogos.ProductosController.getAttributeByProductId(productId: Long)
+POST        /api/producto/atr/add/          controllers.implementacion.catalogos.ProductosController.addAtributo()
+POST        /api/producto/atr/rmv/          controllers.implementacion.catalogos.ProductosController.removeAtributo()
+
 #productos by filters
 GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String)
 

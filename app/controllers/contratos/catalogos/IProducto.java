@@ -1,5 +1,6 @@
 package controllers.contratos.catalogos;
 
+import models.catalogo.Atributo;
 import models.catalogo.Categoria;
 import models.catalogo.Producto;
 
@@ -21,6 +22,12 @@ public interface IProducto {
     public List<Producto> getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType);
 
     public List<Producto> getProductsByProveedorId(Long idProveedor);
+
+    public List<Atributo> getAttributeByProductId(Long idProducto);
+
+    public Atributo addAtributo(Atributo atributo);
+
+    public Atributo removeAtributo(Atributo atributo);
 
     Producto getProductById(Long id);
 

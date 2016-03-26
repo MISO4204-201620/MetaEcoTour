@@ -137,4 +137,37 @@ public class ProductosController extends Controller {
         return ok(respuesta);
     }
 
+
+    @Transactional(readOnly=true)
+    public Result getAttributeByProductId(Long idProducto) {
+        return ok(Json.toJson(productos.getAttributeByProductId(idProducto)));
+    }
+
+    @Transactional(readOnly=true)
+    public Result addAtributo() {
+        JsonNode json = request().body().asJson();
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
+        Atributo atributo = Json.fromJson(json,Atributo.class);
+        if(atributo!=null){
+
+            atributo= productos.addAtributo(atributo);
+            respuesta=Json.toJson(atributo);
+        }
+        return ok(Json.toJson(respuesta));
+    }
+
+    @Transactional(readOnly=true)
+    public Result removeAtributo() {
+        JsonNode json = request().body().asJson();
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
+        Atributo atributo = Json.fromJson(json,Atributo.class);
+        if(atributo!=null){
+
+            atributo= productos.removeAtributo(atributo);
+            respuesta=Json.toJson(atributo);
+        }
+        return ok(Json.toJson(respuesta));
+    }
+
+
 }

@@ -20,11 +20,12 @@ public class Atributos implements IAtributo {
     @Transactional
     public Atributo save(Atributo atributo) {
         EntityManager em = JPA.em();
-        Atributo itmSrv = new Atributo();
-        itmSrv.setIdAtributo(atributo.getIdAtributo());
-        itmSrv = em.find(Atributo.class, itmSrv);
+        Atributo itmSrv = null;
+        if(atributo.getIdAtributo() != null){
+            itmSrv = em.find(Atributo.class, atributo.getIdAtributo());
+        }
         if(itmSrv == null){
-            em.persist(itmSrv);
+            em.persist(atributo);
         }else{
             itmSrv.setValor(atributo.getValor());
             em.merge(itmSrv);
@@ -37,9 +38,10 @@ public class Atributos implements IAtributo {
     @Transactional
     public Atributo delete(Atributo atributo) {
         EntityManager em = JPA.em();
-        Atributo itmSrv = new Atributo();
-        itmSrv.setIdAtributo(atributo.getIdAtributo());
-        itmSrv = em.find(Atributo.class, itmSrv);
+        Atributo itmSrv = null;
+        if(atributo.getIdAtributo() != null){
+            itmSrv = em.find(Atributo.class, atributo.getIdAtributo());
+        }
         if(itmSrv!=null) {
             em.remove(itmSrv);
         }
