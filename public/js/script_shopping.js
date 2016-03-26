@@ -5,12 +5,79 @@ $(function()
         compra              = {};
     var user = tipoUser.datosUser();
     $("#listado").html("<div class = 'thumbnail' align='center'><img src = '/images/loading.gif' border = '0'/></div>");
+
+    //Para el formulario de pagos...
+    //$('[data-numeric]').payment('restrictNumeric');
+    $('.cc-number').payment('formatCardNumber');
+    $('.cc-exp').payment('formatCardExpiry');
+    $('.cc-cvc').payment('formatCardCVC');
+
+    $.fn.toggleInputError = function(erred) {
+        this.parent('.form-group').toggleClass('has-error', erred);
+        return this;
+    };
+
+    $('form').submit(function(e)
+    {
+        e.preventDefault();
+
+        var cardType = $.payment.cardType($('.cc-number').val());
+        $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+        $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+        $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+        $('.cc-brand').text(cardType);
+
+        $('.validation').removeClass('text-danger text-success');
+        $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+        if($(".validation").hasClass("text-success"))
+        {
+            //console.log("Todo ha salido bien");
+            //$('#myModal').modal('hide');
+            //Inicio...
+            swal({
+                title: "¿Estás segur@?",
+                text: "¿Deseas continuar con el proceso de Pago?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, Continuar",
+                closeOnConfirm: false
+            }, function ()
+            {
+                var shoppingCart = {
+                    idCompra  :   compra.idCompra,
+                    idUsuario :   user.data.id,
+                    estado    :   "C",
+                    medioPago :   "TARJETA"
+                };
+                //Para indicar que la compra ha sido éxitosa...
+                shopping.crearCompra(shoppingCart, function(err, data)
+                {
+                    if(!err)
+                    {
+                        swal({title: "Proceso relizado!", text: "Se ha realizado la compra éxitosamente.<br>Continua adquiriendo más productos y servicios",   timer: 2000, type : "success", html: true});
+                        $("#listado").fadeOut(3000, function(){
+                            window.location = "/catalog";
+                        });
+                    }
+                    else
+                    {
+                        swal({title: "Error!", text: "No ha sido posible relizar la acción.",   timer: 2000, type : "error" });
+                    }
+                });
+            });
+            //Fin...
+        }
+    });
+    //Fin del formulario de pagos..
+
     if(user.existe)
     {
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
         shopping.numCompras(user.data.id, "numCompras");
         tipoUser.esProveedor("menuOpc");
-         $.getJSON("api/producto/proveedor/" + user.data.id, function(data)
+         //$.getJSON("api/producto/proveedor/" + user.data.id, function(data)
+         $.getJSON("/api/productos/SER", function(data)
          {
              /*
               Obtener los paquetes y servicios del proveedor de forma temporal para así mostralos
@@ -189,6 +256,7 @@ $(function()
             totales.valor += listadoCompra[i].totalValor;
             totales.cantidad += listadoCompra[i].cantidad;
         }
+        $(".totalPaga").html("Total a pagar: " + format2(totales.valor, "$"));
         return totales;
     };
 
@@ -249,12 +317,55 @@ $(function()
                        "<td>&nbsp;</td></tr>";
             $("#tabla").append(base);
             var btns = "<hr><div class=\"col-md-12\" align=\"center\">" +
-                       "<button type=\"button\" class=\"btn btn-info btn-lg\" id = \"del_\">" +
-                       "<span class=\"glyphicon glyphicon-ok\"></span> Pagar Servicio</button>" +
-                       "<button type=\"button\" class=\"btn btn-warning btn-lg\" id = \"del_\">" +
-                       "<span class=\"glyphicon glyphicon-remove\"></span> Cancelar Servicio</button>" +
+                       "<button type=\"button\" class=\"btn btn-info btn-lg transaccion\" id = \"paymen\">" +
+                       "<span class=\"glyphicon glyphicon-ok\"></span> Pagar Transacción</button>" +
+                       "<button type=\"button\" class=\"btn btn-warning btn-lg transaccion\" id = \"cancelPaymen\">" +
+                       "<span class=\"glyphicon glyphicon-remove\"></span> Cancelar Transacción</button>" +
                        "</div>";
+            //<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
             $(".container > .row").append(btns);
+            //Para los botones de transaccion...
+            $(".transaccion").click(function(e)
+            {
+                var tipoAccion = e.currentTarget.id;
+                if(tipoAccion.toLowerCase() === "cancelpaymen")
+                {
+                    swal({
+                        title: "¿Estás segur@?",
+                        text: "¿Deseas cancelar la compra?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Si, Cancelar",
+                        closeOnConfirm: false
+                    }, function ()
+                    {
+                        var shoppingCart = {
+                            idCompra  :   compra.idCompra,
+                            idUsuario :   user.data.id,
+                            estado    :   "X",
+                            medioPago :   ""
+                        };
+                        //Para cancelar la compra..
+                        shopping.crearCompra(shoppingCart, function(err, data)
+                        {
+                            if(!err)
+                            {
+                                swal({title: "Eliminado!", text: "Se ha cancelado la compra",   timer: 2000, type : "success" });
+                                window.location = "/shopping";
+                            }
+                            else
+                            {
+                                swal({title: "Error!", text: "No ha sido posible relizar la acción.",   timer: 2000, type : "error" });
+                            }
+                        });
+                    });
+                }
+                else
+                {
+                    $('#myModal').modal('show');
+                }
+            });
         }
         else
         {

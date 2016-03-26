@@ -68,6 +68,24 @@ var shopping = (function()
         });
     };
 
+    var crearCompra = function(shoppingCart, callback)
+    {
+        $.ajax(
+        {
+            url 		: "/api/compras/save/",
+            type 		: "POST",
+            data 		: JSON.stringify(shoppingCart),
+            dataType 	: "json",
+            contentType: "application/json; charset=utf-8"
+        }).done(function(data)
+        {
+            callback(false, data);
+        }).error(function(request, status, error)
+        {
+            callback(true);
+        });
+    };
+
 
     var newCar = function(opc, callback)
     {
@@ -84,22 +102,18 @@ var shopping = (function()
                     medioPago :   ""
 
                 };
-                $.ajax(
+                crearCompra(shoppingCart, function(err, data)
                 {
-                    url 		: "/api/compras/save/",
-                    type 		: "POST",
-                    data 		: JSON.stringify(shoppingCart),
-                    dataType 	: "json",
-                    contentType: "application/json; charset=utf-8"
-                }).done(function(data)
-                {
-                    //console.log(data);
-                    asociaCarrito(data, opc, function(err, data){
-                        callback(err, data);
-                    });
-                }).error(function(request, status, error)
-                {
-                    callback(true);
+                    if(!err)
+                    {
+                        asociaCarrito(data, opc, function(err, data){
+                            callback(err, data);
+                        });
+                    }
+                    else
+                    {
+                        callback(true);
+                    }
                 });
             }
             else
@@ -128,8 +142,13 @@ var shopping = (function()
             }
         });
     };
-
-    return {newCar : newCar, numCompras : numCompras, tieneCarrito : tieneCarrito, itemsCompra : itemsCompra};
+    return {
+        newCar : newCar,
+        numCompras : numCompras,
+        tieneCarrito : tieneCarrito,
+        itemsCompra : itemsCompra,
+        crearCompra : crearCompra
+    };
 })();
 
 if (typeof exports !== 'undefined')
