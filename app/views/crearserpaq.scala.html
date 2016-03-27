@@ -32,6 +32,26 @@
         <link href="@routes.Assets.versioned("libs/editor/summernote.css")" rel="stylesheet">
 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <style>
+            #asociaServicios
+            {
+                display: none;
+            }
+
+            .imagenTabla
+            {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                vertical-align: middle;
+            }
+
+            #serProveedor, #serPaquete
+            {
+                height: 200px;
+                overflow-y: auto;
+            }
+        </style>
     </head>
     <body>
             <!-- Navigation -->
@@ -122,8 +142,40 @@
                                         <input type="text" class="form-control" id="imagen" placeholder="Imagen">
                                     </div>
                                 </div>
-                                <hr>
+                                <div id = "asociaServicios">
+                                    <hr>
+                                    <h3 align="center">Asociar Servicios al Paquete</h3>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr class="something">
+                                                <td class="col-md-5">
+                                                    <div id = "serProveedor">
 
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-1">
+                                                    <div style="margin-top: 50px;" align="center">
+                                                        <button type="button" class="btn btn-default btn-sm selBtn" id = "btnAsocia">
+                                                            <span class="glyphicon glyphicon-triangle-right"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div align="center">
+                                                        <button type="button" class="btn btn-default btn-sm selBtn"  id = "btnElimina">
+                                                            <span class="glyphicon glyphicon-triangle-left"></span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-5">
+                                                    <div id = "serPaquete">
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <h3 align="center">Asociar Recursos</h3>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <div align="center">

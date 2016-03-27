@@ -76,20 +76,22 @@ $(function()
              <table class="table table-hover"> <thead> <tr> <th>#</th> <th>First Name</th> <th>Last Name</th> <th>Username</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>twitter</td> </tr> </tbody> </table>
              */
             var tabla = "<table class=\"table table-hover\" id = \"tabla\"><thead><tr>";
-            tabla += "<th></th><th>Nombre</th><th>Precio</th><th>Categoria</th><th>Puntuación</th></tr> </thead><tbody>";
+            tabla += "<th></th><th>Nombre</th><th>Tipo</th><th>Precio</th><th>Categoria</th><th>Puntuación</th></tr> </thead><tbody>";
             $("#listado").append(tabla);
             $.each(data, function()
             {
-                var token = guid();
-                var urlDetalle = "api/recursos/" + this.id + "/0";
-                var ratings = "";
+                var token = guid(),
+                    urlDetalle  = "api/recursos/" + this.id + "/0",
+                    ratings     = "",
+                    tipoRecurso = {SER : "Servicio", PAQ : "Paquete"};
                 for(var i = 1; i <= 5; i++)
                 {
                     ratings += '<span class = "glyphicon ' + (i <= this.puntuacion ? 'glyphicon-star' : 'glyphicon-star-empty' ) + '"></span>';
                 }
                 var tr = "<tr id = \"tr_"+(token)+"\" data-id = \""+(this.id)+"\"><th scope=\"row\"><img src = \""+(this.imagen)+"\" border = \"0\" class=\"imagenTabla\"></th>" +
                          "<td><a href = \""+(urlDetalle)+"\">" + this.nombre + "</a></td>" +
-                         "<td>" + (this.precioActual) + "</td>" +
+                         "<td style=\"color: #F44336;\"><b>" + tipoRecurso[this.tipo] + "</b></td>" +
+                         "<td>" + format2(this.precioActual, "$") + "</td>" +
                          "<td>" + categoriaProducto(this.idCategoria) + "</td>" +
                          "<td>" + (ratings) + "</td>" +
                          "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"edit_"+(token)+"\">" +
@@ -188,6 +190,11 @@ $(function()
             return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
         }
         return _p8() + _p8(true) + _p8(true) + _p8();
+    }
+
+    function format2(n, currency)
+    {
+        return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
     }
 
 });
