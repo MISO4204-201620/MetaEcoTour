@@ -45,7 +45,7 @@ POST        /api/producto/atr/add/          controllers.implementacion.catalogos
 POST        /api/producto/atr/rmv/          controllers.implementacion.catalogos.ProductosController.removeAtributo()
 
 #productos by filters
-GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String)
+GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType/provider/:idProvider         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String, idProvider : Long)
 
 
 #Servicios asociados a los recursos:
