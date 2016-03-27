@@ -28,6 +28,7 @@ public class Atributos implements IAtributo {
             em.persist(atributo);
         }else{
             itmSrv.setValor(atributo.getValor());
+            itmSrv.setNombre(atributo.getNombre());
             em.merge(itmSrv);
             atributo = itmSrv;
         }

@@ -143,7 +143,7 @@ public class ProductosController extends Controller {
         return ok(Json.toJson(productos.getAttributeByProductId(idProducto)));
     }
 
-    @Transactional(readOnly=true)
+    @Transactional
     public Result addAtributo() {
         JsonNode json = request().body().asJson();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");
@@ -156,7 +156,7 @@ public class ProductosController extends Controller {
         return ok(Json.toJson(respuesta));
     }
 
-    @Transactional(readOnly=true)
+    @Transactional
     public Result removeAtributo() {
         JsonNode json = request().body().asJson();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la calificación no existe\"}");

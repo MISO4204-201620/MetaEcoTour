@@ -46,7 +46,7 @@ public class CalificacionesController extends Controller {
         Calificacion calificaProducto = Json.fromJson(json, Calificacion.class);
         if(calificaProducto != null){
             calificaProducto= calificaciones.save(calificaProducto);
-            //objectMapper.setDateFormat(df);
+            objectMapper.setDateFormat(df);
             //Json.setObjectMapper(objectMapper);
             respuesta = Json.toJson(calificaProducto);
         }
