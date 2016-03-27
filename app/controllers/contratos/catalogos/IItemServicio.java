@@ -25,6 +25,8 @@ public interface IItemServicio {
 
     public void deleteAllByProductId(Long productId);
 
+    public void deleteAllByServiceId(Long serviceId);
+
 
 
 }

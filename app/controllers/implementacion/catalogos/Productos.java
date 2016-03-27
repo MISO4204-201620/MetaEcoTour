@@ -233,6 +233,7 @@ public class Productos implements IProducto {
         if(producto!=null) {
             recursos.deleteAllResourceByProdId(id);
             itemServicios.deleteAllByProductId(id);
+            itemServicios.deleteAllByServiceId(id);
             busquedas.deleteAllSearchByProdId(id);
             em.remove(producto);
 

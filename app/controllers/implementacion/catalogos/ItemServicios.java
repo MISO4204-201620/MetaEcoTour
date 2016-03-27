@@ -94,4 +94,15 @@ public class ItemServicios implements IItemServicio {
         }
         em.flush();
     }
+
+    @Override
+    @Transactional
+    public void deleteAllByServiceId(Long serviceId) {
+        EntityManager em = JPA.em();
+        List<ItemServicio> itemServiciosABorrar = JPA.em().createNamedQuery("ItemServicio.findBySrv", ItemServicio.class ).setParameter("serviceId",serviceId).getResultList();
+        for(ItemServicio itemServicio:itemServiciosABorrar){
+            em.remove(itemServicio);
+        }
+        em.flush();
+    }
 }
