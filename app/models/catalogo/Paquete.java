@@ -25,4 +25,9 @@ public class Paquete extends Producto{
     public void setItemServicios(List<ItemServicio> itemServicios) {
         this.itemServicios = itemServicios;
     }
+
+    @Override
+    public String getTipo() {
+        return "PAQ";
+    }
 }

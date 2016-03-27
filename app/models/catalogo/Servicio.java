@@ -40,4 +40,9 @@ public class Servicio extends Producto {
     public void setSugerencias(String sugerencias) {
         this.sugerencias = sugerencias;
     }
+
+    @Override
+    public String getTipo() {
+        return "SER";
+    }
 }
