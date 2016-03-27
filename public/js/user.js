@@ -70,11 +70,11 @@ var tipoUser = (function()
         if(regresa)
         {
             var txtHTML = "<li class=\"dropdown\">" +
-                "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
+                "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Administración " +
                 "<b class=\"caret\"></b></a>" +
                 "<ul class=\"dropdown-menu\">" +
-                "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
-                "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
+                "<li><a href=\"/crudproviders\">Proveedores</a></li>" +
+                "<li><a href=\"/crudclients\">Usuarios</a></li>" +
                 "</ul>" +
                 "</li>";
             $("#" + div).append(txtHTML);
