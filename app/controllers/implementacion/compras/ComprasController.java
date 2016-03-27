@@ -68,13 +68,13 @@ public class ComprasController extends Controller {
             Logger.info("Enviado el correo");
             Logger.info("To "+cliente.getCorreo());
             Logger.info("From "+correoProveedor);
-            String texto = "Señor Usuario, \\n" +
-                    "Se ha registrado una compra en nuestro sistema, Gracias.\\n " +
-                    "Información de la Compra: \\n " +
-                    " Id Compra:" + compra.getIdCompra() + "\\n"+
-                    " Medio de Pago:" + compra.getMedioPago() + "\\n"+
-                    " Fecha de Compra:" + compra.getFechaCreacion() + "\\n"+
-                    "Agradecemos que utilice nuestros servicios " + "\\n"+
+            String texto = "Señor Usuario, <br>" +
+                    "Se ha registrado una compra en nuestro sistema, Gracias. <br> " +
+                    "Información de la Compra: <br> " +
+                    " Id Compra:" + compra.getIdCompra() + "<br>"+
+                    " Medio de Pago:" + compra.getMedioPago() + "<br>"+
+                    " Fecha de Compra:" + compra.getFechaCreacion() + "<br>"+
+                    "Agradecemos que utilice nuestros servicios " + "<br>"+
                     "Cualquier inquietud no dude en Contactarnos";
             Logger.info("Text "+ texto);
             STSendGridManager.getInstance().sendEmail(cliente.getCorreo(),

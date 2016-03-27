@@ -73,7 +73,12 @@ public class ComentariosController extends Controller {
                         Logger.info("Estamos enviado el correo");
                         Logger.info("To "+cliente.getCorreo());
                         Logger.info("From "+proveedor.getCorreo());
-                        String texto = "Señor Usuario, Esta es la respuesta a su pregunta: " + comentarioHijo.getTexto() + " ,su pregunta era: " + comentarioPadre.getTexto();
+                        String texto = "Señor Usuario, <br>" +
+                                "Esta es la respuesta a su pregunta: " + comentarioHijo.getTexto() + " <br> " +
+                                "Su pregunta era: " + comentarioPadre.getTexto() + " <br> " +
+                                "Agradecemos que utilice nuestros servicios " + "<br>"+
+                                "Cualquier inquietud no dude en Contactarnos";
+
                         Logger.info("Text "+ texto);
                         STSendGridManager.getInstance().sendEmail(cliente.getCorreo(),
                                 proveedor.getCorreo(), "Notificación de Aplicación MetaEcotour!!",
