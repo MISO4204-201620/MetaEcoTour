@@ -45,6 +45,7 @@
         </style>
         <script>
             var idProducto = @producto.getId();
+            var tipoProducto = "@producto.getTipo()";
         </script>
     </head>
     <body>
@@ -61,13 +62,12 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav" id = "menuOpc">
-                        <li class="active"><a href="javascript:void(0)">Catálogo</a></li>
+                        <li><a href="/catalog">Catálogo</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="javascript:void(0)">My Carrito</a></li>
+                        <li id = "divCarrito"><a href = "/shopping">Mi Carrito <sup class="badge" style="background: #4CAF50;" id = "numCompras">0</sup></a></li>
                         <li class="dropdown">
-                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Jorge Rubiano
-                                <b class="caret"></b></a>
+                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" id = "usuario"></a>
                             <ul class="dropdown-menu">
                                 <li><a href="javascript:void(0)">Mi Perfil</a></li>
                                 <li><a href="javascript:void(0)">Mis Compras</a></li>
@@ -87,23 +87,53 @@
                     <ol class="breadcrumb">
                         <li><a href="/catalog">Catálogo</a></li>
                         <li class="active">@producto.getNombre()</li>
-                        <li class="active">Tupo: @producto.getTipo()</li>
                     </ol>
                 </div>
 
 
-                <div class="col-md-12">
+                <div class="col-md-3">
 
-                    <button type="button" class="btn btn-primary text-center"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Añadir al carrito</button>
+                        <!-- Sidebar Holder -->
+                        <!-- search section -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading lw-afterfirst-panel-heading">
+                            <h3 class="panel-title">Características</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <li><b>Tipo:</b> @producto.getTipo()</li>
+                                <li><b>Precio:</b> @producto.getPrecioActual()</li>
+                                <li><b>Puntuación:</b> @producto.getPuntuacion()</li>
+                            </ul>
+                            <!--
+                            <div align="center">
+                                <button type="button" class="btn btn-primary text-center"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Añadir al carrito</button>
+                            </div>
+                            //-->
+                        </div>
+                    </div>
 
-
-                    <ul>
-                        <li>@producto.getPrecioActual()</li>
-                    </ul>
+                    <div class="panel panel-default">
+                        <div class="panel-heading lw-afterfirst-panel-heading">
+                            <h3 class="panel-title">Atributos @producto.getNombre()</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group" id="atributesList"></ul>
+                        </div>
+                    </div>
 
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-9">
+
+
+
+
+
+
+                </div>
+
+                <div class="col-md-9">
 
                     <div class="row carousel-holder">
 
@@ -129,10 +159,6 @@
                                         }
                                     }
                                 </div>
-
-
-
-
                                     <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
                                     </a>
@@ -164,9 +190,8 @@
                         <li class="active"><a href="#red" data-toggle="tab">Descripción</a></li>
                         <li><a href="#orange" data-toggle="tab">Comentarios</a></li>
                         <li><a href="#blue" data-toggle="tab">Preguntas</a></li>
-                        <!-- <li><a href="#yellow" data-toggle="tab"></a></li> //-->
                     </ul>
-                    <div id="my-tab-content" class="tab-content">
+                    <div id="my-tab-content" class="tab-content" style="border: none;">
                         <div class="tab-pane active" id="red">
                             @Html(html)
                         </div>
@@ -257,6 +282,7 @@
         <script src = "@routes.Assets.versioned("libs/swal/sweetalert.min.js")" type="text/javascript"></script>
         <script src = "@routes.Assets.versioned("js/jquery.barrating.min.js")"></script>
         <script src = "@routes.Assets.versioned("js/user.js")" type="text/javascript"></script>
+        <script src = "@routes.Assets.versioned("js/shopping.js")" type="text/javascript"></script>
         <script src = "@routes.Assets.versioned("js/script_detail.js")" type="text/javascript"></script>
     </body>
 </html>

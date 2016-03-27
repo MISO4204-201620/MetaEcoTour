@@ -33,6 +33,16 @@ $(function()
 
     });
 
+    if(tipoUser.esProveedor("menuOpc"))
+    {
+        var user = tipoUser.datosUser();
+        $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
+        shopping.numCompras(user.data.id, "numCompras");
+    }
+    else
+    {
+        window.location = "/login";
+    }
 
     var campos  = ["idCategoria", "nombre", "descripcion", "precioActual", "imagen"],
         idProducto = 0;

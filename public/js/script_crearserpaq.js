@@ -74,6 +74,7 @@ $(function()
             //http://localhost:9000/api/itemServ/pqt/153
             $("#asociaServicios").show();
             $("#precioActual").prop('disabled', true);
+            console.log("/api/itemServ/pqt/" + idEdita);
             $.getJSON("/api/itemServ/pqt/" + idEdita, function(data)
             {
                 var dataServicio = data;
@@ -152,6 +153,7 @@ $(function()
         var user = tipoUser.datosUser();
         //console.log(user);
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
+        shopping.numCompras(user.data.id, "numCompras");
         categorias();
     }
     else
