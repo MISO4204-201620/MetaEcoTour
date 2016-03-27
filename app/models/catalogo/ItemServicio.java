@@ -7,6 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
+        @NamedQuery(name = "ItemServicio.findByPrd", query = "SELECT r FROM ItemServicio r WHERE r.idProducto = :productId"),
         @NamedQuery(name = "ItemServicio.findByPaquete", query = "SELECT r FROM ItemServicio r WHERE r.idProducto = :idProducto "),
         @NamedQuery(name = "ItemServicio.findByServicio", query = "SELECT r FROM ItemServicio r WHERE r.idServicio = :idServicio ")
 })

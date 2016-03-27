@@ -1,9 +1,6 @@
 package controllers.implementacion.catalogos;
 
-import controllers.contratos.catalogos.IAtributo;
-import controllers.contratos.catalogos.IBusqueda;
-import controllers.contratos.catalogos.IProducto;
-import controllers.contratos.catalogos.IRecurso;
+import controllers.contratos.catalogos.*;
 import models.catalogo.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -20,6 +17,7 @@ public class Productos implements IProducto {
     private static IRecurso recursos= new Recursos();
     private static IBusqueda busquedas = new Busquedas();
     private static IAtributo atributos = new Atributos();
+    private static IItemServicio itemServicios = new ItemServicios();
 
     @Override
     public List<Producto> getProductos() {
@@ -228,6 +226,7 @@ public class Productos implements IProducto {
         Producto producto = em.find(Producto.class, id);
         if(producto!=null) {
             recursos.deleteAllResourceByProdId(id);
+            itemServicios.deleteAllByProductId(id);
             busquedas.deleteAllSearchByProdId(id);
             em.remove(producto);
 
