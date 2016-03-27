@@ -69,6 +69,11 @@ $(function()
         console.log(filtro);
     });
 
+    $("#tipoProvider").change(function(e){
+        filtro.provider = $(this).val();
+        console.log(filtro);
+    });
+
     var cargarProveedores = (function()
     {
         $.getJSON("/api/usuarios/PROVIDER", function(data)
@@ -182,7 +187,6 @@ $(function()
             finaliza = filtro.inicial;
             inicial = filtro.final;
         }
-        filtro.provider = $("#tipoProvider").val();
         //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/ALL
         //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/0type/provider/101
         //debugger;
