@@ -118,8 +118,8 @@ public class ProductosController extends Controller {
     }
 
     @Transactional(readOnly=true)
-    public Result getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType){
-        List<Producto> productosList =productos.getProductosByPageByFilters(numPage,name,precioInicial,precioFinal,productType);
+    public Result getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType, Long idProvider){
+        List<Producto> productosList =productos.getProductosByPageByFilters(numPage,name,precioInicial,precioFinal,productType, idProvider);
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"La página solicitada no existe\"}");
         if(productosList!=null){
             respuesta= Json.toJson(productosList);
