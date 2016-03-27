@@ -23,6 +23,8 @@ public interface IItemServicio {
 
     public ItemServicio delete(Long idItemServicio);
 
+    public void deleteAllByProductId(Long productId);
+
 
 
 }

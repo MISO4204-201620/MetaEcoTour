@@ -71,6 +71,19 @@ $(function()
     });
     //Fin del formulario de pagos..
 
+    var cargaArrayTemp = function(data)
+    {
+        for(var i = 0; i < data.length; i++)
+        {
+            listadoRecursosTemp.push({
+                id              : data[i].id,
+                nombre          : data[i].nombre,
+                imagen          : data[i].imagen,
+                precioActual    : data[i].precioActual
+            });
+        }
+    };
+
     if(user.existe)
     {
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
@@ -83,10 +96,21 @@ $(function()
               Obtener los paquetes y servicios del proveedor de forma temporal para así mostralos
               la idea es que el servicio entregue está información...
               */
-             listadoRecursosTemp = data;
+             cargaArrayTemp(data);
+             $.getJSON("/api/productos/PAQ", function(data)
+             {
+                 cargaArrayTemp(data);
+                 console.log(listadoRecursosTemp);
+                 muestraItems();
+             });
+             //listadoRecursosTemp = data;
              //Mostrar los ítems que se tienen en el carrito de compras...
-             console.log(listadoRecursosTemp);
-             muestraItems();
+
+             //Para trer los paquetes de forma temporal...
+
+
+             //http://localhost:9000/api/productos/PAQ
+
          });
     }
     else
