@@ -40,15 +40,45 @@ var tipoUser = (function()
             }
         }
         //Para poner las opciones del proveedor...
-        var txtHTML = "<li class=\"dropdown\">" +
-            "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
-            "<b class=\"caret\"></b></a>" +
-            "<ul class=\"dropdown-menu\">" +
-            "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
-            "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
-            "</ul>" +
-            "</li>";
-        $("#" + div).append(txtHTML);
+        if(regresa)
+        {
+            var txtHTML = "<li class=\"dropdown\">" +
+                "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
+                "<b class=\"caret\"></b></a>" +
+                "<ul class=\"dropdown-menu\">" +
+                "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
+                "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
+                "</ul>" +
+                "</li>";
+            $("#" + div).append(txtHTML);
+        }
+        return regresa;
+    };
+
+    var esAdministrador = function(div)
+    {
+        var user    = datosUser(),
+            regresa = false;
+        if(user.existe && user.data.tipo !== null)
+        {
+            if(user.data.tipo.toLowerCase() === "administrador")
+            {
+                regresa = true;
+            }
+        }
+        //Para poner las opciones del proveedor...
+        if(regresa)
+        {
+            var txtHTML = "<li class=\"dropdown\">" +
+                "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
+                "<b class=\"caret\"></b></a>" +
+                "<ul class=\"dropdown-menu\">" +
+                "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
+                "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
+                "</ul>" +
+                "</li>";
+            $("#" + div).append(txtHTML);
+        }
         return regresa;
     };
 
@@ -73,9 +103,10 @@ var tipoUser = (function()
     };
 
     return {
-        datosUser   : datosUser,
-        logout      : logout,
-        esProveedor : esProveedor
+        datosUser       : datosUser,
+        logout          : logout,
+        esProveedor     : esProveedor,
+        esAdministrador : esAdministrador
     };
 })();
 

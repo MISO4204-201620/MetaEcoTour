@@ -13,6 +13,90 @@ $(function()
         }
     });
     */
+    var user = tipoUser.datosUser();
+    if(user.existe)
+    {
+        $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
+        //Saber la cantidad de compras que tiene...
+        //numCompras
+        shopping.numCompras(user.data.id, "numCompras");
+        tipoUser.esProveedor("menuOpc");
+        tipoUser.esAdministrador("menuOpc");
+    }
+    else
+    {
+        $("#usuario").html("Iniciar Sesión").attr("href", "/login").removeAttr("data-toggle");
+        $("#opcMenu").remove();
+        $("#divCarrito").remove();
+    }
+
+    function format2(n, currency)
+    {
+        return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+    }
+
+    var baseItemServicio = function(data)
+    {
+        var urlDetalle = "/api/recursos/" + data.id + "/0";
+        console.log(urlDetalle);
+        var imagen = data.imagen;
+        var txt = '<div class="col-sm-4 col-lg-4 col-md-4">' +
+            '<div class="thumbnail">' +
+            '<img src = "'+(imagen)+'" alt="">' +
+            '<div class="caption">' +
+            '<h4 class="pull-right">'+format2(data.precioActual, "$")+'</h4>' +
+            '<h4><a href="'+(urlDetalle)+'">'+(data.nombre)+'</a>' +
+            '</h4>' +
+            '<p>'+(data.descripcion)+'</p>' +
+            '</div>' +
+            '<div class="ratings">' +
+            '<p class="pull-right">'+(data.puntuacion)+'</p>' +
+            '<p>';
+        //Para las estrellas...
+        for(var i = 1; i <= 5; i++)
+        {
+            txt += '<span class = "glyphicon ' + (i <= data.puntuacion ? 'glyphicon-star' : 'glyphicon-star-empty' ) + '"></span>';
+        }
+        txt += '</p></div></div></div>';
+        return txt;
+    };
+
+    //Para traer los atributos de paquete o servicio
+    var listadoAtributos = (function()
+    {
+        $.getJSON("/api/producto/atr/" + idProducto, function(data)
+        {
+            //console.log("Listado de atribiutos");
+            var txtAttr = "<div align='center'>No se han encontrado atributos</div>";
+            if(data.length !== 0)
+            {
+                var txtAttr = "<ul>";
+                for(var i = 0; i < data.length; i++)
+                {
+                    txtAttr += "<li><b>" + data[i].nombre + ": </b>" + data[i].valor + "</li>";
+                }
+                txtAttr += "</ul>";
+            }
+            $("#atributesList").html(txtAttr);
+            if(tipoProducto === "PAQ")
+            {
+                $("#tabs").append("<li><a href=\"#servicios\" data-toggle=\"tab\">Servicios del Paquete</a></li>");
+                $("#my-tab-content").append("<div class=\"tab-pane\" id=\"servicios\"></div>");
+                //console.log("Es un paquete, por lo que se deben traer los servicios asociados al paquete");
+                $.getJSON("/api/itemServ/pqt/" + idProducto, function(data)
+                {
+                    console.log("LOS SERVICIOS");
+                    var items = "";
+                    for(var i = 0; i < data.length; i++)
+                    {
+                        items += baseItemServicio(data[i]);
+                        //$("#servicios").append(baseItemServicio(data[i]));
+                    }
+                    $("#servicios").html(items);
+                });
+            }
+        });
+    })();
 
     //Generar un token único...
     function guid() {
@@ -275,7 +359,7 @@ $(function()
         }
         return txt;
     };
-    var user = tipoUser.datosUser();
+    //var user = tipoUser.datosUser();
     var calificaciones = function(valor)
     {
         //console.log(user);

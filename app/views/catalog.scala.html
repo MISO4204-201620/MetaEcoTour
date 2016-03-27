@@ -51,6 +51,10 @@
         .input-group-addon{
             border: none;
         }
+        #tipoProvider
+        {
+            margin-top: 10px;
+        }
         </style>
     </head>
     <body>
@@ -70,16 +74,6 @@
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav" id = "menuOpc">
                         <li class="active"><a href="/catalog">Catálogo</a></li>
-
-                        <li class="dropdown">
-                            <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Administración
-                                <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/crudproviders">Proveedores</a></li>
-                                <li><a href="/crudclients">Usuarios</a></li>
-                            </ul>
-                        </li>
-
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li id = "divCarrito"><a href = "/shopping">Mi Carrito <sup class="badge" style="background: #4CAF50;" id = "numCompras">0</sup></a></li>
@@ -106,19 +100,8 @@
                     <ol class="breadcrumb">
                         <li class="active">Catálogo</li>
                     </ol>
-                    <!--
-                    <ol class="breadcrumb">
-                        <li><a href="#">Catálogo</a></li>
-                        <li><a href="#">Library</a></li>
-                        <li class="active">Data</li>
-                    </ol>
-                    //-->
                 </div>
-
                 <div class="col-md-3">
-
-                        <!-- Inicio //-->
-
                     <div class="panel panel-default">
                         <div class="panel-heading">Filtros</div>
                         <div class="panel-body">
@@ -137,6 +120,10 @@
                                         <option value="SER">Servicios</option>
                                         <option value="PAQ">Paquetes</option>
                                     </select>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon"></div>
+                                    <select class="form-control" id = "tipoProvider"></select>
                                 </div>
                                 <div align="center">
                                     <button type="button" class="btn btn-primary" id = "executeFilter"><span class="glyphicon glyphicon-filter"></span> Aplicar Filtro</button>

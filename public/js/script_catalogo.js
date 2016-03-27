@@ -2,7 +2,7 @@ $(function()
 {
     var numPage = 1,
         producServicio = [],
-        filtro = {name : "", inicial : "", final : "", type : ""},
+        filtro = {name : "", inicial : "", final : "", type : "", provider : ""},
         precios = {
                     rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
                     rangoMax : {valor : 0, label : "Max", filtro : "final"}
@@ -21,6 +21,7 @@ $(function()
         //numCompras
         shopping.numCompras(user.data.id, "numCompras");
         tipoUser.esProveedor("menuOpc");
+        //tipoUser.esAdministrador("menuOpc");
     }
     else
     {
@@ -51,7 +52,7 @@ $(function()
             preciosFiltro(elemento[i]);
         }
         $("#tipoSel").val("ALL");
-        filtro.name = filtro.type = "";
+        filtro.provider = filtro.name = filtro.type = "";
         $("#textBusca").val("");
         elementos();
     });
@@ -68,6 +69,23 @@ $(function()
         console.log(filtro);
     });
 
+    $("#tipoProvider").change(function(e){
+        filtro.provider = $(this).val();
+        console.log(filtro);
+    });
+
+    var cargarProveedores = (function()
+    {
+        $.getJSON("/api/usuarios/PROVIDER", function(data)
+        {
+            var options = $("#tipoProvider");
+            options.append($("<option />").val("0").text("Proveedores de Servicio"));
+            $.each(data, function() {
+                options.append($("<option />").val(this.id).text(this.nombre));
+            });
+        });
+    })();
+
     //Reemplazar por la url de Amazon...
     //var UrlImagen = "http://localhost:8887/maestria/base/img/portada/";
     var baseItem = function(data)
@@ -75,7 +93,7 @@ $(function()
         //debugger;
         //http://localhost:9000/api/recursos/50
         var token = guid();
-        var urlDetalle = "api/recursos/" + data.id + "/0";
+        var urlDetalle = "/api/recursos/" + data.id + "/0";
         var imagen = data.imagen;
         producServicio.push({token: token, id : data.id, price : data.precioActual, name : data.nombre, img : imagen});
         //var imagen = UrlImagen + "/" + data.imagen;
@@ -170,12 +188,14 @@ $(function()
             inicial = filtro.final;
         }
         //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/ALL
+        //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/0type/provider/101
         //debugger;
         var url = "/api/productos/numpage/"+ numPage;
         url += "/name/" + (filtro.name !== "" ? filtro.name : "0name");
         url += "/inicial/" + (inicial > 0 ? inicial : "-1");
         url += "/final/" + (finaliza > 0 ? finaliza : "-1");
         url += "/type/" + (filtro.type !== "" ? filtro.type : "ALL");
+        url += "/provider/" + (filtro.provider !== "" ? filtro.provider : "0");
         console.log(url);
         $.getJSON(url, function(data)
         {

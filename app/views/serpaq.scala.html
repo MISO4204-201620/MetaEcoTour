@@ -35,6 +35,11 @@
                 border-radius: 50%;
                 vertical-align: middle;
             }
+            #atributos
+            {
+                height: 300px;
+                overflow-y: auto;
+            }
         </style>
     </head>
     <body>
@@ -52,9 +57,10 @@
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav" id = "menuOpc">
                         <li><a href="/catalog">Catálogo</a></li>
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="javascript:void(0)">My Carrito</a></li>
+                        <li id = "divCarrito"><a href = "/shopping">Mi Carrito <sup class="badge" style="background: #4CAF50;" id = "numCompras">0</sup></a></li>
                         <li class="dropdown">
                             <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" id = "usuario"></a>
                             <ul class="dropdown-menu">
@@ -71,6 +77,50 @@
             <!-- Fin de prueba //-->
             <!-- Page Content -->
         <div class="container">
+
+            <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                        <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" id = "textTitle"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id = "atributos">
+
+                                <table class = "table" id = "tabatrr">
+                                    <tbody>
+                                        <tr>
+                                            <td width="25%">
+                                                Nombre
+                                            </td>
+                                            <td width="50%">
+                                                Valor
+                                            </td>
+                                            <td width="25%">
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id = "newAtrr">
+                                <span class="glyphicon glyphicon-plus"></span> Nuevo Atributo</button>
+                            <button type="button" class="btn btn-default" id = "cancelAtrr">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <ol class="breadcrumb">
@@ -105,6 +155,7 @@
             <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
             <script src = "@routes.Assets.versioned("libs/swal/sweetalert.min.js")" type="text/javascript"></script>
             <script src = "@routes.Assets.versioned("js/user.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/shopping.js")" type="text/javascript"></script>
             <script src = "@routes.Assets.versioned("js/script_serpaq.js")" type="text/javascript"></script>
     </body>
 </html>
