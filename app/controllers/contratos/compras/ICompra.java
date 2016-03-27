@@ -11,6 +11,7 @@ import java.util.List;
 public interface ICompra {
     public List<Compra> getCompra(Long idCompra);
     public List<Compra> getCompraActivaByUsuario(Long idUsuario);
+    public List<Compra> getComprasByUsuario(Long idUsuario);
 
     public List<ItemCompra> getItemmsCompra(Long idCompra);
     public ItemCompra addItemmsCompra(ItemCompra itemCompra);

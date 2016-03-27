@@ -52,11 +52,14 @@ DELETE      /api/recursos/:id                       controllers.implementacion.c
 #Servicios de Compras:
 GET         /api/compras/:idCompra			controllers.implementacion.compras.ComprasController.getCompra(idCompra:Long)
 GET         /api/compras/usr/:idUsuario		controllers.implementacion.compras.ComprasController.getCompraActivaByUsuario(idUsuario:Long)
+GET         /api/compras/usr/all/:idUsuario	controllers.implementacion.compras.ComprasController.getComprasByUsuario(idUsuario:Long)
 GET         /api/compras/itm/:idCompra		controllers.implementacion.compras.ComprasController.getItemsCompra(idCompra:Long)
 
 POST        /api/compras/save/             controllers.implementacion.compras.ComprasController.save()
 POST        /api/compras/add/              controllers.implementacion.compras.ComprasController.addItemsCompra()
 POST        /api/compras/remove/           controllers.implementacion.compras.ComprasController.removeItemsCompra()
+
+POST        /api/compras/pagar/           controllers.implementacion.compras.TransaccionesController.pagarCompra()
 
 
 # Servicios para consultar las busquedas o guardar la busqueda del producto

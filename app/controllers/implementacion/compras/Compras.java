@@ -28,6 +28,11 @@ public class Compras implements ICompra {
     }
 
     @Transactional
+    public List<Compra> getComprasByUsuario(Long idUsuario) {
+        return JPA.em().createNamedQuery("Compra.findComprasByUsuario", Compra.class ).setParameter("idUsuario",idUsuario).getResultList();
+    }
+
+    @Transactional
     public List<ItemCompra> getItemmsCompra(Long idCompra) {
         return itemCompras.getItemCompraByCompra(idCompra);
     }

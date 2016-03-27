@@ -32,6 +32,11 @@ public class ComprasController extends Controller {
     }
 
     @Transactional
+    public Result getComprasByUsuario(Long idUsuario) {
+        return ok(Json.toJson(compras.getComprasByUsuario(idUsuario)));
+    }
+
+    @Transactional
     public Result getItemsCompra(Long idCompra){
         return ok(Json.toJson(compras.getItemmsCompra(idCompra)));
     }

@@ -8,7 +8,7 @@ import java.sql.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Compra.findCompraAbiertaByUsuario", query = "SELECT r FROM Compra r WHERE r.idUsuario = :idUsuario and r.estado ='O'  "),
+        @NamedQuery(name = "Compra.findCompraAbiertaByUsuario", query = "SELECT r FROM Compra r WHERE r.idUsuario = :idUsuario and r.estado in ('O','E')  "),
         @NamedQuery(name = "Compra.findComprasByUsuario", query = "SELECT r FROM Compra r WHERE r.idUsuario = :idUsuario  order by r.idCompra desc "),
         @NamedQuery(name = "Compra.findByCompra", query = "SELECT r FROM Compra r WHERE r.idCompra = :idCompra  ")
 })public class Compra {
@@ -31,6 +31,8 @@ import java.sql.Date;
     private String estado;
     @Column(nullable=false)
     private String medioPago;
+    @Column(nullable=true)
+    private String descripcion;
 
     public Long getIdCompra() {
         return idCompra;
@@ -78,5 +80,13 @@ import java.sql.Date;
 
     public void setMedioPago(String medioPago) {
         this.medioPago = medioPago;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
