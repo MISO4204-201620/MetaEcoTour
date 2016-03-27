@@ -3,8 +3,13 @@ package controllers.implementacion.compras;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.contratos.compras.ICompra;
+import controllers.contratos.usuarios.IUsuarios;
+import controllers.implementacion.usuarios.Usuarios;
+import email.STSendGridManager;
 import models.compra.Compra;
 import models.compra.ItemCompra;
+import models.usuario.Usuario;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -18,6 +23,7 @@ import java.text.SimpleDateFormat;
  */
 public class ComprasController extends Controller {
     private static ICompra compras = new Compras();
+    private static IUsuarios usuarios = new Usuarios();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -56,6 +62,26 @@ public class ComprasController extends Controller {
             Json.setObjectMapper(objectMapper);
             System.out.println("Antes del json to json");
             respuesta=Json.toJson(compra);
+            //envio de email
+            Usuario cliente =  usuarios.getUsuarioById(compra.getIdUsuario());
+            String correoProveedor = "ventas@metaecotour.com";
+            Logger.info("Enviado el correo");
+            Logger.info("To "+cliente.getCorreo());
+            Logger.info("From "+correoProveedor);
+            String texto = "Señor Usuario, \\n" +
+                    "Se ha registrado una compra en nuestro sistema, Gracias.\\n " +
+                    "Información de la Compra: \\n " +
+                    " Id Compra:" + compra.getIdCompra() + "\\n"+
+                    " Medio de Pago:" + compra.getMedioPago() + "\\n"+
+                    " Fecha de Compra:" + compra.getFechaCreacion() + "\\n"+
+                    "Agradecemos que utilice nuestros servicios " + "\\n"+
+                    "Cualquier inquietud no dude en Contactarnos";
+            Logger.info("Text "+ texto);
+            STSendGridManager.getInstance().sendEmail(cliente.getCorreo(),
+                    correoProveedor, "Notificación de Compra Aplicación MetaEcotour!!",
+                    texto);
+
+
         }
         return ok(respuesta);
     }

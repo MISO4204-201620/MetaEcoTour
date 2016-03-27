@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.mensajerias.IComentario;
 import controllers.contratos.usuarios.IUsuarios;
 import controllers.implementacion.usuarios.Usuarios;
+import email.STSendGridManager;
 import models.mensajeria.*;
 import models.usuario.Usuario;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -63,7 +65,23 @@ public class ComentariosController extends Controller {
                     Comentario comentarioPadre = comentarios.getComentario(comentarioDTO.getOrigen());
                     comentarioPadre.getSubComentarios().add(comentarioHijo);
                     comentarios.save(comentarioPadre);
+
+                    //envio de correo
+                    if (comentarioHijo.getTipo().name().equals(Comentario.Tipo.PREGUNTA.name()) && comentarioHijo.getOrigen() != null){
+                        Usuario proveedor =  usuarios.getUsuarioById(comentarioHijo.getIdUsuario());
+                        Usuario cliente =  usuarios.getUsuarioById(comentarioPadre.getIdUsuario());
+                        Logger.info("Estamos enviado el correo");
+                        Logger.info("To "+cliente.getCorreo());
+                        Logger.info("From "+proveedor.getCorreo());
+                        String texto = "Señor Usuario, Esta es la respuesta a su pregunta: " + comentarioHijo.getTexto() + " ,su pregunta era: " + comentarioPadre.getTexto();
+                        Logger.info("Text "+ texto);
+                        STSendGridManager.getInstance().sendEmail(cliente.getCorreo(),
+                                proveedor.getCorreo(), "Notificación de Aplicación MetaEcotour!!",
+                                texto);
+                    }
+
                 }
+
             }
 
         } catch (Exception e){

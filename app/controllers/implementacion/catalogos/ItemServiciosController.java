@@ -1,10 +1,16 @@
 package controllers.implementacion.catalogos;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.catalogos.IItemServicio;
+import models.catalogo.ItemServicio;
+import models.catalogo.Recurso;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.db.jpa.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JoséLuis on 27/02/2016.
@@ -15,13 +21,33 @@ public class ItemServiciosController  extends Controller {
 
     @Transactional
     public Result save() {
-        return null;
+        JsonNode json = request().body().asJson();
+        List<ItemServicio> itemsServiciosGuardados = new ArrayList<ItemServicio>();
+        Long idProducto = json.get("idProducto").asLong();
+        for (JsonNode itemServiciosFromArray : json.withArray("itemServicios")) {
+            ItemServicio itemServicio = Json.fromJson(itemServiciosFromArray, ItemServicio.class);
+
+            if (itemServicio != null) {
+                itemServicio.setIdProducto(idProducto);
+
+                itemServicio = itemServicios.save(itemServicio);
+                itemsServiciosGuardados.add(itemServicio);
+            }
+        }
+        return ok(Json.toJson(itemsServiciosGuardados));
     }
 
     @Transactional
-    public Result delete(String id) {
-        return null;
+    public Result delete(Long idItemServicio) {
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"No se ha podido eliminar el Item Servicio\"}");
+
+        ItemServicio itmSrv = itemServicios.delete(idItemServicio);
+        if (itmSrv != null){
+            respuesta = Json.toJson(itmSrv);
+        }
+        return ok(respuesta);
     }
+
 
     @Transactional(readOnly=true)
     public Result getItemsByPaquetes(Long idPaquete) {
@@ -34,8 +60,8 @@ public class ItemServiciosController  extends Controller {
     }
 
     @Transactional(readOnly=true)
-    public Result getServicioByPaquetes(Long idServicio) {
-        return ok(Json.toJson(itemServicios.getServicioByPaquetes(idServicio)));
+    public Result getServicioByPaquetes(Long idPaquete) {
+        return ok(Json.toJson(itemServicios.getServicioByPaquetes(idPaquete)));
     }
 
 

@@ -25,9 +25,11 @@ public class Application extends Controller {
         return ok(serpaq.render());
     }
 
-    public Result preguntas()
+    public Result preguntas(){return ok(preguntas.render());
+    }
+    public Result shoppingCar()
     {
-        return ok(preguntas.render());
+        return ok(shopping.render());
     }
 
     public Result login() {

@@ -20,12 +20,12 @@ public class ItemServicios implements IItemServicio {
     private static IServicio servicios = new Servicios();
 
     @Override
-    public List<models.catalogo.ItemServicio> getItemsByPaquetes(Long idPaquete) {
-        return JPA.em().createNamedQuery("ItemServicio.findByPaquete", ItemServicio.class ).setParameter("idPaquete",idPaquete).getResultList();
+    public List<ItemServicio> getItemsByPaquetes(Long idPaquete) {
+        return JPA.em().createNamedQuery("ItemServicio.findByPaquete", ItemServicio.class ).setParameter("idProducto",idPaquete).getResultList();
     }
 
     @Override
-    public List<models.catalogo.ItemServicio> getItemsByServicios(Long idServicio) {
+    public List<ItemServicio> getItemsByServicios(Long idServicio) {
         return JPA.em().createNamedQuery("ItemServicio.findByServicio", ItemServicio.class ).setParameter("idServicio",idServicio).getResultList();
     }
 
@@ -42,25 +42,27 @@ public class ItemServicios implements IItemServicio {
     }
 
     @Transactional
-    public models.catalogo.ItemServicio save(models.catalogo.ItemServicio itemServicio) {
+    public ItemServicio save(ItemServicio itemServicio) {
+
         EntityManager em = JPA.em();
-        ItemServicioId pKey = new ItemServicioId();
-        pKey.setIdPaquete(itemServicio.getIdPaquete());
-        pKey.setIdServicio(itemServicio.getIdServicio());
-        ItemServicio itmSrv = em.find(ItemServicio.class, pKey);
-        if(itmSrv == null){
-            em.persist(itmSrv);
-        }else{
-            itmSrv.setCantidad(itemServicio.getCantidad());
-            em.merge(itmSrv);
-            itemServicio = itmSrv;
+        if (itemServicio.getId() == null){
+            em.persist(itemServicio);
+        } else {
+            ItemServicio itemTemp = em.find(ItemServicio.class, itemServicio.getId());
+
+            if(itemTemp != null){
+                itemTemp.setCantidad(itemServicio.getCantidad());
+                itemTemp.setIdServicio(itemServicio.getIdServicio());
+                em.merge(itemTemp);
+                return itemTemp;
+            }
         }
 
         return itemServicio;
     }
 
     @Transactional
-    public models.catalogo.ItemServicio delete(Long idPaquete, Long idServicio) {
+    public ItemServicio delete(Long idPaquete, Long idServicio) {
         EntityManager em = JPA.em();
         ItemServicioId pKey = new ItemServicioId();
         pKey.setIdPaquete(idPaquete);
@@ -70,5 +72,15 @@ public class ItemServicios implements IItemServicio {
             em.remove(itmSrv);
         }
         return itmSrv;
+    }
+
+    @Transactional
+    public ItemServicio delete(Long idItemServicio) {
+        ItemServicio itmSrv = JPA.em().find(ItemServicio.class, idItemServicio);
+        if(itmSrv!=null) {
+            JPA.em().remove(itmSrv);
+            return itmSrv;
+        }
+        return null;
     }
 }

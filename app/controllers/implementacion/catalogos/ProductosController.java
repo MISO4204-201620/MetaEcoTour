@@ -3,6 +3,7 @@ package controllers.implementacion.catalogos;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.catalogos.IProducto;
 import models.catalogo.*;
+import models.usuario.Proveedor;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -26,19 +27,24 @@ public class ProductosController extends Controller {
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto no existe, para crear uno envíe el id vacío\"}");
         JsonNode productoJson =json.get("producto");
         JsonNode recursos =json.get("producto").get("recursos");
+        JsonNode itemServicios =json.get("producto").get("itemServicios");
 
         Producto producto = null;
         Producto productoGuardado = null;
         if("PAQ".equals(tipoProducto)){
-            producto = Json.fromJson(productoJson, Paquete.class);
+            producto= Json.fromJson(productoJson, Paquete.class);
+
         }else if("SER".equals(tipoProducto)){
             producto = Json.fromJson(productoJson, Servicio.class);
         }
 
         if(producto != null){
            productoGuardado=productos.save(producto);
+
             if(productoGuardado !=null) {
+
                 List<Recurso> recursosUpdate = producto.getRecursos();
+
                 for (int i = 0; i < recursos.size(); i++) {
                     if (recursosUpdate == null) {
                         recursosUpdate = new ArrayList<Recurso>();
@@ -48,11 +54,24 @@ public class ProductosController extends Controller {
                     recursosUpdate.add(recursoTmp);
                 }
                 producto.setRecursos(recursosUpdate);
+
+                if("PAQ".equals(tipoProducto)){
+                    List<ItemServicio> itemServiciosUpdate = ((Paquete)producto).getItemServicios();
+
+                    for (int i = 0; i < itemServicios.size(); i++) {
+                        if (itemServiciosUpdate == null) {
+                            itemServiciosUpdate = new ArrayList<ItemServicio>();
+                        }
+                        ItemServicio itemServicioTmp = Json.fromJson(itemServicios.get(i), ItemServicio.class);
+                        itemServicioTmp.setIdProducto(producto.getId());
+                        itemServiciosUpdate.add(itemServicioTmp);
+                    }
+                    ((Paquete)producto).setItemServicios(itemServiciosUpdate);
+
+                }
                 respuesta = Json.toJson(producto);
             }
         }
-
-
 
         return ok(respuesta);
 

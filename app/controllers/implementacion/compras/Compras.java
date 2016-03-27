@@ -62,6 +62,7 @@ public class Compras implements ICompra {
             em.persist(compra);
         }else{
             compradb.setEstado(compra.getEstado());
+            compradb.setMedioPago(compra.getMedioPago());
             compradb.setFechaActualizacion(new Date(System.currentTimeMillis()));
             compra = em.merge(compradb);
 

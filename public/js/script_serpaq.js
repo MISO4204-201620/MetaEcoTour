@@ -21,7 +21,7 @@ $(function()
 
     //$('#summernote').summernote();
     var listadoCategorias = [];
-    if(tipoUser.esProveedor())
+    if(tipoUser.esProveedor("menuOpc"))
     {
         var user = tipoUser.datosUser();
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
@@ -122,7 +122,7 @@ $(function()
                             swal({title: "Eliminado!", text: "Se ha eliminado el paquete/servicio.",   timer: 2000, type : "success" });
                             $("#tr_" + token).fadeOut("fast", function(){
                                 $(this).remove();
-                            })
+                            });
                             console.log(data);
                             //window.location = "/login";
                             //localStorage.setItem("user", "");
