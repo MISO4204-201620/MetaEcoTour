@@ -21,7 +21,7 @@ $(function()
         //numCompras
         shopping.numCompras(user.data.id, "numCompras");
         tipoUser.esProveedor("menuOpc");
-        //tipoUser.esAdministrador("menuOpc");
+        tipoUser.esAdministrador("menuOpc");
     }
     else
     {
