@@ -85,11 +85,17 @@ public class UsuariosController extends Controller {
         {
             return ok(provider_details.render((Proveedor) usuarios.getUsuarioById(providerId)));
         }else if(tipo == 3){
-            return ok(clientes_details.render((Cliente) usuarios.getUsuarioById(providerId)));
+            return ok(clientes_details.render((Cliente) usuarios.getUsuarioById(providerId), false));
         }else{
             return ok();
         }
     }
+
+    @Transactional(readOnly=true)
+    public Result getCuentaExterno() {
+        return ok(clientes_details.render(null, true));
+    }
+
 
     @Transactional
     public Result deleteUserById(Long userId){

@@ -1,5 +1,5 @@
 @import models.usuario.Cliente
-@(cliente: Cliente)
+@(cliente: Cliente, client: Boolean)
 @import java.math.BigInteger; var html = ""; var k=1
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +43,9 @@
     height: 400px;
     }
     </style>
+    <script>
+              var registroLogin =@client;
+    </script>
     @if(cliente!=null) {
       <script>
               var idCliente =@cliente.getId();
@@ -66,24 +69,27 @@
           </button>
           <a class="navbar-brand" href="javascript:void(0)">MetaEcoTour</a>
         </div>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav" id = "menuOpc">
-            <li class="active"><a href="javascript:void(0)">Catálogo</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="javascript:void(0)">My Carrito</a></li>
-            <li class="dropdown">
-              <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Jorge Rubiano
-                <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="javascript:void(0)">Mi Perfil</a></li>
-                <li><a href="javascript:void(0)">Mis Compras</a></li>
-                <li class="divider"></li>
-                <li><a href="javascript:void(0)" id = "logout">Cerrar Sesión</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        @if(!client) {
+          <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav" id = "menuOpc">
+              <li class="active"><a href="javascript:void(0)">Catálogo</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="javascript:void(0)">My Carrito</a></li>
+              <li class="dropdown">
+                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                  Jorge Rubiano
+                  <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="javascript:void(0)">Mi Perfil</a></li>
+                  <li><a href="javascript:void(0)">Mis Compras</a></li>
+                  <li class="divider"></li>
+                  <li><a href="javascript:void(0)" id = "logout">Cerrar Sesión</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        }
       </div>
     </div>
       <!-- Fin d eprueba //-->
@@ -91,12 +97,14 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
+        @if(!client) {
           <ol class="breadcrumb">
             <li><a href="/crudclients">Clientes</a></li>
-            @if(cliente!=null) {
+            @if(cliente != null) {
               <li class="active">@cliente.getNombre()</li>
             }
           </ol>
+        }
         </div>
 
 
@@ -107,7 +115,11 @@
               @if(cliente!=null) {
                 <div class="panel-heading">Modificar Cliente</div>
               }else{
-                <div class="panel-heading">Crear Cliente</div>
+                @if(!client) {
+                  <div class="panel-heading">Crear Cliente</div>
+                } else {
+                  <div class="panel-heading">Registrar Usuario</div>
+                }
               }
               <div class="panel-body">
                 <form class="form-horizontal" id = "createEditClient">
@@ -161,7 +173,7 @@
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       <div align="center">
-                        <button type="submit" class="btn btn-success">Guardar Cliente</button>
+                        <button type="submit" class="btn btn-success">@if(!client) { Guardar Cliente } else { Registrar Usuario }</button>
                       </div>
                     </div>
                   </div>

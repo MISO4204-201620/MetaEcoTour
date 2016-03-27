@@ -84,6 +84,7 @@ GET        /api/usuarios/:numPage/:userType           controllers.implementacion
 GET        /api/usuarios/:userType                    controllers.implementacion.usuarios.UsuariosController.getUsuariosByType(userType : String)
 GET        /api/usuarios/userId/:userId/:typeOperation          controllers.implementacion.usuarios.UsuariosController.getUsuarioById(userId : Long,typeOperation : Long)
 DELETE     /api/usuarios/borrar/:userId                 controllers.implementacion.usuarios.UsuariosController.deleteUserById(userId : Long)
+GET        /api/usuario/cuentaExterno                  controllers.implementacion.usuarios.UsuariosController.getCuentaExterno()
 
 
 #Servicios iniciales para la carga de datos... creo que ya no son necesarios

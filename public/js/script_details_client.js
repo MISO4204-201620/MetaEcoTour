@@ -65,8 +65,25 @@ $(function()
                     contentType: "application/json; charset=utf-8"
                 }).done(function(data)
             {
+                if (registroLogin){
+//                    window.location = "/login";
+                    //swal({title: "Exitoso!", text: "Se han creado el usuario, por favor loguese con sus credenciales",   timer: 2000, type : "success" });
+                    swal({
+                        title: "Exitoso",
+                        text: "Se ha creado una cuenta de usuario con tus datos, ¿Deseas iniciar sesión?",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Si, Iniciar Sesión",
+                        closeOnConfirm: false
+                    }, function ()
+                    {
+                        window.location = "/login";
+                    });
+                }else {
+                    window.location = "/crudclients";
+                }
 
-                window.location = "/crudclients";
 
             }).error(function(request, status, error)
             {
