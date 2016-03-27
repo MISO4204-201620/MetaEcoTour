@@ -23,12 +23,23 @@
         <link href="@routes.Assets.versioned("stylesheets/ripples.min.css")" rel="stylesheet">
         <link href="@routes.Assets.versioned("libs/swal/sweetalert.css")" rel="stylesheet">
         <link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
+        <style>
+            .logo
+            {
+                width: 100px;
+                height: 100px;
+            }
+        </style>
     </head>
 
     <body>
 
         <div class="container">
             <form class="form-signin" id = "form">
+                <div align="center">
+                    <img src = "@routes.Assets.versioned("images/logo.png")" border = "0" class="logo">
+                </div>
+
                 <h2 class="form-signin-heading" style="text-align: center; margin-bottom: 20px;">@message</h2>
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
