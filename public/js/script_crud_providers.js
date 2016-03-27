@@ -107,7 +107,7 @@ $(function()
                         });
                     });
                     $("#edit_" + token).click(function() {
-                        window.location = "/api/usuarios/userId/" + $("#tr_" + this.id.split("_")[1]).attr("data-id")+"/0";
+                        window.location = "/api/usuarios/userId/" + $("#tr_" + this.id.split("_")[1]).attr("data-id")+"/2";
                     });
              });
 
