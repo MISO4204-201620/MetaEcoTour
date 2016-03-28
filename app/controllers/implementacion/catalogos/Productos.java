@@ -69,7 +69,7 @@ public class Productos implements IProducto {
     }
 
     @Override
-    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType, Long idProveedor) {
+    public List<Producto> getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType, Long idProveedor, Long idCategory) {
         List<Producto> productos=null;
         List<Producto> productosConsultados=null;
 
@@ -87,6 +87,11 @@ public class Productos implements IProducto {
 
         if(0 !=idProveedor){
             parameterSentence += " and pr.idProveedor = :idProveedor";
+
+        }
+
+        if(0 !=idCategory){
+            parameterSentence += " and pr.idCategoria = :idCategory";
 
         }
 
@@ -111,6 +116,9 @@ public class Productos implements IProducto {
             query.setParameter("idProveedor",idProveedor);
         }
 
+        if(0 !=idCategory){
+            query.setParameter("idCategory",idCategory);
+        }
         productos=query.getResultList();
         productosConsultados =paginarResultados(productos,query,numPage);
         return productosConsultados;
@@ -158,23 +166,23 @@ public class Productos implements IProducto {
         if(numPage >= 0){
             pageIndex = numPage-1;
         }
-        int primerResultado= pageIndex * 5;
+        int primerResultado= pageIndex * 6;
         if(countResult==0 && numPage ==1){
             productosConsultados = new ArrayList<Producto>();
         }else {
-            if(!(countResult<5 && numPage >=2)) {
+            if(!(countResult<6 && numPage >=2)) {
 
                 if (primerResultado <= countResult) {
-                    if (primerResultado == countResult && countResult>5) {
+                    if (primerResultado == countResult && countResult>6) {
                         primerResultado = primerResultado - 1;
                     }
-                    query = query.setMaxResults(5)
+                    query = query.setMaxResults(6)
                             .setFirstResult(primerResultado);
                     productosConsultados = query.getResultList();
                     productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
-                } else if ((primerResultado - countResult) <= 5) {
-                    query = query.setMaxResults(5)
-                            .setFirstResult(((pageIndex - 1) * 5) + (5 - (primerResultado - countResult)));
+                } else if ((primerResultado - countResult) <= 6) {
+                    query = query.setMaxResults(6)
+                            .setFirstResult(((pageIndex - 1) * 6) + (6 - (primerResultado - countResult)));
                     productosConsultados = query.getResultList();
                     productosConsultados= productosConsultados.isEmpty()?null:productosConsultados;
                 }
