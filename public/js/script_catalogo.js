@@ -2,11 +2,12 @@ $(function()
 {
     var numPage = 1,
         producServicio = [],
-        filtro = {name : "", inicial : "", final : "", type : "", provider : ""},
+        filtro = {name : "", inicial : "", final : "", type : "", provider : "", categoria : "0"},
         precios = {
                     rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
                     rangoMax : {valor : 0, label : "Max", filtro : "final"}
                   };
+    //categoria/1
     //Para la moneda...
     function format2(n, currency)
     {
@@ -158,17 +159,34 @@ $(function()
         {
             var total   = 0,
                 txt     = "";
-            console.log(data);
-
+            //console.log(data);
             for(var i = 0; i < data.length; i++)
             {
                 total += data[i].cantidad;
-                txt += "<li class=\"list-group-item\"><a href = \"#\">"+(data[i].nombre)+"</a> <span class=\"badge\">"+(data[i].cantidad)+"</span></li>";
+                txt = "<li class=\"list-group-item\"><a href = \"javascript:;\" id = \"cate_"+(guid())+"\" data-id = \""+(data[i].id)+"\" class=\"cateMarket\">"+(data[i].nombre)+"</a> <span class=\"badge\">"+(data[i].cantidad)+"</span></li>";
+                $("#categoriesList").append(txt);
             }
-            txt = "<li class=\"list-group-item active\"><a href = \"#\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>" + txt;
-            $("#categoriesList").html(txt);
-            //Para adicionar el valor de las categorias...
-            //http://localhost:9000/api/producto/numpage/1/SER/1
+            $("#categoriesList").prepend("<li class=\"list-group-item\"><a href = \"javascript:;\" id = \"cate_"+(guid())+"\" data-id = \"0\" class=\"seleCategoria cateMarket\">Todo</a> <span class=\"badge\">"+(total)+"</span></li>");
+            $(".cateMarket").click(function(e)
+            {
+                var token = e.currentTarget.id;
+                var idCategoria = $("#" + token).attr("data-id");
+                for(var i = 0; i < $(".cateMarket").size(); i++)
+                {
+                    if(token === $(".cateMarket")[i].id)
+                    {
+                        $("#" +  $(".cateMarket")[i].id).addClass("seleCategoria");
+                    }
+                    else
+                    {
+                        $("#" +  $(".cateMarket")[i].id).removeClass("seleCategoria");
+                    }
+                    //console.log($(".cateMarket")[i].id);
+                }
+                //console.log(idCategoria);
+                filtro.categoria = idCategoria;
+                elementos();
+            });
             elementos();
         });
     })();
@@ -190,12 +208,14 @@ $(function()
         //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/ALL
         //http://localhost:9000/api/productos/numpage/1/name/0name/inicial/-1/final/-1/type/0type/provider/101
         //debugger;
+        //categoria/1
         var url = "/api/productos/numpage/"+ numPage;
         url += "/name/" + (filtro.name !== "" ? filtro.name : "0name");
         url += "/inicial/" + (inicial > 0 ? inicial : "-1");
         url += "/final/" + (finaliza > 0 ? finaliza : "-1");
         url += "/type/" + (filtro.type !== "" ? filtro.type : "ALL");
         url += "/provider/" + (filtro.provider !== "" ? filtro.provider : "0");
+        url += "/categoria/" + filtro.categoria;
         console.log(url);
         $.getJSON(url, function(data)
         {
