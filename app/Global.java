@@ -21,9 +21,7 @@ public class Global extends GlobalSettings {
         //Start SendGrid
         try {
             STSendGridManager.initInstance(application);
-            STSendGridManager.getInstance().sendEmail("manuel.mancipe@gmail.com",
-                "manuel.mancipe@gmail.com", "Notificación de Aplicación MetaEcotour - AWS!!",
-                "Señor Usuario, ");
+
         } catch (Exception e) {
             Logger.error("Ocurrio un error enviando el mensaje", e.fillInStackTrace());
         }
