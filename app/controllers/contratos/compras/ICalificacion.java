@@ -14,6 +14,8 @@ public interface ICalificacion {
 
     public Calificacion getPromedioByServicio(Long idServicio);
 
+    public boolean validaCompraProducto(Long idUsuario, Long idProducto);
+
     Calificacion save(Calificacion calificacion);
 
     Calificacion delete(Calificacion calificacion);

@@ -1,13 +1,17 @@
 package controllers.implementacion.compras;
 
 import controllers.contratos.compras.ICalificacion;
+import controllers.contratos.compras.ICompra;
 import models.catalogo.Producto;
 import models.compra.Calificacion;
 import models.compra.CalificacionId;
+import models.compra.Compra;
+import models.compra.ItemCompra;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.Date;
 import java.util.List;
 
@@ -16,6 +20,7 @@ import java.util.List;
  */
 public class Calificaciones implements ICalificacion {
     private static ICalificacion calificaciones = new Calificaciones();
+    private static ICompra compras = new Compras();
 
     @Override
     @Transactional
@@ -80,4 +85,25 @@ public class Calificaciones implements ICalificacion {
         }
         return calf;
     }
+
+    public boolean validaCompraProducto(Long idUsuario, Long idProducto){
+        boolean comprado=false;
+
+        List<Compra> comprasUsr = compras.getComprasByUsuario(idUsuario);
+        for (int i = 0; i < comprasUsr.size(); i++)
+        {
+            if (comprasUsr.get(i).getEstado().compareTo("C") == 0) {
+                List<ItemCompra> items = compras.getItemmsCompra(comprasUsr.get(i).getIdCompra());
+                for (int j = 0; j < items.size(); j++)
+                {
+                   if(items.get(j).getIdProducto().compareTo(idProducto) == 0){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return comprado;
+    }
+
 }
