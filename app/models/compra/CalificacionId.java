@@ -9,7 +9,6 @@ import java.sql.Date;
 public class CalificacionId implements Serializable {
     private Long idUsuario;
     private Long idProducto;
-    private Date fecha  ;
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -27,11 +26,4 @@ public class CalificacionId implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
 }

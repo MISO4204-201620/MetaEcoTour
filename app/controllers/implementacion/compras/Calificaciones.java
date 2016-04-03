@@ -8,6 +8,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.EntityManager;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -40,13 +41,14 @@ public class Calificaciones implements ICalificacion {
         CalificacionId pKey = new CalificacionId();
         pKey.setIdProducto(calificacion.getIdProducto());
         pKey.setIdUsuario(calificacion.getIdUsuario());
-        pKey.setFecha(calificacion.getFecha());
         Calificacion calf = em.find(Calificacion.class, pKey);
         if(calf == null){
+            calificacion.setFecha(new Date(System.currentTimeMillis()));
             em.persist(calificacion);
         }
         else
         {
+            calf.setFecha(new Date(System.currentTimeMillis()));
             calf.setValor(calificacion.getValor());
         }
         //Traer todas las calificacionesy promediarlas...
@@ -72,7 +74,6 @@ public class Calificaciones implements ICalificacion {
         CalificacionId pKey = new CalificacionId();
         pKey.setIdProducto(calificacion.getIdProducto());
         pKey.setIdUsuario(calificacion.getIdUsuario());
-        pKey.setFecha(calificacion.getFecha());
         Calificacion calf = em.find(Calificacion.class, pKey);
         if(calf!=null) {
             em.remove(calf);
