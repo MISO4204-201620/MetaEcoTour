@@ -34,6 +34,13 @@ dependencyOverrides += "junit" % "junit" % "4.12"
 //SendGrid
 libraryDependencies += "com.sendgrid" % "sendgrid-java" % "2.2.2"
 
+libraryDependencies += "org.aspectj" % "aspectjweaver" % "1.7.2"
+libraryDependencies += "org.aspectj" % "aspectjrt"     % "1.7.2"
+
+libraryDependencies += "com.jcabi" % "jcabi-aspects" % "0.8"
+
+libraryDependencies += "com.jcabi" % "jcabi-log" % "0.8"
+
 
 PlayKeys.externalizeResources := false
 
