@@ -49,8 +49,11 @@ public class Comentario {
     @Column(nullable=false)
     private Date fecha;
 
-    @Column(nullable=false)
+    @Column(nullable=true)
     private long idUsuario;
+
+    @Column(nullable=true)
+    private Long idUsuarioDestino;
 
     @ManyToOne
     private Comentario origen;
@@ -125,6 +128,14 @@ public class Comentario {
 
     public Comentario() {
 
+    }
+
+    public long getIdUsuarioDestino() {
+        return idUsuarioDestino;
+    }
+
+    public void setIdUsuarioDestino(Long idUsuarioDestino) {
+        this.idUsuarioDestino = idUsuarioDestino;
     }
 }
 

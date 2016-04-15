@@ -13,6 +13,7 @@ public class ComentarioDTO {
     private Date fecha;
     private long numeroComentarios;
     private long origen;
+    private long usuarioDestino;
     private Comentario.Tipo tipo;
 
     public ComentarioDTO() {
@@ -34,6 +35,17 @@ public class ComentarioDTO {
         this.tipo = tipo;
         this.fecha = fecha;
         this.numeroComentarios = numeroComentarios;
+    }
+
+    public ComentarioDTO(long id, String nombreUsuario, String comentario, Date fecha, long numeroComentarios, long origen, long usuarioDestino, Comentario.Tipo tipo) {
+        this.id = id;
+        this.nombreUsuario = nombreUsuario;
+        this.comentario = comentario;
+        this.fecha = fecha;
+        this.numeroComentarios = numeroComentarios;
+        this.origen = origen;
+        this.usuarioDestino = usuarioDestino;
+        this.tipo = tipo;
     }
 
     public long getId() {
@@ -87,4 +99,12 @@ public class ComentarioDTO {
     public Comentario.Tipo getTipo() { return tipo; }
 
     public void setTipo(Comentario.Tipo tipo) { this.tipo = tipo; }
+
+    public long getUsuarioDestino() {
+        return usuarioDestino;
+    }
+
+    public void setUsuarioDestino(long usuarioDestino) {
+        this.usuarioDestino = usuarioDestino;
+    }
 }

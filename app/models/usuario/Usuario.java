@@ -55,6 +55,11 @@ public class Usuario implements Serializable{
     @JsonIgnore
     private List<Comentario> comentarios;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idUsuarioDestino")
+    @JsonIgnore
+    private List<Comentario> comentariosDestino;
+
     @Transient
     private String tipo;
 
@@ -133,4 +138,12 @@ public class Usuario implements Serializable{
     public String getTipo() {return tipo;}
 
     public void setTipo(String tipo) { this.tipo = tipo;}
+
+    public List<Comentario> getComentariosDestino() {
+        return comentariosDestino;
+    }
+
+    public void setComentariosDestino(List<Comentario> comentariosDestino) {
+        this.comentariosDestino = comentariosDestino;
+    }
 }

@@ -43,6 +43,12 @@ public class ComentariosController extends Controller {
                 comentario.setOrigen(null);
                 comentario.setSubComentarios(null);
                 comentario.setIdUsuario(usuario.getId());
+                if (comentarioDTO.getUsuarioDestino() != 0){
+                    comentario.setIdUsuarioDestino(comentarioDTO.getUsuarioDestino());
+                }else {
+                    comentario.setIdUsuarioDestino(null);
+                }
+
                 if (comentarioDTO.getOrigen() != 0){
                     comentario.setOrigen(new Comentario(comentarioDTO.getOrigen()));
                 }
