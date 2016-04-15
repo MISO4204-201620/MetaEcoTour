@@ -33,7 +33,7 @@ import java.util.List;
 public class Comentario {
 
     public enum Tipo {
-        COMENTARIO, PREGUNTA;
+        COMENTARIO, PREGUNTA, MENSAJE;
     }
 
     @Id
@@ -67,8 +67,8 @@ public class Comentario {
     @JsonIgnore
     private Collection<Comentario> subComentarios;
 
-    @Column(nullable=false)
-    private long idProducto;
+    @Column(nullable=true)
+    private Long idProducto;
 
     public long getId() {
         return id;
@@ -110,9 +110,9 @@ public class Comentario {
         this.subComentarios = subComentarios;
     }
 
-    public long getIdProducto() { return idProducto; }
+    public Long getIdProducto() { return idProducto; }
 
-    public void setIdProducto(long idProducto) { this.idProducto = idProducto; }
+    public void setIdProducto(Long idProducto) { this.idProducto = idProducto; }
 
     public long getIdUsuario() { return idUsuario; }
 
@@ -130,8 +130,11 @@ public class Comentario {
 
     }
 
-    public long getIdUsuarioDestino() {
-        return idUsuarioDestino;
+    public Long getIdUsuarioDestino() {
+        //if (idUsuarioDestino != null){
+            return idUsuarioDestino;
+        //}
+        //return new Long(0);
     }
 
     public void setIdUsuarioDestino(Long idUsuarioDestino) {

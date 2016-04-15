@@ -39,14 +39,14 @@ public class ComentariosController extends Controller {
                 comentario.setId(comentarioDTO.getId());
                 comentario.setFecha(comentarioDTO.getFecha());
                 comentario.setTexto(comentarioDTO.getComentario());
-                comentario.setIdProducto(comentarioDTO.getNumeroComentarios());
                 comentario.setOrigen(null);
                 comentario.setSubComentarios(null);
                 comentario.setIdUsuario(usuario.getId());
                 if (comentarioDTO.getUsuarioDestino() != 0){
                     comentario.setIdUsuarioDestino(comentarioDTO.getUsuarioDestino());
-                }else {
-                    comentario.setIdUsuarioDestino(null);
+                }
+                if (comentarioDTO.getNumeroComentarios() != 0){
+                    comentario.setIdProducto(comentarioDTO.getNumeroComentarios());
                 }
 
                 if (comentarioDTO.getOrigen() != 0){
@@ -54,8 +54,10 @@ public class ComentariosController extends Controller {
                 }
                 if (comentarioDTO.getTipo().name().equals(Comentario.Tipo.COMENTARIO.toString())){
                     comentario.setTipo(Comentario.Tipo.COMENTARIO);
-                } else {
+                } else if (comentarioDTO.getTipo().name().equals(Comentario.Tipo.PREGUNTA.toString())){
                     comentario.setTipo(Comentario.Tipo.PREGUNTA);
+                } else {
+                    comentario.setTipo(Comentario.Tipo.MENSAJE);
                 }
 
 
