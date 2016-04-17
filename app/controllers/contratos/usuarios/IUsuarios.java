@@ -1,5 +1,6 @@
 package controllers.contratos.usuarios;
 
+import models.mensajeria.Comentario;
 import models.usuario.Proveedor;
 import models.usuario.Usuario;
 
@@ -25,4 +26,6 @@ public interface IUsuarios {
     public Usuario getUsuarioById(Long idProvider);
 
     public Usuario deleteUserById(Long userId);
+
+    public List<Object> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type);
 }

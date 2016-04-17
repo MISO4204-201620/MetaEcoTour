@@ -3,6 +3,7 @@ package controllers.implementacion.usuarios;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.contratos.usuarios.IUsuarios;
+import models.mensajeria.Comentario;
 import models.usuario.Administrador;
 import models.usuario.Cliente;
 import models.usuario.Proveedor;
@@ -109,5 +110,19 @@ public class UsuariosController extends Controller {
         //return ok(crudproveedores.render());
         //return ok();
 
+    }
+
+    @Transactional(readOnly=true)
+    public Result getUsuariosInteraccionMensajes(Long id, String type) {
+        Comentario.Tipo tipo = Comentario.Tipo.MENSAJE;
+        if (type.equals(Comentario.Tipo.COMENTARIO.name()))
+        {
+            tipo = Comentario.Tipo.COMENTARIO;
+        }
+        if (type.equals(Comentario.Tipo.PREGUNTA.name()))
+        {
+            tipo = Comentario.Tipo.PREGUNTA;
+        }
+        return ok(Json.toJson(usuarios.getUsuariosInteraccionMensajes(id, tipo)));
     }
 }

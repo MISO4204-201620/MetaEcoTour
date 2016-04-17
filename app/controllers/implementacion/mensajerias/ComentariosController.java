@@ -143,4 +143,9 @@ public class ComentariosController extends Controller {
         }
         return ok(respuesta);
     }
+
+    @Transactional
+    public Result getMensajesByUsuarios(Long idOrigen, Long idDestino){
+        return ok(Json.toJson(comentarios.getMensajesByUsuarios(idOrigen, idDestino)));
+    }
 }

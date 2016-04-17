@@ -2,6 +2,7 @@ package controllers.implementacion.usuarios;
 
 
 import controllers.contratos.usuarios.IUsuarios;
+import models.mensajeria.Comentario;
 import models.usuario.Administrador;
 import models.usuario.Cliente;
 import models.usuario.Proveedor;
@@ -197,4 +198,33 @@ public class Usuarios implements IUsuarios {
         }
         return usuariosConsultados;
     }
+
+
+    @Override
+    @Transactional
+    public List<Object> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type){
+        String sql = "SELECT id, nombre " +
+                "FROM usuario " +
+                "where id in ( " +
+                "SELECT DISTINCT comentario.idUsuarioDestino " +
+                "FROM comentario " +
+                "INNER JOIN usuario " +
+                "on comentario.idusuario = usuario.id " +
+                "where usuario.id = ?1 " +
+                "and comentario.tipo = ?2 " +
+                "union " +
+                "SELECT DISTINCT comentario.idusuario " +
+                "FROM comentario " +
+                "INNER JOIN usuario " +
+                "on comentario.idusuariodestino = usuario.id " +
+                "where usuario.id = ?1 " +
+                "and comentario.tipo = ?2 " +
+                ")";
+
+        return JPA.em().createNativeQuery(sql)
+                .setParameter(1,id)
+                .setParameter(2, type.name()).getResultList();
+    }
+
+
 }
