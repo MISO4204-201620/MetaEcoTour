@@ -18,11 +18,15 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name="Usuario.findByAuthToken", query="SELECT u FROM Usuario u WHERE u.authToken =:token"),
         @NamedQuery(name="Usuario.findByCorreoAndClave", query="SELECT u FROM Usuario u WHERE u.correo =:correo AND u.clave =:clave")
-        //@NamedQuery(name="Usuario.findUserByMensajes", query="SELECT comentario.idUsuarioDestino FROM Usuario u JOIN u.comentarios comentario WHERE u.id =:id AND comentario.tipo =:tipo " +
-        //        "UNION SELECT comentariotmp.idUsuario FROM Usuario utmp JOIN utmp.comentariosDestino comentariotmp WHERE comentariotmp.idUsuarioDestino =:id AND comentariotmp.tipo =:tipo ")
-        //@NamedQuery(name="Usuario.findUserByMensajes", query="SELECT DISTINCT comentariotmp.idUsuario FROM Usuario utmp JOIN utmp.comentariosDestino comentariotmp WHERE comentariotmp.idUsuarioDestino =:id AND comentariotmp.tipo =:tipo ")
+
 
 })
+@SqlResultSetMapping(name="UsuarioDTOMapping",
+        classes = {
+                @ConstructorResult(targetClass = UsuarioDTO.class,
+                        columns = {@ColumnResult(name="id", type = String.class ), @ColumnResult(name="nombre", type = String.class)}
+                )}
+)
 public class Usuario implements Serializable{
 
     @Id

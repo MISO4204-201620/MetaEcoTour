@@ -3,10 +3,7 @@ package controllers.implementacion.usuarios;
 
 import controllers.contratos.usuarios.IUsuarios;
 import models.mensajeria.Comentario;
-import models.usuario.Administrador;
-import models.usuario.Cliente;
-import models.usuario.Proveedor;
-import models.usuario.Usuario;
+import models.usuario.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -202,8 +199,8 @@ public class Usuarios implements IUsuarios {
 
     @Override
     @Transactional
-    public List<Object> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type){
-        String sql = "SELECT id, nombre " +
+    public List<UsuarioDTO> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type){
+        String sql = "SELECT id AS id, nombre AS nombre " +
                 "FROM usuario " +
                 "where id in ( " +
                 "SELECT DISTINCT comentario.idUsuarioDestino " +
@@ -221,7 +218,7 @@ public class Usuarios implements IUsuarios {
                 "and comentario.tipo = ?2 " +
                 ")";
 
-        return JPA.em().createNativeQuery(sql)
+        return JPA.em().createNativeQuery(sql, "UsuarioDTOMapping")
                 .setParameter(1,id)
                 .setParameter(2, type.name()).getResultList();
     }

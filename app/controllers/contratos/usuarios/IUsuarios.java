@@ -3,6 +3,7 @@ package controllers.contratos.usuarios;
 import models.mensajeria.Comentario;
 import models.usuario.Proveedor;
 import models.usuario.Usuario;
+import models.usuario.UsuarioDTO;
 
 import java.util.List;
 
@@ -27,5 +28,5 @@ public interface IUsuarios {
 
     public Usuario deleteUserById(Long userId);
 
-    public List<Object> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type);
+    public List<UsuarioDTO> getUsuariosInteraccionMensajes (Long id, Comentario.Tipo type);
 }
