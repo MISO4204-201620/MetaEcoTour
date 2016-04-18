@@ -2,6 +2,8 @@ package controllers.implementacion.mensajerias;
 
 import controllers.contratos.mensajerias.IComentario;
 import models.mensajeria.Comentario;
+import models.mensajeria.MensajeDTO;
+import models.usuario.Usuario;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -97,6 +99,8 @@ public class Comentarios implements IComentario {
                 .setParameter("comentarioId",comentario).getResultList();
     }
 
+
+
     @Override
     @Transactional
     public List<Comentario> getComentariosByIdUsuario(Long id) {
@@ -111,5 +115,25 @@ public class Comentarios implements IComentario {
             return (List<Comentario>) comentario.getSubComentarios();
         }
         return null;
+    }
+
+    @Transactional
+    public List<MensajeDTO> getMensajesByUsuarios(Long idOrigen, Long idDestino){
+        String sql = "select id, texto, fecha, idusuario " +
+                "from comentario " +
+                "where comentario.idusuario = ?1 " +
+                "and comentario.idusuariodestino = ?2 " +
+                "and comentario.tipo = 'MENSAJE' " +
+                "union " +
+                "select id, texto, fecha, idusuario " +
+                "from comentario " +
+                "where comentario.idusuario = ?2 " +
+                "and comentario.idusuariodestino = ?1 " +
+                "and comentario.tipo = 'MENSAJE' " +
+                "order by fecha";
+
+        return JPA.em().createNativeQuery(sql, "MensajeDTOMapping")
+                .setParameter(1,idOrigen)
+                .setParameter(2,idDestino).getResultList();
     }
 }

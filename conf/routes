@@ -20,6 +20,8 @@ GET         /api/comentarios/:productoId/:numPagina/:tipo    controllers.impleme
 GET         /api/subcomentarios/:id         controllers.implementacion.mensajerias.ComentariosController.getSubComentarios(id: Long)
 DELETE      /api/comentarios/:id            controllers.implementacion.mensajerias.ComentariosController.delete(id: Long)
 GET         /api/subcomentario/:id         controllers.implementacion.mensajerias.ComentariosController.getComentariosByPadre(id: Long)
+GET         /api/mensajeria/usuarios/:id/:tipo    controllers.implementacion.usuarios.UsuariosController.getUsuariosInteraccionMensajes(id: Long, tipo: String)
+GET         /api/mensajeria/msn/:idOrigen/:idDestino    controllers.implementacion.mensajerias.ComentariosController.getMensajesByUsuarios(idOrigen: Long, idDestino: Long)
 
 #servicios de las categorias:
 GET         /api/categorias/                controllers.implementacion.catalogos.CategoriasController.getCategorias()

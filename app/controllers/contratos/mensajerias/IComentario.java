@@ -1,6 +1,8 @@
 package controllers.contratos.mensajerias;
 
 import models.mensajeria.Comentario;
+import models.mensajeria.MensajeDTO;
+import models.usuario.Usuario;
 
 import java.util.List;
 
@@ -24,5 +26,8 @@ public interface IComentario {
     List<Comentario> getSubComentarios(Long id);
 
     List<Object> getComentariosByIdPadreComentario(Long id);
+
+    public List<MensajeDTO> getMensajesByUsuarios(Long idOrigen, Long idDestino);
+
 }
 

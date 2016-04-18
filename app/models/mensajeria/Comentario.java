@@ -30,6 +30,15 @@ import java.util.List;
                 "GROUP BY cm, us.nombre"),
         @NamedQuery(name="Comentario.findByIdUsuario", query="SELECT cm FROM Comentario cm where cm.idUsuario = :usuarioId")
 })
+@SqlResultSetMapping(name="MensajeDTOMapping",
+        classes = {
+                @ConstructorResult(targetClass = MensajeDTO.class,
+                        columns = {@ColumnResult(name="fecha", type = java.util.Date.class),
+                                   @ColumnResult(name="id", type = String.class ),
+                                   @ColumnResult(name="idusuario", type = String.class),
+                                   @ColumnResult(name="texto", type = String.class)}
+                )}
+)
 public class Comentario {
 
     public enum Tipo {
@@ -131,10 +140,7 @@ public class Comentario {
     }
 
     public Long getIdUsuarioDestino() {
-        //if (idUsuarioDestino != null){
-            return idUsuarioDestino;
-        //}
-        //return new Long(0);
+        return idUsuarioDestino;
     }
 
     public void setIdUsuarioDestino(Long idUsuarioDestino) {
