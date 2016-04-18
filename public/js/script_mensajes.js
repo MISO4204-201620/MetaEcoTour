@@ -13,9 +13,9 @@ $(function()
     }
 
     var campos  = ["idCategoria", "nombre", "descripcion", "precioActual", "imagen"],
-        idUsuario = 11,
-        idUsuarioDestino = 50,
-        nombreUsuario = "Proveedor de Servicios especiales",
+        idUsuario = tipoUser.datosUser().data.id,
+        idUsuarioDestino = 0,
+        nombreUsuario = tipoUser.datosUser().data.nombre,
         nombreUsuarioDestino = "Paseos Ecologicos";
 
 
@@ -37,7 +37,7 @@ $(function()
     //Se listan las preguntas de un servicio...
     var usuarios = (function elementos()
     {
-
+        //console.log("get usuarios, idUsuario: " + idUsuario);
         $("#usuarios").html("");
        //falta validar la paginacion
         var url = "/api/mensajeria/usuarios/" + idUsuario + "/MENSAJE";
@@ -52,7 +52,16 @@ $(function()
                 {
                     i++;
                     var idToken = guid();
-                    $("#usuarios").append(baseUsuario(item, i));
+
+                    $("#usuarios").append(baseUsuario(item, i, idToken));
+
+                    $("#user_" + idToken).click(function(e)
+                    {
+
+                        mensajes(this.id.split("_")[1]);
+                        //createForm(this.id.split("_")[1], true, item);
+                    });
+
 
                 });
             }
@@ -66,17 +75,21 @@ $(function()
 
     })();
 
-    var baseUsuario = function(data, i)
+    var baseUsuario = function(data, i, token)
     {
         var txt ="";
 
         if(i == 1){
-            txt += '<li class="active bounceInDown">';
+            txt += '<li id="active_'+(token)+'" class="active bounceInDown">';
+            //realiza el llamado a los mensajes del primer contacto
+            idUsuarioDestino = data.id;
+            nombreUsuarioDestino = data.nombre;
+            mensajes(null);
         } else {
-            txt += '<li class="bounceInDown">';
+            txt += '<li id="active_'+(token)+'" class="bounceInDown">';
         }
 
-        txt += '<a href="#" class="clearfix">' +
+        txt += '<a href="#"  id="user_'+(token)+'"  data-id="'+(data.id)+'" class="clearfix">' +
             '<img src="http://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">' +
             '<strong>' + data.nombre +'</strong>' +
             '</div>' +
@@ -89,8 +102,19 @@ $(function()
     };
 
     //Se listan las preguntas de un servicio...
-    var mensajes = (function elementos()
+    var mensajes = (function elementos(token)
     {
+
+        if (token){
+            idUsuarioDestino = $("#user_" + token).attr("data-id");
+            //<li id="active_'+(token)+'" class="active bounceInDown">
+            //eliminar todas las clases active de las clases bounceInDown
+            $(".bounceInDown").removeClass("active");
+            //adicionar la clase active al componente con id id="active_'+(token)+'"
+            $("#active_"+token).addClass("active");
+
+        }
+        console.log("get mensajes, idUsuario: " + idUsuario + ", idusuario destino: " + idUsuarioDestino);
 
         $("#chats").html("");
         //falta validar la paginacion
@@ -140,7 +164,8 @@ $(function()
         } else {
             txt += '<strong class="primary-font">' +nombreUsuarioDestino +'</strong>';
         }
-        txt += '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago</small>' ;
+        var fecha = ajustarFecha(data.fecha);
+        txt += '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i>' + fecha+ '</small>' ;
         txt += '</div>' +
             '<p>'
             +  data.texto +
@@ -150,6 +175,28 @@ $(function()
         return txt;
 
     };
+
+    function ajustarFecha(fecha) {
+
+        var date = new Date(fecha);
+
+        var dateActual = new Date();
+        var txt = " ";
+        if (date.getDate() != dateActual.getDate()){
+            txt += date.getDate() + " - "+ (date.getMonth() + 1) + " - " + date.getFullYear();
+        } else {
+
+            if (date.getHours() == dateActual.getHours()){
+                txt += "hace " + (dateActual.getMinutes()- date.getMinutes()) + " minutos";
+            } else {
+                txt += "hace " + (dateActual.getHours()- date.getHours()) + " horas";
+            }
+        }
+        return txt;
+
+    }
+
+
 });
 
 
