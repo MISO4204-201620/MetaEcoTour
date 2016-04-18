@@ -14,6 +14,8 @@ public interface IUsuarios {
 
     public Usuario findByAuthToken (String authToken);
 
+    public Usuario findBySocialToken (String socialToken);
+
     public Usuario findByCorreoAndClave (String correo, String clave);
 
     public String gestionarToken(Usuario usuario, boolean estado);

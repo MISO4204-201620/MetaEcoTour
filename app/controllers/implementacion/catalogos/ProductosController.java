@@ -1,6 +1,7 @@
 package controllers.implementacion.catalogos;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.contratos.catalogos.IBusqueda;
 import controllers.contratos.catalogos.IProducto;
 import models.catalogo.*;
 import models.usuario.Proveedor;
@@ -9,7 +10,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +23,8 @@ import java.util.List;
  */
 public class ProductosController extends Controller {
     private static IProducto productos = new Productos();
+    private static IBusqueda busquedas = new Busquedas();
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 
     @Transactional
@@ -117,11 +125,19 @@ public class ProductosController extends Controller {
         return ok(respuesta);
     }
 
-    @Transactional(readOnly=true)
-    public Result getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType, Long idProvider, Long idCategory){
+    @Transactional
+    public Result getProductosByPageByFilters(Integer numPage,String name,Double precioInicial, Double precioFinal, String productType, Long idProvider, Long idCategory) throws ParseException {
         List<Producto> productosList =productos.getProductosByPageByFilters(numPage,name,precioInicial,precioFinal,productType, idProvider, idCategory);
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"La página solicitada no existe\"}");
         if(productosList!=null){
+            Date actualDate = Calendar.getInstance().getTime();
+            for(Producto producto:productosList){
+                Busqueda busquedaTmp = new Busqueda();
+                busquedaTmp.setIdProducto(producto.getId());
+                busquedaTmp.setTipoBusqueda("BUSQUEDA");
+                busquedaTmp.setFechaBusqueda(df.parse(df.format(actualDate)));
+                busquedaTmp= busquedas.save(busquedaTmp);
+            }
             respuesta= Json.toJson(productosList);
         }
         return ok(respuesta);

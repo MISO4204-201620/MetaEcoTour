@@ -1,5 +1,7 @@
 package controllers.implementacion.usuarios;
 
+import com.amazonaws.util.json.JSONException;
+import com.amazonaws.util.json.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.usuarios.IUsuarios;
 import models.usuario.Administrador;
@@ -50,6 +52,22 @@ public class SecurityController extends Controller {
             }
             return ok(Json.toJson(usuario));
         }
+    }
+
+    @Transactional
+    public Result socialLogin() throws JSONException {
+
+        JsonNode json = request().body().asJson();
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El usuario asociado al token no existe\"}");
+        Usuario usuario = usuarios.findBySocialToken(json.get("socialToken").asText());
+        if(usuario != null){
+            String authToken = usuarios.gestionarToken(usuario, true);
+            response().setCookie(AUTH_TOKEN, authToken);
+            JSONObject jsonObjectUsuario = new JSONObject(Json.toJson(usuario).toString());
+            jsonObjectUsuario.remove("clave");
+            respuesta = Json.parse(jsonObjectUsuario.toString());
+        }
+        return ok(respuesta);
     }
 
     @Transactional

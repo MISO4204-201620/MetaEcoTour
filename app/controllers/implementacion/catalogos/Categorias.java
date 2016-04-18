@@ -11,11 +11,20 @@ import java.util.List;
 /**
  * Created by jose on 2/20/16.
  */
-public class Categorias  implements ICategorias {
+public class Categorias implements ICategorias {
 
 
-    public  List<Object> getCategorias() {
+    public List<Object> getCategorias() {
         return JPA.em().createNamedQuery("Categoria.findAllCantidadProductos").getResultList();
+    }
+
+    @Override
+    public Categoria getCategoriaById(long categoriaId) {
+
+        EntityManager em = JPA.em();
+        Categoria categoriaTemp = em.find(Categoria.class, categoriaId);
+        return  categoriaTemp;
+
     }
 
     @Override
@@ -25,9 +34,9 @@ public class Categorias  implements ICategorias {
         Long categoriaId = categoria.getId();
         Categoria categoriaTemp = em.find(Categoria.class, categoriaId);
 
-        if(categoriaTemp == null){
+        if (categoriaTemp == null) {
             em.persist(categoria);
-        }else{
+        } else {
             categoriaTemp.setNombre(categoria.getNombre());
             em.merge(categoriaTemp);
             categoria = categoriaTemp;

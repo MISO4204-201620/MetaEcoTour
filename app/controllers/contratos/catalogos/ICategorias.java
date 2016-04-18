@@ -11,6 +11,8 @@ public interface ICategorias {
 
     public List<Object> getCategorias();
 
+    public Categoria getCategoriaById(long categoriaId);
+
     Categoria save(Categoria categoria);
 
     Categoria delete(long l);

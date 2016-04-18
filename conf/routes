@@ -73,6 +73,7 @@ POST        /api/compras/pagar/           controllers.implementacion.compras.Tra
 # Servicios para consultar las busquedas o guardar la busqueda del producto
 GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
 GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
+GET         /api/busqueda/tipo/:tipo/provider/:providerId/fechaInicio/:fechaInicio/fechaFin/:fechaFin/cuenta/:cuenta        controllers.implementacion.catalogos.BusquedasController.getBusquedasByTypeAndDate(tipo:String, providerId: Long, fechaInicio : String, fechaFin : String, cuenta:String)
 POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
 
 #Servicios Asociados a las calificaciones:
@@ -95,6 +96,7 @@ GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest(
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 
 POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
+POST        /sociallogin                          controllers.implementacion.usuarios.SecurityController.socialLogin()
 POST        /logout                         controllers.implementacion.usuarios.SecurityController.logout()
 
 # Map static resources from the /public folder to the /assets URL path
