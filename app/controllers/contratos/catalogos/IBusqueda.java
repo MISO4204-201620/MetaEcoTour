@@ -3,6 +3,8 @@ package controllers.contratos.catalogos;
 import models.catalogo.Busqueda;
 
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,6 +16,10 @@ public interface IBusqueda {
     public List<Busqueda> getBusquedas();
 
     public List<Busqueda> getBusquedasByProductId(Long productId);
+
+    public List<Busqueda> getBusquedasByTypeAndDate(String type, Date fechaInicio, Date fechaFin);
+
+    public HashMap<String,String> getBusquedasByTypeDateAndCount(String tipo, Date fechaInicio, Date fechaFin);
 
     public Busqueda save(Busqueda busqueda);
 

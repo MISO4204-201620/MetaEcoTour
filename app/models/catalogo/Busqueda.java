@@ -8,8 +8,9 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name="Busqueda.findAll", query="SELECT bu FROM Busqueda bu"),
-        @NamedQuery(name="Busqueda.findBusquedaByProductId", query="SELECT bu FROM Busqueda bu where bu.idProducto = :productId")
+        @NamedQuery(name = "Busqueda.findAll", query = "SELECT bu FROM Busqueda bu"),
+        @NamedQuery(name = "Busqueda.findBusquedaByProductId", query = "SELECT bu FROM Busqueda bu where bu.idProducto = :productId"),
+        @NamedQuery(name = "Busqueda.findBusquedaByTypeAndDate", query = "SELECT bu FROM Busqueda bu where bu.tipoBusqueda = :tipo and bu.fechaBusqueda between :fechaInicio and :fechaFin")
 })
 public class Busqueda {
 
@@ -19,13 +20,15 @@ public class Busqueda {
     @SequenceGenerator(name = "busquedaGen",
             sequenceName = "busqueda_seq")
     private Long id;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Long idProducto;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Date fechaBusqueda;
+    @Column(nullable = false)
+    private String tipoBusqueda;
 
 
-    public Busqueda(){
+    public Busqueda() {
         super();
     }
 
@@ -51,5 +54,13 @@ public class Busqueda {
 
     public void setFechaBusqueda(Date fechaBusqueda) {
         this.fechaBusqueda = fechaBusqueda;
+    }
+
+    public String getTipoBusqueda() {
+        return tipoBusqueda;
+    }
+
+    public void setTipoBusqueda(String tipoBusqueda) {
+        this.tipoBusqueda = tipoBusqueda;
     }
 }
