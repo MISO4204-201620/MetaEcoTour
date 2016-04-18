@@ -16,18 +16,19 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({
-        @NamedQuery(name="Usuario.findByAuthToken", query="SELECT u FROM Usuario u WHERE u.authToken =:token"),
-        @NamedQuery(name="Usuario.findByCorreoAndClave", query="SELECT u FROM Usuario u WHERE u.correo =:correo AND u.clave =:clave")
+        @NamedQuery(name = "Usuario.findByAuthToken", query = "SELECT u FROM Usuario u WHERE u.authToken =:token"),
+        @NamedQuery(name = "Usuario.findBySocialToken", query = "SELECT u FROM Usuario u WHERE u.socialToken =:socialToken"),
+        @NamedQuery(name = "Usuario.findByCorreoAndClave", query = "SELECT u FROM Usuario u WHERE u.correo =:correo AND u.clave =:clave")
 
 
 })
-@SqlResultSetMapping(name="UsuarioDTOMapping",
+@SqlResultSetMapping(name = "UsuarioDTOMapping",
         classes = {
                 @ConstructorResult(targetClass = UsuarioDTO.class,
-                        columns = {@ColumnResult(name="id", type = String.class ), @ColumnResult(name="nombre", type = String.class)}
+                        columns = {@ColumnResult(name = "id", type = String.class), @ColumnResult(name = "nombre", type = String.class)}
                 )}
 )
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
@@ -36,34 +37,36 @@ public class Usuario implements Serializable{
             sequenceName = "usuario_seq")
     private long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String documento;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String correo;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String tipoDoc;
 
-    @Column(nullable=true)
+    @Column(nullable = true)
     private byte[] shaClave;
 
-    @Column(nullable=true)
+    @Column(nullable = true)
     private String authToken;
 
-    @Column(nullable=true)
+    private String socialToken;
+
+    @Column(nullable = true)
     private String clave;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idUsuario")
     @JsonIgnore
     private List<Comentario> comentarios;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idUsuarioDestino")
     @JsonIgnore
     private List<Comentario> comentariosDestino;
@@ -135,6 +138,14 @@ public class Usuario implements Serializable{
         this.authToken = authToken;
     }
 
+    public String getSocialToken() {
+        return socialToken;
+    }
+
+    public void setSocialToken(String socialToken) {
+        this.socialToken = socialToken;
+    }
+
     public List<Comentario> getComentarios() {
         return comentarios;
     }
@@ -143,9 +154,13 @@ public class Usuario implements Serializable{
         this.comentarios = comentarios;
     }
 
-    public String getTipo() {return tipo;}
+    public String getTipo() {
+        return tipo;
+    }
 
-    public void setTipo(String tipo) { this.tipo = tipo;}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public List<Comentario> getComentariosDestino() {
         return comentariosDestino;

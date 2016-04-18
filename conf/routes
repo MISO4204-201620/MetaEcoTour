@@ -95,6 +95,7 @@ GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest(
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 
 POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
+POST        /sociallogin                          controllers.implementacion.usuarios.SecurityController.socialLogin()
 POST        /logout                         controllers.implementacion.usuarios.SecurityController.logout()
 
 # Map static resources from the /public folder to the /assets URL path

@@ -27,6 +27,15 @@ public class Usuarios implements IUsuarios {
         }
     }
 
+    @Override
+    public Usuario findBySocialToken(String socialToken) {
+        try {
+            return JPA.em().createNamedQuery("Usuario.findBySocialToken", Usuario.class ).setParameter("socialToken", socialToken).getSingleResult();
+        } catch (javax.persistence.NoResultException e){
+            return null;
+        }
+    }
+
     @Transactional
     public Usuario findByCorreoAndClave (String correo, String clave){
         try {
