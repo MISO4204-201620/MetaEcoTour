@@ -55,6 +55,7 @@ public class Usuario implements Serializable {
     @Column(nullable = true)
     private String authToken;
 
+    @Column(nullable = false)
     private String socialToken;
 
     @Column(nullable = true)
