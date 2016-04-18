@@ -25,8 +25,10 @@ public class Application extends Controller {
         return ok(serpaq.render());
     }
 
-    public Result preguntas(){return ok(preguntas.render());
-    }
+    public Result preguntas(){return ok(preguntas.render());}
+
+    public Result mensajes(){return ok(mensajes.render());}
+
     public Result shoppingCar()
     {
         return ok(shopping.render());

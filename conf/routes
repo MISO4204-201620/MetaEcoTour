@@ -12,6 +12,7 @@ GET         /crudclients                    controllers.Application.crudclients(
 GET         /paqser                         controllers.Application.paqser()
 GET         /preguntas                      controllers.Application.preguntas()
 GET         /shopping                       controllers.Application.shoppingCar()
+GET         /mensajes                       controllers.Application.mensajes()
 
 #Servicios de los comentarios:
 POST        /api/comentarios/               controllers.implementacion.mensajerias.ComentariosController.save()
