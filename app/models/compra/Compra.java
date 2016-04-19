@@ -1,7 +1,10 @@
 package models.compra;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by JoséLuis on 19/03/2016.
@@ -33,6 +36,12 @@ import java.sql.Date;
     private String medioPago;
     @Column(nullable=true)
     private String descripcion;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idCompra")
+    @JsonIgnore
+    private List<ItemCompra> itemCompras;
+
 
     public Long getIdCompra() {
         return idCompra;
@@ -88,5 +97,13 @@ import java.sql.Date;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<ItemCompra> getItemCompras() {
+        return itemCompras;
+    }
+
+    public void setItemCompras(List<ItemCompra> itemCompras) {
+        this.itemCompras = itemCompras;
     }
 }
