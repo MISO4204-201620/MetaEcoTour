@@ -16,23 +16,30 @@ public class ReporteComprasController extends Controller {
 private static IReporteCompra reportes = new ReporteCompras();
 
     @Transactional
-    public Result getComprasByProveedorConsolidado(Long idProveedor) {
-        return ok(Json.toJson(reportes.getComprasByProveedorConsolidado(idProveedor)));
+    public Result getComprasConsolidado(String entidad, Long id) {
+        int vista=this.getVista(entidad);
+        return ok(Json.toJson(reportes.getComprasConsolidado(vista,id)));
     }
 
     @Transactional
-    public Result getComprasByProveedorDetalle(Long idProveedor, Long idProducto) {
-        return ok(Json.toJson(reportes.getComprasByProveedorDetalle(idProveedor,idProducto)));
+    public Result getComprasDetalle(String entidad, Long id, Long idProducto) {
+        int vista=this.getVista(entidad);
+        return ok(Json.toJson(reportes.getComprasDetalle(vista,id,idProducto)));
     }
 
-    @Transactional
-    public Result getComprasByUsuarioConsolidado(Long idUsuario) {
-        return ok(Json.toJson(reportes.getComprasByUsuarioConsolidado(idUsuario)));
+private int getVista(String entidad ){
+    int vista=0;
+    switch(entidad){
+        case "prv":{
+            vista=1;
+        }break;
+        case "usr":{
+            vista=2;
+        }break;
     }
+return vista;
 
-    @Transactional
-    public Result getComprasByUsuarioDetalle(Long idUsuario, Long idProducto) {
-        return ok(Json.toJson(reportes.getComprasByUsuarioDetalle(idUsuario,idProducto)));
-    }
+}
+
 
 }

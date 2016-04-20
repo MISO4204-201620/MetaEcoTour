@@ -10,29 +10,19 @@ import java.util.List;
  * Created by JoséLuis on 17/04/2016.
  */
 public class ReporteCompras implements IReporteCompra {
+
     @Override
-    public List<ComprasDTO> getComprasByProveedorConsolidado(Long idProveedor) {
-        String query=this.getQueryConsol(1);
-        return JPA.em().createQuery(query).setParameter(1,idProveedor).getResultList();
+    public List<ComprasDTO> getComprasConsolidado(int vista, Long id) {
+        String query=this.getQueryConsol(vista);
+        return JPA.em().createQuery(query).setParameter(1,id).getResultList();
     }
 
     @Override
-    public List<ComprasDTO> getComprasByProveedorDetalle(Long idProveedor, Long idProducto) {
-        String query=this.getQueryDetalle(1);
-        return JPA.em().createQuery(query).setParameter(1,idProveedor).setParameter(2,idProducto).getResultList();
+    public List<ComprasDTO> getComprasDetalle(int vista, Long id, Long idProducto) {
+        String query=this.getQueryDetalle(vista);
+        return JPA.em().createQuery(query).setParameter(1,id).setParameter(2,idProducto).getResultList();
     }
 
-    @Override
-    public List<ComprasDTO> getComprasByUsuarioConsolidado(Long idUsuario) {
-        String query=this.getQueryConsol(2);
-        return JPA.em().createQuery(query).setParameter(1,idUsuario).getResultList();
-    }
-
-    @Override
-    public List<ComprasDTO> getComprasByUsuarioDetalle(Long idUsuario, Long idProducto) {
-        String query=this.getQueryDetalle(2);
-        return JPA.em().createQuery(query).setParameter(1,idUsuario).setParameter(2,idProducto).getResultList();
-    }
 
     private String getQueryConsol(int agrupacion){
         String query="";

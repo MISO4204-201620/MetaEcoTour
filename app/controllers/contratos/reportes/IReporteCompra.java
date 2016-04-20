@@ -9,10 +9,7 @@ import java.util.List;
  */
 public interface IReporteCompra {
 
-    public List<ComprasDTO> getComprasByProveedorConsolidado(Long idProveedor);
-    public List<ComprasDTO> getComprasByProveedorDetalle(Long idProveedor, Long idProducto);
-
-    public List<ComprasDTO> getComprasByUsuarioConsolidado(Long idUsuario);
-    public List<ComprasDTO> getComprasByUsuarioDetalle(Long idUsuario, Long idProducto);
+    public List<ComprasDTO> getComprasConsolidado(int vista, Long id);
+    public List<ComprasDTO> getComprasDetalle(int vista, Long id, Long idProducto);
 
 }
