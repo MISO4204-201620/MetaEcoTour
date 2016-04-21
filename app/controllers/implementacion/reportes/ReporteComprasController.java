@@ -1,6 +1,6 @@
 package controllers.implementacion.reportes;
 
-import controllers.contratos.reportes.IReporte;
+//import controllers.contratos.reportes.IReporte;
 import controllers.contratos.reportes.IReporteCompra;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
