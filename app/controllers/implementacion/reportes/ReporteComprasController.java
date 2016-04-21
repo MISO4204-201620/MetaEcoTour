@@ -1,5 +1,9 @@
 package controllers.implementacion.reportes;
 
+<<<<<<< HEAD
+=======
+//import controllers.contratos.reportes.IReporte;
+>>>>>>> origin/master
 import controllers.contratos.reportes.IReporteCompra;
 import play.db.jpa.Transactional;
 import play.libs.Json;
