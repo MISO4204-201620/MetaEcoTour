@@ -95,6 +95,10 @@ GET        /api/usuario/cuentaExterno                  controllers.implementacio
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 
+GET        /api/rptCompra/:entidad/:id                           controllers.implementacion.reportes.ReporteComprasController.getComprasConsolidado(entidad : String, id : Long)
+GET        /api/rptCompra/:entidad/:id/:idProducto               controllers.implementacion.reportes.ReporteComprasController.getComprasDetalle(entidad : String, id : Long, idProducto : Long)
+
+
 POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
 POST        /sociallogin                          controllers.implementacion.usuarios.SecurityController.socialLogin()
 POST        /logout                         controllers.implementacion.usuarios.SecurityController.logout()

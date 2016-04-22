@@ -173,6 +173,14 @@ $(function()
 
     });
 
+    var muestraPopup = function(e)
+    {
+        var token   = e.currentTarget.id.split("_")[1],
+            nombre  = $("#nom_" + token).html();
+        $("#textTitle").html("<b>Enviar mensaje a: " + nombre + "</b>");
+        $("#mensaje").attr("placeholder", "Escibe tú mensaje para " + nombre).val("");
+        $('#myModal').modal('show');
+    };
 
     //Se listan las preguntas de un servicio...
     var preguntas = (function elementos()
@@ -253,6 +261,11 @@ $(function()
                     {
                         callcoments(this.id.split("_")[1]);
                     });
+
+                    $("#msg_" + idToken).click(function(e)
+                    {
+                        muestraPopup(e);
+                    });
                 });
             }
             else
@@ -330,7 +343,7 @@ $(function()
             '</a>' +
             '<div class="media-body">' +
             '<div class="well well-lg">' +
-            '<h4 class="media-heading text-uppercase reviews">' + data.nombreUsuario + '</h4>' +
+            '<h4 class="media-heading text-uppercase reviews" id = "nom_'+(token)+'">' + data.nombreUsuario + '</h4>' +
             '<ul class="media-date text-uppercase reviews list-inline">' +
             '<li class="dd">' + date.getDate() +'</li>' +
             '<li class="mm">' + month + '</li>' +
@@ -338,13 +351,19 @@ $(function()
             '</ul>' +
             '<p class="media-comment">' + data.comentario +
             '</p>';
-        if (!pregunta){
-            txt += '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Respuesta </a>' ;
+        if (!pregunta)
+        {
+            txt += '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Respuesta </a>';
         }
+        txt += '<a class="btn btn-info btn-circle text-uppercase" data-id = "'+(data.id)+'" id = "msg_'+(token)+'"><span class="glyphicon glyphicon-envelope"></span> Enviar Mensaje </a>';
         if (data.numeroComentarios > 0)
         {
             txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + ' Comentario(s)</a>';
         }
+
+        //txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + ' Comentario(s)</a>';
+
+
 
         txt += '</div>' +
             '</div>';
@@ -574,7 +593,10 @@ $(function()
                     {
                         callcoments(this.id.split("_")[1]);
                     });
-
+                    $("#msg_" + idToken).click(function(e)
+                    {
+                        muestraPopup(e);
+                    });
                 });
                 $(elemento).toggle();
             }

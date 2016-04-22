@@ -30,23 +30,58 @@ $(function()
         });
     });
 
+    var social = {crea : false, token : ""};
+    if(localStorage.getItem("socialuser"))
+    {
+        //console.log("SOCIAL");
+        var datosSocial = JSON.parse(localStorage.getItem("socialuser"));
+        social.crea = true;
+        social.token = datosSocial.loginProviderUID;
+        console.log(datosSocial);
+        //Pasar los datos al formulario...
+        $("#divclave").remove();
+        $("#nombre").val(datosSocial.firstName);
+        $("#apellido").val(datosSocial.lastName);
+        $("#correo").val(datosSocial.email);
+        //Eliminar la información del localStotage...
+        localStorage.removeItem("socialuser");
+    }
+
     $("#createEditClient").submit(function(event)
     {
 
         //Primero saber si los campos no están vacios...
         var cliente = {tipoUsuario:"CLIENT",usuario : {}},
-            campos = ["nombre", "apellido","correo", "clave", "documento", "tipoDoc"],
-            procesa = true;
+            campos = ["nombre", "apellido","correo", "clave", "documento", "tipoDoc", "socialToken"],
+            procesa = true,
+            evaluaCampo = false;
         for(var i = 0; i < campos.length; i++)
         {
-            cliente.usuario[campos[i]] = $("#" + campos[i]).val();
-
-            if($("#" + campos[i]).val().length === 0)
+            if(campos[i] === "socialToken")
             {
-                $("#" + campos[i]).focus();
-                sweetAlert("Error", "Por favor completa el campo: " + campos[i], "error");
-                procesa = false;
-                break;
+                cliente.usuario[campos[i]] = social.crea ? social.token : "";
+            }
+            else
+            {
+                if(campos[i] === "clave" && social.crea)
+                {
+                    cliente.usuario[campos[i]] = "";
+                }
+                else
+                {
+                    cliente.usuario[campos[i]] = $("#" + campos[i]).val();
+                }
+            }
+            evaluaCampo = (campos[i] === "socialToken" || (social.crea && campos[i] === "clave")) ? false : true;
+            if(evaluaCampo)
+            {
+                if ($("#" + campos[i]).val().length === 0)
+                {
+                    $("#" + campos[i]).focus();
+                    sweetAlert("Error", "Por favor completa el campo: " + campos[i], "error");
+                    procesa = false;
+                    break;
+                }
             }
         }
 
@@ -64,8 +99,9 @@ $(function()
                     dataType 	: "json",
                     contentType: "application/json; charset=utf-8"
                 }).done(function(data)
-            {
-                if (registroLogin){
+                {
+                if (registroLogin)
+                {
 //                    window.location = "/login";
                     //swal({title: "Exitoso!", text: "Se han creado el usuario, por favor loguese con sus credenciales",   timer: 2000, type : "success" });
                     swal({
@@ -80,7 +116,9 @@ $(function()
                     {
                         window.location = "/login";
                     });
-                }else {
+                }
+                else
+                {
                     window.location = "/crudclients";
                 }
 
