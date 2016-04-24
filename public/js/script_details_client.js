@@ -102,8 +102,10 @@ $(function()
                 {
                 if (registroLogin)
                 {
-//                    window.location = "/login";
+                    autenticaUser();
+//                   window.location = "/login";
                     //swal({title: "Exitoso!", text: "Se han creado el usuario, por favor loguese con sus credenciales",   timer: 2000, type : "success" });
+                    /*
                     swal({
                         title: "Exitoso",
                         text: "Se ha creado una cuenta de usuario con tus datos, ¿Deseas iniciar sesión?",
@@ -116,6 +118,7 @@ $(function()
                     {
                         window.location = "/login";
                     });
+                    */
                 }
                 else
                 {
@@ -131,6 +134,45 @@ $(function()
         }
         event.preventDefault();
     });
+
+    var autenticaUser = function()
+    {
+        var dataUser = {},
+            servicio = "";
+        //var social = {crea : false, token : ""};
+        if(social.crea)
+        {
+            dataUser.socialToken  = social.token;
+            servicio = "/sociallogin";
+        }
+        else
+        {
+            dataUser.correo = $("#correo").val();
+            dataUser.clave = $("#clave").val();
+            servicio = "/login";
+        }
+        $.ajax(
+        {
+            url 		: servicio,
+            type 		: "POST",
+            data 		: JSON.stringify(dataUser),
+            dataType 	: "json",
+            contentType: "application/json; charset=utf-8"
+        }).done(function(data)
+        {
+            localStorage.setItem("user", JSON.stringify(data));
+            console.log(data);
+            window.location.href = "/catalog"
+            console.log(data.authToken);
+        }).error(function(request, status, error)
+        {
+            sweetAlert("Error", "No ha sido posible realizar la autenticación!", "error");
+        });
+    };
+
+
+
+
 
     var user = JSON.parse(localStorage.getItem("user")) || {};
     console.log(user);

@@ -30,6 +30,31 @@ $(function()
         $("#divCarrito").remove();
     }
 
+    //Para guardar la acción de almacenamiento de la consulta...
+    var guardaConsulta = (function()
+    {
+        //console.log(idProducto);
+        var date = new Date();
+        var fechaBusqueda = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        fechaBusqueda += "T1" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        var consulta = {
+                            idProducto      : idProducto,
+                            fechaBusqueda   : fechaBusqueda,
+                            tipoBusqueda    : "CONSULTA"
+                        };
+        console.log(consulta);
+        $.ajax({
+            url 		: "/api/busqueda/",
+            type 		: "POST",
+            data 		: JSON.stringify(consulta),
+            dataType 	: "json",
+            contentType: "application/json; charset=utf-8"
+        }).done(function(data)
+        {
+            console.log(data);
+        });
+    })();
+
     function format2(n, currency)
     {
         return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
