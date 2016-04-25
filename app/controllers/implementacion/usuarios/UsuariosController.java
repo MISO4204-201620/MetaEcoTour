@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class UsuariosController extends Controller {
     private static IUsuarios usuarios = new Usuarios();
+    public static final String AUTH_TOKEN = "authToken";
 
     @Transactional
     public Result crearUsuario() {
@@ -47,6 +48,8 @@ public class UsuariosController extends Controller {
         if(usuario != null){
             usuarioGuardado=usuarios.crearUsuario(usuario, tipoUsuario);
             if(usuarioGuardado !=null) {
+                String authToken = usuarios.gestionarToken(usuarioGuardado, true);
+                response().setCookie(AUTH_TOKEN, authToken);
                 respuesta = Json.toJson(usuarioGuardado);
             }
         }
