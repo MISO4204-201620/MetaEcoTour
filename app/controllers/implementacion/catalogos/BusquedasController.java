@@ -107,9 +107,10 @@ public class BusquedasController extends Controller {
                 jsonProducto.put("precioActual", producto.getPrecioActual());
                 jsonProducto.put("puntuacion", producto.getPuntuacion());
                 jsonProducto.put("id", producto.getId());
-
                 jsonObjectTmp.put("producto", jsonProducto);
-                JSONObject jsonCategoria = new JSONObject(categorias.getCategoriaById(categoriaId));
+                Categoria categoria = categorias.getCategoriaById(categoriaId);
+                JsonNode jsonNode = Json.toJson(categoria);
+                JSONObject jsonCategoria = new JSONObject(jsonNode.toString());
                 jsonObjectTmp.put("nombreCategoria", jsonCategoria.get("nombre"));
                 jsonArray.put(jsonObjectTmp);
             }
