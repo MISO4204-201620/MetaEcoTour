@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="4">
+		<struct>
+			<and abstract="true" mandatory="true" name="MarketPlace">
+				<feature mandatory="true" name="AdministracionProductos"/>
+				<and mandatory="true" name="Autenticacion">
+					<feature mandatory="true" name="SistemaLocal"/>
+					<and name="RedesSociales">
+						<feature name="FaceBook"/>
+						<feature name="Twitter"/>
+						<feature name="Google"/>
+					</and>
+				</and>
+				<and mandatory="true" name="Productos">
+					<feature mandatory="true" name="BuscarPaqueteServicio"/>
+				</and>
+				<and mandatory="true" name="CarritoCompras">
+					<and mandatory="true" name="Transacciones">
+						<feature mandatory="true" name="Historico"/>
+						<feature name="PublicarTransaccion"/>
+					</and>
+				</and>
+				<feature mandatory="true" name="AdministracionProveedores"/>
+				<and name="Calificaciones">
+					<feature name="ConsultarCalificacion"/>
+					<feature name="ComentarCalificacion"/>
+				</and>
+				<and name="Preguntas">
+					<feature name="ConsultarPregunta"/>
+					<feature name="ResponderPregunta"/>
+				</and>
+				<and name="Reportes">
+					<feature name="Busquedas"/>
+					<feature name="Consultas"/>
+					<feature name="Ventas"/>
+				</and>
+				<feature name="MesaDeAyuda"/>
+				<feature name="Mensajeria"/>
+			</and>
+		</struct>
+		<constraints/>
+		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
