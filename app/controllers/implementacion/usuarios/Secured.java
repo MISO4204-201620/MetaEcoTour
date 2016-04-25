@@ -21,7 +21,7 @@ public class Secured extends Security.Authenticator {
 
         Usuario usuario = null;
 
-        String[] authTokenHeaderValues = ctx.request().headers().get(SecurityController.AUTH_TOKEN_HEADER);
+        String[] authTokenHeaderValues = ctx.request().headers().get(SecurityStrategy.AUTH_TOKEN_HEADER);
         if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
             usuario = usuarios.findByAuthToken(authTokenHeaderValues[0]);
             if (usuario != null) {
