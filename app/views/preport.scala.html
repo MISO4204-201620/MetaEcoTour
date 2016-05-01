@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MetaEcotour</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+            <!-- Material Design fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+            <!-- Bootstrap -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Custom CSS -->
+        <link href="@routes.Assets.versioned("stylesheets/shop-homepage.css")" rel="stylesheet">
+
+            <!-- Custom CSS - Comments -->
+        <link href="@routes.Assets.versioned("stylesheets/coments.css")" rel="stylesheet">
+
+            <!-- Bootstrap Material Design -->
+        <link href="@routes.Assets.versioned("stylesheets/bootstrap-material-design.css")" rel="stylesheet">
+        <link href="@routes.Assets.versioned("stylesheets/ripples.min.css")" rel="stylesheet">
+        <link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
+        <!-- Sweetalert -->
+        <link href="@routes.Assets.versioned("libs/swal/sweetalert.css")" rel="stylesheet">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <style>
+
+            input[type=date]
+            {
+                width: 100%;
+                height: 40px;
+                border: none;
+                font-size: 1em;
+                border-bottom: 1px solid silver;
+            }
+
+            .imagenTabla
+            {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                vertical-align: middle;
+            }
+            #atributos
+            {
+                height: 300px;
+                overflow-y: auto;
+            }
+        </style>
+    </head>
+    <body>
+            <!-- Navigation -->
+        <div class="navbar navbar-primary navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/catalog">MetaEcoTour</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav" id = "menuOpc">
+                        <li><a href="/catalog">Catálogo</a></li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id = "divCarrito"><a href = "/shopping">Mi Carrito <sup class="badge" style="background: #4CAF50;" id = "numCompras">0</sup></a></li>
+                        <li class="dropdown">
+                            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" id = "usuario"></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)">Mi Perfil</a></li>
+                                <li><a href="javascript:void(0)">Mis Compras</a></li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:void(0)" id = "logout">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            <!-- Fin de prueba //-->
+            <!-- Page Content -->
+        <div class="container">
+
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="/catalog">Catálogo</a></li>
+                    <li class="active">Mis Reportes</li>
+                </ol>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading lw-afterfirst-panel-heading">
+                        <h3 class="panel-title">Filtrar Por</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <select class="form-control" id = "typeReport">
+                                <!--
+                                <option value="volvo">Consultas</option>
+                                <option value="volvo">Búsquedas</option>
+                                //-->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="date" id = "fechaInicio">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="date" id = "fechaFinal">
+                        </div>
+
+                        <div align="center">
+                            <button type="button" class="btn btn-primary" id = "executeFilter"><span class="glyphicon glyphicon-filter"></span> Aplicar Filtro</button>
+                            <!-- <button type="button" class="btn btn-primary" id = "eraseFilter"><span class="glyphicon glyphicon-erase"></span> Borrar Filtro</button> //-->
+
+                            <button type="button" class="btn btn-primary" id = "reportPdf"><span class="glyphicon glyphicon-download-alt"></span> Reporte PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" id = "textTitle"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id = "atributos">
+
+                                <table class = "table" id = "tabatrr">
+                                    <tbody>
+                                        <tr>
+                                            <td width="25%">
+                                                Nombre
+                                            </td>
+                                            <td width="50%">
+                                                Valor
+                                            </td>
+                                            <td width="25%">
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id = "newAtrr">
+                                <span class="glyphicon glyphicon-plus"></span> Nuevo Atributo</button>
+                            <button type="button" class="btn btn-default" id = "cancelAtrr">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            //-->
+            <div class="col-md-9">
+                <!--
+                <div class="col-md-12">
+                    <a href="/cpaqser" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-plus"></span> Nuevo Paquete/Servicio
+                    </a>
+                </div>
+                //-->
+                <div class="col-md-12">
+                    <div id = "listado"></div>
+                    <div align="center" id = "paginador">
+                    </div>
+                </div>
+            </div>
+                <!-- /.container -->
+            <div class="container">
+
+                    <!-- Footer -->
+                <footer>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p align = "center">MetaEcoTour &copy; 2016</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+                <!-- /.container -->
+                <!-- Bootstrap Core JavaScript -->
+            <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+            <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script src = "@routes.Assets.versioned("libs/swal/sweetalert.min.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("libs/pdf/jspdf.min.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("libs/pdf/jspdf.plugin.autotable.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/user.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/shopping.js")" type="text/javascript"></script>
+            <script src = "@routes.Assets.versioned("js/script_preport.js")" type="text/javascript"></script>
+    </body>
+</html>

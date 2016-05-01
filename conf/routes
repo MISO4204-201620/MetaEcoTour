@@ -10,6 +10,10 @@ GET         /cpaqser                        controllers.Application.creapaqser()
 GET         /crudproviders                  controllers.Application.crudproviders()
 GET         /crudclients                    controllers.Application.crudclients()
 GET         /paqser                         controllers.Application.paqser()
+
+GET         /preport                         controllers.Application.preport()
+
+
 GET         /preguntas                      controllers.Application.preguntas()
 GET         /shopping                       controllers.Application.shoppingCar()
 GET         /mensajes                       controllers.Application.mensajes()
