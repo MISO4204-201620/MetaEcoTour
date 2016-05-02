@@ -46,8 +46,9 @@ var tipoUser = (function()
                 "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
                 "<b class=\"caret\"></b></a>" +
                 "<ul class=\"dropdown-menu\">" +
-                "<li><a href=\"/paqser\">Mis Servicios/Paquetes</a></li>" +
-                "<li><a href=\"/cpaqser\">Nuevo Paquete y servicio</a></li>" +
+                "<li><a href=\"/paqser\"><span class=\"glyphicon glyphicon-th-list\"></span> Mis Servicios/Paquetes</a></li>" +
+                "<li><a href=\"/cpaqser\"><span class=\"glyphicon glyphicon-plus\"></span> Nuevo Paquete y servicio</a></li>" +
+                "<li><a href=\"/preport\"><span class=\"glyphicon glyphicon-list-alt\"></span> Mis Reportes</a></li>" +
                 "</ul>" +
                 "</li>";
             $("#" + div).append(txtHTML);

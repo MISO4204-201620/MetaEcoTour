@@ -19,4 +19,10 @@ public class ServicesController extends Controller {
         return ok(Json.toJson(ftr.getVariableFeatures()));
     }
 
+    @Transactional
+    public Result getServicesJson() {
+        Features ftr= new Features("Json");
+        return ok(ftr.getConfigJson());
+    }
+
 }

@@ -19,12 +19,26 @@ public class Features {
 
 	private Feature feature;
 	private HashMap config;
+	private String configJson;
 	private List<Feature> variableFeatures;
 	
 	public Features() {
 		variableFeatures = new ArrayList<Feature>();
 		config = new HashMap();
 		loadFeatureFiles();
+	}
+
+	public Features(String typeMethod) {
+		this.configJson = null;
+		readConfigFileJson( "app/Procesador/metaEcotour.config" );
+	}
+
+	public String getConfigJson() {
+		return configJson;
+	}
+
+	public void setConfigJson(String configJson) {
+		this.configJson = configJson;
 	}
 
 	public Feature getFeature() {
@@ -130,6 +144,30 @@ public class Features {
 
 	}
 
+	private void readConfigFileJson( String file ) {
+		BufferedReader reader = null;
+		StringBuffer sb= new StringBuffer();
+		try {
+			reader = new BufferedReader( new FileReader(file));
+			String         line = null;
+			while( ( line = reader.readLine() ) != null ) {
+				sb.append(line);
+				System.out.println(line);
+			}
+			this.configJson = sb.toString();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 
 
