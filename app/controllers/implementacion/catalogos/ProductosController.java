@@ -31,20 +31,25 @@ public class ProductosController extends Controller {
     public Result save() {
         JsonNode json = request().body().asJson();
 
+
         String tipoProducto=json.get("tipoProducto").textValue();
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto no existe, para crear uno envíe el id vacío\"}");
         JsonNode productoJson =json.get("producto");
         JsonNode recursos =json.get("producto").get("recursos");
         JsonNode itemServicios =json.get("producto").get("itemServicios");
 
-        Producto producto = null;
+        ProductoFactory productoFactory = new ProductoFactory();
+
+        Producto producto = productoFactory.crearProducto(tipoProducto, productoJson);
         Producto productoGuardado = null;
+        /*
         if("PAQ".equals(tipoProducto)){
             producto= Json.fromJson(productoJson, Paquete.class);
 
         }else if("SER".equals(tipoProducto)){
             producto = Json.fromJson(productoJson, Servicio.class);
         }
+        */
 
         if(producto != null){
            productoGuardado=productos.save(producto);
