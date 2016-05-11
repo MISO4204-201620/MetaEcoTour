@@ -34,9 +34,11 @@ public class UsuariosController extends Controller {
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"No se ha podido crear el usuario\"}");
         JsonNode usuarioJson =json.get("usuario");
 
-        Usuario usuario = null;
+        UsuarioFactoryMethod usuarioFactoryMethod = new UsuarioFactory();
+        Usuario usuario = usuarioFactoryMethod.crerUsuario(tipoUsuario,usuarioJson);
         Usuario usuarioGuardado=null;
 
+        /*
         if("ADMIN".equals(tipoUsuario)){
             usuario = Json.fromJson(usuarioJson, Administrador.class);
         }else if("PROVIDER".equals(tipoUsuario)){
@@ -44,6 +46,7 @@ public class UsuariosController extends Controller {
         }else if("CLIENT".equals(tipoUsuario)){
             usuario = Json.fromJson(usuarioJson, Cliente.class);
         }
+        */
 
         if(usuario != null){
             usuarioGuardado=usuarios.crearUsuario(usuario, tipoUsuario);
