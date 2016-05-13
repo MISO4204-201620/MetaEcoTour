@@ -25,9 +25,9 @@
 					<feature name="ConsultarCalificacion"/>
 					<feature name="ComentarCalificacion"/>
 				</and>
-				<and name="Preguntas">
-					<feature name="ConsultarPregunta"/>
-					<feature name="ResponderPregunta"/>
+				<and mandatory="true" name="Preguntas">
+					<feature mandatory="true" name="ConsultarPregunta"/>
+					<feature mandatory="true" name="ResponderPregunta"/>
 				</and>
 				<and name="Reportes">
 					<feature name="Busquedas"/>

@@ -103,7 +103,7 @@ GET        /api/rptCompra/:entidad/:id                           controllers.imp
 GET        /api/rptCompra/:entidad/:id/:idProducto               controllers.implementacion.reportes.ReporteComprasController.getComprasDetalle(entidad : String, id : Long, idProducto : Long)
 
 #GET        /api/services/                   controllers.implementacion.ServicesController.getServices()
-GET        /api/services/json/                   controllers.implementacion.ServicesController.getServicesJson()
+GET        /api/services/                   controllers.implementacion.ServicesController.getServicesJson()
 
 
 #POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
