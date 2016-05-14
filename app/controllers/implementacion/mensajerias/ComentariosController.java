@@ -151,7 +151,7 @@ public class ComentariosController extends Controller {
     }*/
 
     @Transactional
-    @Mensajeria(true)
+    @Mensajeria(true) 
     public Result getMensajesByUsuarios(Long idOrigen, Long idDestino){
 
         List<MensajeDTO> mensajesUsuario = (List<MensajeDTO>)ctx().args.get("mensajesUsuario");
