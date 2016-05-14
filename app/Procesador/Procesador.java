@@ -22,6 +22,8 @@ public class Procesador {
 
     private boolean redesSociales;
 
+    private boolean mensajeria;
+
     private boolean reporteBusqueda;
 
     private boolean reporteConsulta;
@@ -60,6 +62,14 @@ public class Procesador {
         this.redesSociales = redesSociales;
     }
 
+    public boolean isMensajeria() {
+        return mensajeria;
+    }
+
+    public void setMensajeria(boolean mensajeria) {
+        this.mensajeria = mensajeria;
+    }
+
     public List getConfig() {
         return config;
     }
@@ -87,6 +97,10 @@ public class Procesador {
                 redesSociales = true;
             }
 
+            if (valor.equals(Constants.MENSAJERIA)){
+
+                mensajeria = true;
+            }
             if (valor.equals(Constants.REPORTE_BUSQUEDAS)){
                 System.out.println("reporte busquedas");
                 reporteBusqueda = true;
@@ -123,8 +137,7 @@ public class Procesador {
         FileUtilities.copyFile(ConstantsRutas.CORE_ROUTES , ConstantsRutas.DESTINO_CORE_ROUTES);
 
         if (procesador.isRedesSociales()){
-            //se comenta la siguiente linea debido a que ya no se hará con binary replacement
-            //FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
+            FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_ACTIVE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SOCIAL_LOGIN_ROUTE);
@@ -135,6 +148,15 @@ public class Procesador {
 
         if(procesador.isReporteBusqueda()){
 
+        }
+
+        //crear las anitaciones
+        if (procesador.isMensajeria()){
+            System.out.println("Mensajeria on++");
+            FileUtilities.editarArchivo(true);
+            //editar la utilizacion de las anotaciones
+        } else {
+            FileUtilities.editarArchivo(false);
         }
     }
 }

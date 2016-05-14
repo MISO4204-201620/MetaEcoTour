@@ -9,14 +9,31 @@ import java.util.List;
  */
 public class FileUtilities {
 
+    public static void editarArchivo(boolean mensajeria){
+        try {
+            RandomAccessFile fichero = new RandomAccessFile(ConstantsRutas.FILE_COMENTARIOS_CONTROLER, "rw");
+            fichero.seek(151);
+            if (mensajeria){
+                fichero.writeChars("@Mensajeria(true)");
+            } else {
+                fichero.writeChars("@Mensajeria(false)");
+            }
 
-    public static List<String> readConfigFile(String file) {
+        }catch (Exception e) {
+
+        }
+
+
+
+    }
+
+    public static  List<String> readConfigFile( String file) {
         List<String> config = new ArrayList<String>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(file));
+            reader = new BufferedReader( new FileReader(file));
             String line = null;
-            while ((line = reader.readLine()) != null) {
+            while( ( line = reader.readLine() ) != null ) {
                 config.add(line);
             }
         } catch (Exception e) {
@@ -32,7 +49,7 @@ public class FileUtilities {
         return config;
     }
 
-    public static void copyFile(String rutaOrigen, String rutaDestino) {
+    public static void copyFile (String rutaOrigen, String rutaDestino){
 
         File origen = new File(rutaOrigen);
         File destino = new File(rutaDestino);

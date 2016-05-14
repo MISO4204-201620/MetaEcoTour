@@ -1,5 +1,6 @@
 package controllers.implementacion.mensajerias;
 
+import Procesador.Mensajeria;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.contratos.mensajerias.IComentario;
 import controllers.contratos.usuarios.IUsuarios;
@@ -143,9 +144,22 @@ public class ComentariosController extends Controller {
         }
         return ok(respuesta);
     }
-
+/*
     @Transactional
     public Result getMensajesByUsuarios(Long idOrigen, Long idDestino){
         return ok(Json.toJson(comentarios.getMensajesByUsuarios(idOrigen, idDestino)));
+    }*/
+
+    @Transactional
+    @Mensajeria(true)
+    public Result getMensajesByUsuarios(Long idOrigen, Long idDestino){
+
+        List<MensajeDTO> mensajesUsuario = (List<MensajeDTO>)ctx().args.get("mensajesUsuario");
+        if (mensajesUsuario != null){
+            return ok(Json.toJson(mensajesUsuario));
+        }
+        return badRequest("No existe el servicio para mensajeria");
+
+
     }
 }

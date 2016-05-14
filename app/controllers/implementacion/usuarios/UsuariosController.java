@@ -1,13 +1,11 @@
 package controllers.implementacion.usuarios;
 
+import Procesador.Mensajeria;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.contratos.usuarios.IUsuarios;
 import models.mensajeria.Comentario;
-import models.usuario.Administrador;
-import models.usuario.Cliente;
-import models.usuario.Proveedor;
-import models.usuario.Usuario;
+import models.usuario.*;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -119,16 +117,14 @@ public class UsuariosController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    @Mensajeria(true)
     public Result getUsuariosInteraccionMensajes(Long id, String type) {
-        Comentario.Tipo tipo = Comentario.Tipo.MENSAJE;
-        if (type.equals(Comentario.Tipo.COMENTARIO.name()))
-        {
-            tipo = Comentario.Tipo.COMENTARIO;
+
+        List<UsuarioDTO> usuarioDTOs = (List<UsuarioDTO>)ctx().args.get("usuarioDTOs");
+        if (usuarioDTOs != null){
+            return ok(Json.toJson(usuarioDTOs));
         }
-        if (type.equals(Comentario.Tipo.PREGUNTA.name()))
-        {
-            tipo = Comentario.Tipo.PREGUNTA;
-        }
-        return ok(Json.toJson(usuarios.getUsuariosInteraccionMensajes(id, tipo)));
+        return badRequest("No existe el servicio para mensajeria");
+
     }
 }
