@@ -10,14 +10,13 @@ import java.util.List;
 public class FileUtilities {
 
 
-
-    public static  List<String> readConfigFile( String file) {
+    public static List<String> readConfigFile(String file) {
         List<String> config = new ArrayList<String>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader( new FileReader(file));
+            reader = new BufferedReader(new FileReader(file));
             String line = null;
-            while( ( line = reader.readLine() ) != null ) {
+            while ((line = reader.readLine()) != null) {
                 config.add(line);
             }
         } catch (Exception e) {
@@ -33,7 +32,7 @@ public class FileUtilities {
         return config;
     }
 
-    public static void copyFile (String rutaOrigen, String rutaDestino){
+    public static void copyFile(String rutaOrigen, String rutaDestino) {
 
         File origen = new File(rutaOrigen);
         File destino = new File(rutaDestino);
@@ -58,4 +57,18 @@ public class FileUtilities {
 
     }
 
+    public static void escribirLinea(String rutaArchivo, String linea) {
+        File fout = new File(rutaArchivo);
+        try {
+            FileOutputStream fos = new FileOutputStream(fout);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            bw.write(linea);
+
+            bw.close();
+        }catch (Exception e){
+            System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
+        }
+    }
 }

@@ -22,8 +22,38 @@ public class Procesador {
 
     private boolean redesSociales;
 
+    private boolean reporteBusqueda;
+
+    private boolean reporteConsulta;
+
+    private boolean reporteVentas;
+
     public boolean isRedesSociales() {
         return redesSociales;
+    }
+
+    public boolean isReporteBusqueda() {
+        return reporteBusqueda;
+    }
+
+    public void setReporteBusqueda(boolean reporteBusqueda) {
+        this.reporteBusqueda = reporteBusqueda;
+    }
+
+    public boolean isReporteConsulta() {
+        return reporteConsulta;
+    }
+
+    public void setReporteConsulta(boolean reporteConsulta) {
+        this.reporteConsulta = reporteConsulta;
+    }
+
+    public boolean isReporteVentas() {
+        return reporteVentas;
+    }
+
+    public void setReporteVentas(boolean reporteVentas) {
+        this.reporteVentas = reporteVentas;
     }
 
     public void setRedesSociales(boolean redesSociales) {
@@ -57,6 +87,20 @@ public class Procesador {
                 redesSociales = true;
             }
 
+            if (valor.equals(Constants.REPORTE_BUSQUEDAS)){
+                System.out.println("reporte busquedas");
+                reporteBusqueda = true;
+
+            }
+            if (valor.equals(Constants.REPORTE_CONSULTAS)){
+                System.out.println("reporte consultas");
+                reporteConsulta = true;
+            }
+            if (valor.equals(Constants.REPORTE_VENTAS)){
+                System.out.println("Twitter");
+                reporteVentas = true;
+            }
+
 
 
         }
@@ -75,10 +119,20 @@ public class Procesador {
         Procesador procesador = new Procesador();
         procesador.setConfig( FileUtilities.readConfigFile(ConstantsRutas.DEFAULT_CONFIG) );
         procesador.cargarPropiedades();
+        FileUtilities.copyFile(ConstantsRutas.CORE_CONFIG , ConstantsRutas.DESTINO_CORE_CONFIG);
 
         if (procesador.isRedesSociales()){
-            FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
+            //se comenta la siguiente linea debido a que ya no se hará con binary replacement
+            //FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_ACTIVE);
+
+        }else {
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_INACTIVE);
+        }
+
+        if(procesador.isReporteBusqueda()){
+
         }
     }
 }
