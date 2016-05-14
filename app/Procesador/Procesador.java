@@ -156,10 +156,10 @@ public class Procesador {
         //crear las anitaciones
         if (procesador.isMensajeria()){
             System.out.println("Mensajeria on++");
-            FileUtilities.editarArchivo(true);
+            //FileUtilities.editarArchivo(true);
             //editar la utilizacion de las anotaciones
         } else {
-            FileUtilities.editarArchivo(false);
+            //FileUtilities.editarArchivo(false);
         }
     }
 }
