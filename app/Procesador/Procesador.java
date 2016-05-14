@@ -120,12 +120,14 @@ public class Procesador {
         procesador.setConfig( FileUtilities.readConfigFile(ConstantsRutas.DEFAULT_CONFIG) );
         procesador.cargarPropiedades();
         FileUtilities.copyFile(ConstantsRutas.CORE_CONFIG , ConstantsRutas.DESTINO_CORE_CONFIG);
+        FileUtilities.copyFile(ConstantsRutas.CORE_ROUTES , ConstantsRutas.DESTINO_CORE_ROUTES);
 
         if (procesador.isRedesSociales()){
             //se comenta la siguiente linea debido a que ya no se hará con binary replacement
             //FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_ACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SOCIAL_LOGIN_ROUTE);
 
         }else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_INACTIVE);
