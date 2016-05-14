@@ -1,6 +1,6 @@
 package controllers.implementacion.usuarios;
 
-import Procesador.Mensajeria;
+import Activos.Mensajeria;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.contratos.usuarios.IUsuarios;

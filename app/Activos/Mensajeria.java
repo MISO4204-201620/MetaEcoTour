@@ -1,4 +1,4 @@
-package Procesador;
+package Activos;
 
 
 import play.mvc.With;

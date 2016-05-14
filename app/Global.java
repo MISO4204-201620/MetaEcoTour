@@ -15,7 +15,7 @@ public class Global extends GlobalSettings {
 
         System.out.println("Starting S3");
         //Start S3
-        S3Helper.initInstance(application);
+       // S3Helper.initInstance(application);
         //linea que permite cargar un arhivo en s3
         //S3Helper.uploadObject("20160130101046-m1.jpg", new File("/tmp/20160130101046.jpg"));
         //Start SendGrid

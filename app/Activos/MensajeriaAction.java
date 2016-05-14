@@ -1,4 +1,4 @@
-package Procesador;
+package Activos;
 
 import controllers.contratos.mensajerias.IComentario;
 import controllers.contratos.usuarios.IUsuarios;
