@@ -9,7 +9,23 @@ import java.util.List;
  */
 public class FileUtilities {
 
+    public static void editarArchivo(boolean mensajeria){
+        try {
+            RandomAccessFile fichero = new RandomAccessFile(ConstantsRutas.FILE_COMENTARIOS_CONTROLER, "rw");
+            fichero.seek(151);
+            if (mensajeria){
+                fichero.writeChars("@Mensajeria(true)");
+            } else {
+                fichero.writeChars("@Mensajeria(false)");
+            }
 
+        }catch (Exception e) {
+
+        }
+
+
+
+    }
 
     public static  List<String> readConfigFile( String file) {
         List<String> config = new ArrayList<String>();

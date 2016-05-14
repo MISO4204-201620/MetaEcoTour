@@ -15,12 +15,14 @@ public class Procesador {
 
 
     public Procesador() {
-       config = new ArrayList<String>();
+        config = new ArrayList<String>();
     }
 
     private List<String> config;
 
     private boolean redesSociales;
+
+    private boolean mensajeria;
 
     public boolean isRedesSociales() {
         return redesSociales;
@@ -30,6 +32,14 @@ public class Procesador {
         this.redesSociales = redesSociales;
     }
 
+    public boolean isMensajeria() {
+        return mensajeria;
+    }
+
+    public void setMensajeria(boolean mensajeria) {
+        this.mensajeria = mensajeria;
+    }
+
     public List getConfig() {
         return config;
     }
@@ -37,7 +47,7 @@ public class Procesador {
     public void setConfig(List config) {
         this.config = config;
     }
-    
+
     public void cargarPropiedades(){
 
         for (String valor: config) {
@@ -57,14 +67,18 @@ public class Procesador {
                 redesSociales = true;
             }
 
+            if (valor.equals(Constants.MENSAJERIA)){
+
+                mensajeria = true;
+            }
 
 
         }
 
 
     }
-        
-        
+
+
 
 
     public static void main (String [ ] args) {
@@ -79,6 +93,15 @@ public class Procesador {
         if (procesador.isRedesSociales()){
             FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
+        }
+
+        //crear las anitaciones
+        if (procesador.isMensajeria()){
+            System.out.println("Mensajeria on++");
+            FileUtilities.editarArchivo(true);
+            //editar la utilizacion de las anotaciones
+        } else {
+            FileUtilities.editarArchivo(false);
         }
     }
 }

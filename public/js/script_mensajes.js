@@ -9,7 +9,7 @@ $(function()
     }
     else
     {
-        window.location = "/login";
+       // window.location = "/login";
     }
 
     var campos  = ["idCategoria", "nombre", "descripcion", "precioActual", "imagen"],
