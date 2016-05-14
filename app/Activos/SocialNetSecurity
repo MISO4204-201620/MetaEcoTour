@@ -8,6 +8,8 @@ import controllers.implementacion.usuarios.Secured;
 import controllers.implementacion.usuarios.SecurityStrategy;
 import controllers.implementacion.usuarios.Usuarios;
 import models.usuario.Usuario;
+import play.Configuration;
+import play.Play;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -27,19 +29,28 @@ public class SocialNetSecurity extends Controller implements SecurityStrategy{
     @Override
     public Result login(){
 
-        JsonNode json = request().body().asJson();
+        Configuration conf = Play.application().configuration();
+
+        boolean autenticacionSocial= conf.getBoolean("social.login");
         JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El usuario asociado al token no existe\"}");
-        Usuario usuario = usuarios.findBySocialToken(json.get("socialToken").asText());
-        if(usuario != null){
-            String authToken = usuarios.gestionarToken(usuario, true);
-            response().setCookie(AUTH_TOKEN, authToken);
-            try {
-                JSONObject jsonObjectUsuario = new JSONObject(Json.toJson(usuario).toString());
-                jsonObjectUsuario.remove("clave");
-                respuesta = Json.parse(jsonObjectUsuario.toString());
-            }catch (JSONException e){
-                System.out.println("Se ha presentado un error en la autenticación con redes sociales");
+
+        if(autenticacionSocial) {
+            JsonNode json = request().body().asJson();
+
+            Usuario usuario = usuarios.findBySocialToken(json.get("socialToken").asText());
+            if (usuario != null) {
+                String authToken = usuarios.gestionarToken(usuario, true);
+                response().setCookie(AUTH_TOKEN, authToken);
+                try {
+                    JSONObject jsonObjectUsuario = new JSONObject(Json.toJson(usuario).toString());
+                    jsonObjectUsuario.remove("clave");
+                    respuesta = Json.parse(jsonObjectUsuario.toString());
+                } catch (JSONException e) {
+                    System.out.println("Se ha presentado un error en la autenticación con redes sociales");
+                }
             }
+        }else{
+            respuesta = Json.parse("{\"errorCode\":\"2\",\"desCode\":\"El servicio no se encuentra activo\"}");
         }
         return ok(respuesta);
     }
