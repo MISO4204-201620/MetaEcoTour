@@ -75,15 +75,12 @@ public class FileUtilities {
     }
 
     public static void escribirLinea(String rutaArchivo, String linea) {
-        File fout = new File(rutaArchivo);
+
         try {
-            FileOutputStream fos = new FileOutputStream(fout);
-
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-            bw.write(linea);
-
-            bw.close();
+            Writer output;
+            output = new BufferedWriter(new FileWriter(rutaArchivo,true));  //clears file every time
+            output.append(linea);
+            output.close();
         }catch (Exception e){
             System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
         }

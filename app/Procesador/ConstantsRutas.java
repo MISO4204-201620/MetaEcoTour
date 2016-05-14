@@ -11,9 +11,9 @@ public class ConstantsRutas {
 
     public static final String DESTINO_CORE_CONFIG = "conf/application.conf";
 
-    public static final String CORE_ROUTES= "app/Activos/routes_core.txt";
+    public static final String CORE_ROUTES= "app/Activos/routes_core";
 
-    public static final String DESTINO_CORE_ROUTES = "conf/routes.txt";
+    public static final String DESTINO_CORE_ROUTES = "conf/routes";
 
     public static final String ORIGEN_FILE_REDES_SOCIALES = "app/Activos/SocialNetSecurity";
 

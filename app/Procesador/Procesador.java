@@ -121,9 +121,6 @@ public class Procesador {
 
 
     }
-        
-        
-
 
     public static void main (String [ ] args) {
 
@@ -136,14 +133,20 @@ public class Procesador {
         FileUtilities.copyFile(ConstantsRutas.CORE_CONFIG , ConstantsRutas.DESTINO_CORE_CONFIG);
         FileUtilities.copyFile(ConstantsRutas.CORE_ROUTES , ConstantsRutas.DESTINO_CORE_ROUTES);
 
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+
         if (procesador.isRedesSociales()){
             FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_ACTIVE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SOCIAL_LOGIN_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
 
         }else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_INACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         }
 
         if(procesador.isReporteBusqueda()){
