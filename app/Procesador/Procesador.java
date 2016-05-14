@@ -157,5 +157,18 @@ public class Procesador {
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_COMENTARIOS_CONTROLER, 153);
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_USUARIOS_CONTROLER, 119);
 
+        if (procesador.isMensajeria()){
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_MENSAJES_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_USUARIOS_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+        }
+
+        //Se debe siempre colocar el final de archivo de rutas
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.FILE_ROUTE);
+
+
     }
 }
