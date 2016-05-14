@@ -74,6 +74,17 @@ POST        /api/compras/remove/           controllers.implementacion.compras.Co
 POST        /api/compras/pagar/           controllers.implementacion.compras.TransaccionesController.pagarCompra()
 
 
+# Servicios para consultar las busquedas o guardar la busqueda del producto
+GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
+GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
+GET         /api/busqueda/tipo/:tipo/provider/:providerId/fechaInicio/:fechaInicio/fechaFin/:fechaFin/cuenta/:cuenta        controllers.implementacion.catalogos.BusquedasController.getBusquedasByTypeAndDate(tipo:String, providerId: Long, fechaInicio : String, fechaFin : String, cuenta:String)
+POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
+
+#Servicios Asociados a las calificaciones:
+GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
+GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
+POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
+
 #Servicios asociados al CRUD de usuarios o proveedores
 
 POST        /api/usuarios/crear                       controllers.implementacion.usuarios.UsuariosController.crearUsuario()
@@ -88,35 +99,18 @@ GET        /api/usuario/cuentaExterno                  controllers.implementacio
 GET        /api/recursos/loadServ/          devUtils.LoadData.loadServiciosTest()
 GET        /api/recursos/loadPaqu/          devUtils.LoadData.loadPaquetesTest()
 
+GET        /api/rptCompra/:entidad/:id                           controllers.implementacion.reportes.ReporteComprasController.getComprasConsolidado(entidad : String, id : Long)
+GET        /api/rptCompra/:entidad/:id/:idProducto               controllers.implementacion.reportes.ReporteComprasController.getComprasDetalle(entidad : String, id : Long, idProducto : Long)
 
 #GET        /api/services/                   controllers.implementacion.ServicesController.getServices()
 GET        /api/services/                   controllers.implementacion.ServicesController.getServicesJson()
 
 
-#Servicios de autenticación
+#POST        /login                          controllers.implementacion.usuarios.SecurityController.login()
+#POST        /sociallogin                          controllers.implementacion.usuarios.SecurityController.socialLogin()
 POST        /login                          controllers.implementacion.usuarios.NormalSecurity.login()
+POST        /sociallogin                          controllers.implementacion.usuarios.SocialNetSecurity.login()
 POST        /logout                         controllers.implementacion.usuarios.NormalSecurity.logout()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /*file                          controllers.Assets.versioned(path="/public", file: Asset)
-
-#######################Desde acá se inician los servicios opcionales########################
-
-# Servicios para consultar las busquedas o guardar la busqueda del producto
-GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
-GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
-GET         /api/busqueda/tipo/:tipo/provider/:providerId/fechaInicio/:fechaInicio/fechaFin/:fechaFin/cuenta/:cuenta        controllers.implementacion.catalogos.BusquedasController.getBusquedasByTypeAndDate(tipo:String, providerId: Long, fechaInicio : String, fechaFin : String, cuenta:String)
-POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
-
-# Servicios de reportes
-
-GET        /api/rptCompra/:entidad/:id                           controllers.implementacion.reportes.ReporteComprasController.getComprasConsolidado(entidad : String, id : Long)
-GET        /api/rptCompra/:entidad/:id/:idProducto               controllers.implementacion.reportes.ReporteComprasController.getComprasDetalle(entidad : String, id : Long, idProducto : Long)
-
-#Servicios Asociados a las calificaciones:
-GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
-GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
-POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
-
-#Servicio de autenticación social
-POST        /sociallogin                          controllers.implementacion.usuarios.SocialNetSecurity.login()
