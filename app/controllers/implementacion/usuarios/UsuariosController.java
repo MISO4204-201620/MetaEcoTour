@@ -117,8 +117,7 @@ public class UsuariosController extends Controller {
     }
 
     @Transactional(readOnly=true)
-    @Mensajeria(true)
-    public Result getUsuariosInteraccionMensajes(Long id, String type) {
+    @Mensajeria(true)     public Result getUsuariosInteraccionMensajes(Long id, String type) {
 
         List<UsuarioDTO> usuarioDTOs = (List<UsuarioDTO>)ctx().args.get("usuarioDTOs");
         if (usuarioDTOs != null){

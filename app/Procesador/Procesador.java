@@ -98,7 +98,7 @@ public class Procesador {
             }
 
             if (valor.equals(Constants.MENSAJERIA)){
-
+                System.out.println("mensajes");
                 mensajeria = true;
             }
             if (valor.equals(Constants.REPORTE_BUSQUEDAS)){
@@ -153,13 +153,9 @@ public class Procesador {
 
         }
 
-        //crear las anitaciones
-        if (procesador.isMensajeria()){
-            System.out.println("Mensajeria on++");
-            //FileUtilities.editarArchivo(true);
-            //editar la utilizacion de las anotaciones
-        } else {
-            //FileUtilities.editarArchivo(false);
-        }
+        //crear las anotaciones para la mensajeria
+        FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_COMENTARIOS_CONTROLER, 153);
+        FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_USUARIOS_CONTROLER, 119);
+
     }
 }

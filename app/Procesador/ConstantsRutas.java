@@ -20,4 +20,6 @@ public class ConstantsRutas {
     public static final String DESTINO_FILE_REDES_SOCIALES = "app/controllers/implementacion/usuarios/SocialNetSecurity.java";
 
     public static final String FILE_COMENTARIOS_CONTROLER = "app/controllers/implementacion/mensajerias/ComentariosController.java";
+
+    public static final String FILE_USUARIOS_CONTROLER = "app/controllers/implementacion/usuarios/UsuariosController.java";
 }
