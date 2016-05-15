@@ -30,6 +30,10 @@ public class Procesador {
 
     private boolean reporteVentas;
 
+    private boolean consultarCalificacion;
+
+    private boolean comentarCalificacion;
+
     public boolean isRedesSociales() {
         return redesSociales;
     }
@@ -60,6 +64,22 @@ public class Procesador {
 
     public void setRedesSociales(boolean redesSociales) {
         this.redesSociales = redesSociales;
+    }
+
+    public boolean isComentarCalificacion() {
+        return comentarCalificacion;
+    }
+
+    public void setComentarCalificacion(boolean comentarCalificacion) {
+        this.comentarCalificacion = comentarCalificacion;
+    }
+
+    public boolean isConsultarCalificacion() {
+        return consultarCalificacion;
+    }
+
+    public void setConsultarCalificacion(boolean consultarCalificacion) {
+        this.consultarCalificacion = consultarCalificacion;
     }
 
     public boolean isMensajeria() {
@@ -115,10 +135,15 @@ public class Procesador {
                 reporteVentas = true;
             }
 
+            if (valor.equals(Constants.CALIFICACIONES_COMENTAR)){
+                comentarCalificacion = true;
+            }
 
+            if (valor.equals(Constants.CALIFICACIONES_CONSULTAR)){
+                consultarCalificacion = true;
+            }
 
         }
-
 
     }
 
@@ -165,10 +190,32 @@ public class Procesador {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
         }
 
+
+
+        //Crear las variables para las calificaciones
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
+        if (procesador.isComentarCalificacion()){
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_ACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CREACION_CALIFICACION_ROUTE);
+
+        } else {
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_INACTIVE);
+        }
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
+        if (procesador.isConsultarCalificacion()){
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_ACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_USUARIOS_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_SERVICIO_ROUTE);
+        } else {
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_INACTIVE);
+        }
+
         //Se debe siempre colocar el final de archivo de rutas
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+        FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.FILE_ROUTE);
-
-
     }
 }
