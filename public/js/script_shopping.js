@@ -1,5 +1,20 @@
 $(function()
 {
+    $.getJSON("api/services/", function(data)
+    {
+        console.log("Variabilidad");
+        if(data[4].present)
+        {
+            //Inyectar el script de mesa de ayuda...
+            $.getScript("//virtualnet2.umb.edu.co/chatDemo/embeb/?t=abe74da7bc3f303ee1f98eaaa689cbf64270aa6e", function (data, textStatus, jqxhr)
+            {
+                console.log(jqxhr.status); // 200
+                console.log("Mesa de ayuda cargada...");
+            });
+        }
+    });
+
+
     var listadoRecursosTemp = [],
         listadoCompra       = [],
         compra              = {};

@@ -2,11 +2,30 @@ $(function()
 {
     var numPage = 1,
         producServicio = [],
+        tieneReportes  = false,
         filtro = {name : "", inicial : "", final : "", type : "", provider : "", categoria : "0"},
         precios = {
                     rangoMin : {valor : 0, label : "Min", filtro : "inicial"},
                     rangoMax : {valor : 0, label : "Max", filtro : "final"}
                   };
+
+    //Para saber si tendrá el elemento adicional de mesa de ayuda
+    $.getJSON("api/services/", function(data)
+    {
+        console.log("Variabilidad");
+        if(data[4].present)
+        {
+            //Inyectar el script de mesa de ayuda...
+            $.getScript("//virtualnet2.umb.edu.co/chatDemo/embeb/?t=abe74da7bc3f303ee1f98eaaa689cbf64270aa6e", function (data, textStatus, jqxhr)
+            {
+                console.log(jqxhr.status); // 200
+                console.log("Mesa de ayuda cargada...");
+            });
+        }
+        localStorage.setItem("reportes", JSON.stringify(data[3]));
+        tipoUser.esProveedor("menuOpc");
+    });
+
     //categoria/1
     //Para la moneda...
     function format2(n, currency)
@@ -21,7 +40,6 @@ $(function()
         //Saber la cantidad de compras que tiene...
         //numCompras
         shopping.numCompras(user.data.id, "numCompras");
-        tipoUser.esProveedor("menuOpc");
         tipoUser.esAdministrador("menuOpc");
     }
     else

@@ -55,6 +55,7 @@ public class Calificaciones implements ICalificacion {
         {
             calf.setFecha(new Date(System.currentTimeMillis()));
             calf.setValor(calificacion.getValor());
+            calf.setComentario(calificacion.getComentario());
         }
         //Traer todas las calificacionesy promediarlas...
         List<Calificacion> califica = calificaciones.getCalificacionByServicio(calificacion.getIdProducto());

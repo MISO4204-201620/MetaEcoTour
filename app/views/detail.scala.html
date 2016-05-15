@@ -103,6 +103,37 @@
                 </div>
             </div>
 
+
+            <div class="modal fade" id="myReview" role="dialog">
+                <div class="modal-dialog">
+                        <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Calificar - @producto.getNombre()</h4>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" rows="5" id = "comenPuntua" placeholder="Escribe tu comentario"></textarea>
+                            <div class="box-body" align="center" style="margin-top: 40px;">
+                                <select id="example-movie" name="rating">
+                                    <option value="1">Lo odio</option>
+                                    <option value="2">No me ha gustado</option>
+                                    <option value="3">No está mal</option>
+                                    <option value="4">Me ha gustado</option>
+                                    <option value="5">Me ha encantado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer" style="margin-top: 40px;">
+                            <button type="button" class="btn btn-success" id = "saveCalifica">
+                             <span class="glyphicon glyphicon-envelope"></span> Guardar Calificación</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <ol class="breadcrumb">
@@ -142,18 +173,8 @@
                             <ul class="list-group" id="atributesList"></ul>
                         </div>
                     </div>
-
                 </div>
-
-                <div class="col-md-9">
-
-
-
-
-
-
-                </div>
-
+                <div class="col-md-9"></div>
                 <div class="col-md-9">
 
                     <div class="row carousel-holder">
@@ -191,39 +212,12 @@
 
 
                 </div>
-
-                <div class="col-md-8" style="margin-bottom: 40px;">
-
-
-                        <div class="box-body" align="center">
-                            <select id="example-movie" name="rating">
-                                <option value="1">Lo odio</option>
-                                <option value="2">No me ha gustado</option>
-                                <option value="3">No está mal</option>
-                                <option value="4">Me ha gustado</option>
-                                <option value="5">Me ha encantado</option>
-                            </select>
-                        </div>
-
+                <div class="col-md-8" style="margin-bottom: 40px;" align="center" id = "calProducto">
+                    <button type="button" class="btn btn-warning" id = "executeCalifica" style="display: none;">
+                        <span class="glyphicon glyphicon-star"></span> Calificar - @producto.getNombre()
+                    </button>
                 </div>
-                <div class="col-md-4" style="margin-bottom: 40px;">
-                            <!-- AddToAny BEGIN -->
-                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style" align="right">
-                            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                            <a class="a2a_button_facebook"></a>
-                            <a class="a2a_button_twitter"></a>
-                            <a class="a2a_button_tumblr"></a>
-                            <a class="a2a_button_google_plus"></a>
-                            <a class="a2a_button_linkedin"></a>
-                        </div>
-                        <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
-
-                        <!-- AddToAny END -->
-
-                </div>
-
-
-
+                <div class="col-md-4" style="margin-bottom: 40px;" id = "sharebtn"></div>
                 <div class="col-md-12">
                     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                         <li class="active"><a href="#red" data-toggle="tab">Descripción</a></li>
@@ -324,6 +318,5 @@
         <script src = "@routes.Assets.versioned("js/user.js")" type="text/javascript"></script>
         <script src = "@routes.Assets.versioned("js/shopping.js")" type="text/javascript"></script>
         <script src = "@routes.Assets.versioned("js/script_detail.js")" type="text/javascript"></script>
-    <!-- <script src = "//virtualnet2.umb.edu.co/chatDemo/embeb/?t=abe74da7bc3f303ee1f98eaaa689cbf64270aa6e"></script> //-->
     </body>
 </html>

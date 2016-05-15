@@ -13,7 +13,275 @@ $(function()
         }
     });
     */
+    var TIENE_MENSAJERIA            = false,
+        CALIFICACIONES_VARUABILIDAD = {consultar : false, comentar : false},
+        valorCalifica               = 0;
+
+
+    var listaPuntuaciones = function(data)
+    {
+        var txtPuntua = "";
+        console.info("Los comentarios");
+        console.log(data);
+        for(var i = 0; i < data.length; i++)
+        {
+            txtPuntua += "<div class=\"panel panel-default\">" +
+                         "<div class=\"panel-body\"><h4><b>"+(data[i].nombre)+"</b></h4> "+(data[i].fecha) + "<p>";
+            for(var c = 1; c <= 5; c++)
+            {
+                txtPuntua += '<span class = "glyphicon ' + (c <= data[i].valor ? 'glyphicon-star' : 'glyphicon-star-empty' ) + '"></span>';
+            }
+            txtPuntua += "<p>"+(data[i].comentario)+"</p></div></div>";
+        }
+        $("#vepuntuacion").html(txtPuntua);
+    };
+
+    var puntuacionesProducto = function()
+    {
+        $.getJSON("/api/calificacion/prd/" + idProducto, function(data)
+        {
+            //console.info("Para traer las calificaciones");
+            //console.log(data);
+            if(data.length !== 0)
+            {
+                var traeNombre = function(ind)
+                {
+                    $.getJSON("/api/usuarios/userId/"+(data[ind].idUsuario)+"/1", function(persona)
+                    {
+                        data[ind]["correo"] = persona.correo;
+                        data[ind]["nombre"] = persona.nombre;
+                        ind++;
+                        if(ind < data.length)
+                        {
+                            traeNombre(ind);
+                        }
+                        else
+                        {
+                            listaPuntuaciones(data);
+                        }
+                    }).
+                    error(function()
+                    {
+                        data[ind]["nombre"] = "";
+                        ind++;
+                        if(ind < data.length)
+                        {
+                            traeNombre(ind);
+                        }
+                        else
+                        {
+                            listaPuntuaciones(data);
+                        }
+                    });
+                };
+                traeNombre(0);
+            }
+            else
+            {
+                $("#vepuntuacion").html("<div align='center'>No hay puntuaciones de este producto</div>");
+            }
+
+            //http://localhost:9000/api/usuarios/userId/51/1
+        });
+    };
+
+    var calificaciones = function(valor)
+    {
+        //console.log(user);
+        valorCalifica = valor;
+        $('#example-movie').barrating('show',
+            {
+                theme: 'bars-movie',
+                onSelect: function(value, text, event)
+                {
+                    if (typeof(event) !== 'undefined')
+                    {
+                        valorCalifica = Number(value);
+                    }
+                }
+            });
+        $('#example-movie').barrating('set', valor);
+    };
+
+    $.getJSON("/api/services/", function(data)
+    {
+        console.log("Variabilidad");
+        if(data[4].present)
+        {
+            //Inyectar el script de mesa de ayuda...
+            $.getScript("//virtualnet2.umb.edu.co/chatDemo/embeb/?t=abe74da7bc3f303ee1f98eaaa689cbf64270aa6e", function (data, textStatus, jqxhr)
+            {
+                console.log(jqxhr.status); // 200
+                console.log("Mesa de ayuda cargada...");
+            });
+        }
+        //Saber si tiene opción de redes sociales...
+        //console.log("Variabilidad");
+        var tieneRedSocial = false;
+        for(var i = 0; i < data[0].childs.length; i++)
+        {
+            if(data[0].childs[i].present)
+            {
+                tieneRedSocial = true;
+                break;
+            }
+        }
+        if(tieneRedSocial)
+        {
+            console.log("Tiene redes sociales");
+            var txtRed = "<div class=\"a2a_kit a2a_kit_size_32 a2a_default_style\" style=\"margin-left: 40%;\">"+
+                         "<a class=\"a2a_dd\" href=\"https://www.addtoany.com/share\"></a>" +
+                         "<a class=\"a2a_button_facebook\"></a>" +
+                         "<a class=\"a2a_button_twitter\"></a>" +
+                         "<a class=\"a2a_button_google_plus\"></a>" +
+                         "<script type=\"text/javascript\" src=\"//static.addtoany.com/menu/page.js\"></script>";
+            $("#sharebtn").html(txtRed);
+        }
+        else
+        {
+            $("#sharebtn").remove();
+        }
+        //console.log("Es un paquete, por lo que se deben traer los servicios asociados al paquete");
+        $.getJSON("/api/itemServ/pqt/" + idProducto, function(data)
+        {
+            console.log("LOS SERVICIOS");
+            var items = "";
+            for(var i = 0; i < data.length; i++)
+            {
+                items += baseItemServicio(data[i]);
+                //$("#servicios").append(baseItemServicio(data[i]));
+            }
+            $("#servicios").html(items);
+        });
+
+        CALIFICACIONES_VARUABILIDAD.consultar = data[2].childs[0].present;
+        CALIFICACIONES_VARUABILIDAD.comentar = data[2].childs[1].present;
+        //Se debe mostrar la opción...
+        if(CALIFICACIONES_VARUABILIDAD.consultar)
+        {
+            $("#tabs").append("<li><a href=\"#vepuntuacion\" data-toggle=\"tab\">Puntuaciones</a></li>");
+            $("#my-tab-content").append("<div class=\"tab-pane\" id=\"vepuntuacion\"></div>");
+            //Llamar al servicio que trae las puntuaciones...
+            puntuacionesProducto();
+        }
+        if(CALIFICACIONES_VARUABILIDAD.comentar)
+        {
+            $("#executeCalifica").click(function (e)
+            {
+                if(user.existe)
+                {
+                    $.getJSON("/api/calificacion/usr/" + user.data.id, function (data) {
+                        //console.log(data);
+                        //Saber si el usuario actual ya ha realizado el proceso de calificación...
+                        var valUsuario = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            if (Number(data[i].idProducto) === idProducto) {
+                                valUsuario = Number(data[i].valor);
+                                break;
+                            }
+                        }
+                        $('#myReview').modal('show');
+                        calificaciones(valUsuario);
+                    });
+                }
+                else
+                {
+                    sweetAlert("Error", "No te encuestras auténticado", "error");
+                }
+            }).fadeIn("fast");
+
+            $("#saveCalifica").click(function(e)
+            {
+                if(valorCalifica !== 0)
+                {
+                    var calificacion = {
+                        idUsuario: user.data.id,
+                        idProducto: idProducto,
+                        fecha: "2016-03-16T00:00:00",
+                        valor: valorCalifica,
+                        comentario: $("#comenPuntua").val()
+                    };
+                    console.log(calificacion);
+                    if (user.existe) {
+                        $.ajax({
+                            url: "/api/calificacion/",
+                            type: "POST",
+                            data: JSON.stringify(calificacion),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8"
+                        }).done(function (data)
+                        {
+                            $("#comenPuntua").val()
+                            if(data.errorCode === undefined)
+                            {
+                                console.log(data);
+                                if(CALIFICACIONES_VARUABILIDAD.consultar)
+                                {
+                                    puntuacionesProducto();
+                                }
+                            }
+                            else
+                            {
+                                sweetAlert("Error", data.desCode, "error");
+                            }
+                        }).error(function (request, status, error)
+                        {
+                            sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+                        });
+                    }
+                    else
+                    {
+                        sweetAlert("Error", "No te encuentras auténticad@", "error");
+                    }
+                    $('#myReview').modal('hide');
+                }
+                else
+                {
+                    sweetAlert("Error", "Selecciona la calificación que deseas dar al producto", "error");
+                }
+            });
+        }
+        else
+        {
+            $("#myReview").remove();
+            $("#executeCalifica").remove();
+        }
+        if(!CALIFICACIONES_VARUABILIDAD.consultar && !CALIFICACIONES_VARUABILIDAD.comentar)
+        {
+            $("#calProducto").remove();
+            $("#sharebtn").remove();
+        }
+        //Para saber si tiene la opción de mensajería...
+        TIENE_MENSAJERIA = data[5].present;
+        comentarios();
+    });
+
     var user = tipoUser.datosUser();
+
+    if(user.existe)
+    {
+        //Traer las puntuaciones realizadas por el usaurio...
+        //http://localhost:9000/api/calificacion/usr/2341
+        $.getJSON("/api/calificacion/usr/" + user.data.id, function(data)
+        {
+            console.log(data);
+            //Saber si el usuario actual ya ha realizado el proceso de calificación...
+            var valUsuario = 0;
+            for(var i = 0; i < data.length; i++)
+            {
+                if(Number(data[i].idProducto) === idProducto)
+                {
+                    valUsuario = Number(data[i].valor);
+                    break;
+                }
+            }
+            calificaciones(valUsuario);
+        });
+    }
+
+
+
+
     if(user.existe)
     {
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
@@ -36,7 +304,7 @@ $(function()
         //console.log(idProducto);
         var date = new Date();
         var fechaBusqueda = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        fechaBusqueda += "T1" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        fechaBusqueda += "T00:00:00"; //+ date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         var consulta = {
                             idProducto      : idProducto,
                             fechaBusqueda   : fechaBusqueda,
@@ -253,7 +521,7 @@ $(function()
     })();
 
     //Se listan los comentarios de un servicio...
-    var comentarios = (function elementos()
+    var comentarios = function()
     {
         $("#comentario").html("");
         $("#commentText").val("");
@@ -300,8 +568,7 @@ $(function()
 
             }
         });
-        return elementos;
-    })();
+    };
 
     var baseItemPregunta = function(data, token, subcomentario)
     {
@@ -380,7 +647,10 @@ $(function()
         {
             txt += '<a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" data-id = "'+(data.id)+'" id = "rep_'+(token)+'"><span class="glyphicon glyphicon-share-alt"></span> Respuesta </a>';
         }
-        txt += '<a class="btn btn-info btn-circle text-uppercase" data-id = "'+(data.id)+'" id = "msg_'+(token)+'"><span class="glyphicon glyphicon-envelope"></span> Enviar Mensaje </a>';
+        if(TIENE_MENSAJERIA)
+        {
+            txt += '<a class="btn btn-info btn-circle text-uppercase" data-id = "' + (data.id) + '" id = "msg_' + (token) + '"><span class="glyphicon glyphicon-envelope"></span> Enviar Mensaje </a>';
+        }
         if (data.numeroComentarios > 0)
         {
             txt += '<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" id = "coment_'+(token)+'" data-id = "'+(data.id)+'"><span class="glyphicon glyphicon-comment"></span>' + data.numeroComentarios + ' Comentario(s)</a>';
@@ -404,72 +674,6 @@ $(function()
         return txt;
     };
     //var user = tipoUser.datosUser();
-    var calificaciones = function(valor)
-    {
-        //console.log(user);
-        $('#example-movie').barrating('show', {
-            theme: 'bars-movie',
-            onSelect: function(value, text, event)
-            {
-                if (typeof(event) !== 'undefined')
-                {
-                    // rating was selected by a user
-                    var calificacion = {
-                        idUsuario : user.data.id,
-                        idProducto : idProducto,
-                        fecha : "2016-03-19",
-                        valor : Number(value),
-                        comentario : "Nada"
-                    };
-                    console.log(calificacion);
-                    if(user.existe)
-                    {
-                        $.ajax({
-                            url 		: "/api/calificacion/",
-                            type 		: "POST",
-                            data 		: JSON.stringify(calificacion),
-                            dataType 	: "json",
-                            contentType: "application/json; charset=utf-8"
-                        }).done(function(data)
-                        {
-                            console.log(data);
-                            //window.location = "/paqser";
-                        }).error(function(request, status, error)
-                        {
-                            sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
-                            //callback(true);
-                        });
-                    }
-                    else
-                    {
-                        sweetAlert("Error", "No te encuentras auténticad@", "error");
-                    }
-                }
-            }
-        });
-        $('#example-movie').barrating('set', valor);
-    };
-
-    if(user.existe)
-    {
-        //Traer las puntuaciones realizadas por el usaurio...
-        //http://localhost:9000/api/calificacion/usr/2341
-        $.getJSON("/api/calificacion/usr/" + user.data.id, function(data)
-        {
-            console.log(data);
-            //Saber si el usuario actual ya ha realizado el proceso de calificación...
-            var valUsuario = 0;
-            for(var i = 0; i < data.length; i++)
-            {
-                if(Number(data[i].idProducto) === idProducto)
-                {
-                    valUsuario = Number(data[i].valor);
-                    break;
-                }
-            }
-            calificaciones(valUsuario);
-        });
-    }
 
     $("#logout").click(function(event)
     {
