@@ -23,6 +23,7 @@ $(function()
             });
         }
         localStorage.setItem("reportes", JSON.stringify(data[3]));
+        localStorage.setItem("mensajeria", JSON.stringify(data[5]));
         tipoUser.esProveedor("menuOpc");
     });
 

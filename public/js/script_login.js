@@ -107,6 +107,7 @@ $(function()
         }
         //Para saber si tendrá reportes...
         localStorage.setItem("reportes", JSON.stringify(data[3]));
+        localStorage.setItem("mensajeria", JSON.stringify(data[5]));
         if(providers !== "")
         {
             console.log(providers);

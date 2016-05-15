@@ -11,6 +11,16 @@ var tipoUser = (function()
         }
     });
 
+    var tieneMensajeria = (function()
+    {
+        var mensajeria = JSON.parse(localStorage.getItem("mensajeria")) || {};
+        if(mensajeria.present)
+        {
+            var activo = location.pathname.split("/")[1] === "mensajes" ? true : false;
+            $("#menuOpc").append("<li class='"+(activo ? "active" : "")+"'><a href='/mensajes'>Mensajería</a></li>");
+        }
+    })();
+
     var datosUser = function()
     {
         var dataUser = {existe : false};
