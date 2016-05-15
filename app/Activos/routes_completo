@@ -97,9 +97,6 @@ GET        /api/services/                   controllers.implementacion.ServicesC
 POST        /login                          controllers.implementacion.usuarios.NormalSecurity.login()
 POST        /logout                         controllers.implementacion.usuarios.NormalSecurity.logout()
 
-# Map static resources from the /public folder to the /assets URL path
-GET         /*file                          controllers.Assets.versioned(path="/public", file: Asset)
-
 #######################Desde acá se inician los servicios opcionales########################
 
 # Servicios para consultar las busquedas o guardar la busqueda del producto
@@ -120,3 +117,6 @@ POST        /api/calificacion/                      controllers.implementacion.c
 
 #Servicio de autenticación social
 POST        /sociallogin                          controllers.implementacion.usuarios.SocialNetSecurity.login()
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /*file                          controllers.Assets.versioned(path="/public", file: Asset)

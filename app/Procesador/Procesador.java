@@ -162,7 +162,7 @@ public class Procesador {
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
 
         if (procesador.isRedesSociales()){
-            FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
+            //FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
             //Editar el archivo routes
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.SOCIAL_LOGIN_ACTIVE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SOCIAL_LOGIN_ROUTE);
@@ -174,7 +174,13 @@ public class Procesador {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         }
 
-        if(procesador.isReporteBusqueda()){
+        if(procesador.isReporteBusqueda() || procesador.isReporteConsulta()){
+
+        }else{
+
+        }
+
+        if(procesador.isReporteVentas()){
 
         }
 
