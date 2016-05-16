@@ -116,20 +116,11 @@ $(function()
             });
         }
         //Saber si tiene opción de redes sociales...
-        //console.log("Variabilidad");
-        var tieneRedSocial = false;
-        for(var i = 0; i < data[0].childs.length; i++)
-        {
-            if(data[0].childs[i].present)
-            {
-                tieneRedSocial = true;
-                break;
-            }
-        }
-        if(tieneRedSocial)
+        console.log(data[1]);
+        if(data[1].present)
         {
             console.log("Tiene redes sociales");
-            var txtRed = "<div class=\"a2a_kit a2a_kit_size_32 a2a_default_style\" style=\"margin-left: 40%;\">"+
+            var txtRed = "<div class=\"a2a_kit a2a_kit_size_32 a2a_default_style\" style=\"margin-left: 30%;\">"+
                          "<a class=\"a2a_dd\" href=\"https://www.addtoany.com/share\"></a>" +
                          "<a class=\"a2a_button_facebook\"></a>" +
                          "<a class=\"a2a_button_twitter\"></a>" +
