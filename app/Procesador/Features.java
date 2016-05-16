@@ -69,14 +69,14 @@ public class Features {
 
 			doc.getDocumentElement().normalize();
 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+			//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
 			NodeList nList = doc.getElementsByTagName("struct");
 			Node nNode = nList.item(0);
-			System.out.println("\nElement :" + nNode.getNodeName());
+			//System.out.println("\nElement :" + nNode.getNodeName());
 			nList = nNode.getChildNodes();
 			nNode = nList.item(1);
-			System.out.println("\n	Element :" + nNode.getNodeName());
+			//System.out.println("\n	Element :" + nNode.getNodeName());
 			feature = new Feature(((Element)nNode).getAttribute("name"));
 			feature.setChilds(getNodesChild(nNode, false));
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class Features {
 					if(!parentIsAdded){
 						added = true;
 						variableFeatures.add(featureChild);
-						System.out.println(((Element)nNode).getAttribute("name")+" es variable");
+						//System.out.println(((Element)nNode).getAttribute("name")+" es variable");
 					}
 				}
 				featureChild.setChilds(getNodesChild(nNode, added));
@@ -114,7 +114,7 @@ public class Features {
 					list = new ArrayList<Feature>();
 				}
 				list.add(featureChild);
-				System.out.println("		Current Element :" + ((Element)nNode).getAttribute("name"));
+				//System.out.println("		Current Element :" + ((Element)nNode).getAttribute("name"));
 			}
 		}
 
@@ -128,7 +128,7 @@ public class Features {
 			String         line = null;
 			while( ( line = reader.readLine() ) != null ) {
 				config.put(line,line);
-				System.out.println(line);
+				//System.out.println(line);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -152,7 +152,7 @@ public class Features {
 			String         line = null;
 			while( ( line = reader.readLine() ) != null ) {
 				sb.append(line);
-				System.out.println(line);
+				//System.out.println(line);
 			}
 			this.configJson = sb.toString();
 		} catch (FileNotFoundException e) {
