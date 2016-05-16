@@ -22,4 +22,7 @@ public class ConstantsRutas {
     public static final String FILE_COMENTARIOS_CONTROLER = "app/controllers/implementacion/mensajerias/ComentariosController.java";
 
     public static final String FILE_USUARIOS_CONTROLER = "app/controllers/implementacion/usuarios/UsuariosController.java";
+
+    public static final String FILE_SERVICIOS_FRONT_CONTROLER = "app/Procesador/metaEcotour.config";
+
 }

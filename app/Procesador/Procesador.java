@@ -1,5 +1,6 @@
 package Procesador;
 
+import play.libs.Json;
 import views.html.provider_details;
 
 import java.util.ArrayList;
@@ -160,6 +161,11 @@ public class Procesador {
 
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+
+        //Generar archivo plano con json para el front
+        Features ftr= new Features();
+        FileUtilities.sobreescribirLinea(ConstantsRutas.FILE_SERVICIOS_FRONT_CONTROLER, Json.toJson(ftr.getVariableFeatures()).toString());
+
 
         if (procesador.isRedesSociales()){
             //FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REDES_SOCIALES , ConstantsRutas.DESTINO_FILE_REDES_SOCIALES);
