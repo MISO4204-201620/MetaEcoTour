@@ -96,4 +96,11 @@ POST        /login                          controllers.implementacion.usuarios.
 POST        /logout                         controllers.implementacion.usuarios.NormalSecurity.logout()
 
 
+GET         /api/mensajeria/msn/:idOrigen/:idDestino    controllers.implementacion.mensajerias.ComentariosController.getMensajesByUsuarios(idOrigen: Long, idDestino: Long)
+GET         /api/mensajeria/usuarios/:id/:tipo    controllers.implementacion.usuarios.UsuariosController.getUsuariosInteraccionMensajes(id: Long, tipo: String)
+
+GET         /api/calificacion/usr/:usuarioId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByUsuario(usuarioId:Long)
+GET         /api/calificacion/prd/:productId        controllers.implementacion.compras.CalificacionesController.getCalificaionesByServicio(productId:Long)
+POST        /api/calificacion/                      controllers.implementacion.compras.CalificacionesController.save()
+
 #######################Desde acá se inician los servicios opcionales########################

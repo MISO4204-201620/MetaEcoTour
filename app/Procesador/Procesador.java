@@ -187,14 +187,14 @@ public class Procesador {
         //crear las anotaciones para la mensajeria
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_COMENTARIOS_CONTROLER, 153);
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_USUARIOS_CONTROLER, 119);
-
+        /*
         if (procesador.isMensajeria()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_MENSAJES_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_USUARIOS_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-        }
+        }*/
 
 
 
@@ -202,8 +202,9 @@ public class Procesador {
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         if (procesador.isComentarCalificacion()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_ACTIVE);
+            /*
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CREACION_CALIFICACION_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CREACION_CALIFICACION_ROUTE);*/
 
         } else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_INACTIVE);
@@ -211,10 +212,11 @@ public class Procesador {
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         if (procesador.isConsultarCalificacion()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_ACTIVE);
+            /*
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_USUARIOS_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_SERVICIO_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_SERVICIO_ROUTE);*/
         } else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_INACTIVE);
         }
