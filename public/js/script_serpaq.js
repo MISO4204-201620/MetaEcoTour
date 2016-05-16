@@ -1,19 +1,73 @@
 $(function()
 {
-    //var listadoRecursos = [];
-    //Se obtiene el token de validación del usuario...
-    /*
-    document.cookie.split('; ').forEach(function(cookieString)
+
+    var REPORTE_VENTAS    = false,
+        listadoCategorias = [],
+        resultadoReporte  = [];
+    $.getJSON("api/services/", function(data)
     {
-        //console.log(cookieString);
-        var cookie = cookieString.split("=");
-        if ((cookie.length === 2) && (cookie[0] === "authToken"))
+        //console.log(data[3].childs);
+        console.log(data[3].childs[2].present);
+        REPORTE_VENTAS = data[3].childs[2].present;
+        if(REPORTE_VENTAS)
         {
-            window.authToken = cookie[1];
-            console.log(window.authToken);
+            $.getScript("js/generaPDF.js", function (data, textStatus, jqxhr)
+            {
+                console.log(jqxhr.status); // 200
+            });
         }
+
+        $.getJSON("api/categorias/", function(data)
+        {
+            listadoCategorias = data;
+            productosProveedor();
+        });
     });
-    */
+
+
+    var buscaProducto = function(id)
+    {
+        var producto = {};
+        for(var i = 0; i < resultadoReporte.length; i++)
+        {
+            if(Number(id) === Number(resultadoReporte[i].id))
+            {
+                producto = resultadoReporte[i];
+                break;
+            }
+        }
+        return producto;
+    };
+
+    var generaCompras = function(idProducto)
+    {
+        var urlConsulta = "/api/rptCompra/prv/"+user.data.id+"/" + idProducto;
+            cont        = 1,
+            producto    = buscaProducto(idProducto),
+            datos       = [],
+            estados     = {X : "Cancelado", C : "Cerrado", O : "Abierto", E : "Error"};
+        //console.log(idproducto);
+        $.getJSON(urlConsulta, function(data)
+        {
+            // sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+            $.each(data, function()
+            {
+                //console.log(this);
+                datos.push([cont, this[10], this[5], (this[6] !== null ? this[6] : "--"), estados[this[7]], this[8] !== "" ? this[8] : "--"]);
+                cont++;
+            });
+            //console.log("Ingresa a ese punto");
+            //console.log(datos);
+            PDF.generaPDF({
+                header  : ["Producto: " + producto.nombre, "Tipo: " + producto.tipo, "Precio: " + format2(producto.precioActual, "$")],
+                columns : ["#", "Usuario", "Fecha Creación", "Fecha Actualiza", "Estado Compra", "Forma de Pago"],
+                data    : datos,
+                nombre  : "Reporte Compras " + producto.nombre
+            });
+        });
+    };
+
+
     $("#logout").click(function(event)
     {
         tipoUser.logout();
@@ -22,32 +76,12 @@ $(function()
     var txtLoading = "<div align='center'><img src = '/images/loading.gif' border = '0'/></div>";
 
     //$('#summernote').summernote();
-    var listadoCategorias = [];
     if(tipoUser.esProveedor("menuOpc"))
     {
         $("#listado").html(txtLoading);
         var user = tipoUser.datosUser();
         $("#usuario").html(user.data.nombre + " <b class=\"caret\"></b>");
         shopping.numCompras(user.data.id, "numCompras");
-        var categorias = (function()
-        {
-            $.getJSON("api/categorias/", function(data)
-            {
-                listadoCategorias = data;
-                /*
-                $.each(data, function()
-                {
-                    listadoCategorias.push({
-                        id : this.id,
-                        nombre : this.nombre
-                    });
-                });
-                */
-                //console.log(listadoCategorias);
-                productosProveedor();
-                //console.log("Termina");
-            });
-        })();
     }
     else
     {
@@ -319,14 +353,18 @@ $(function()
     });
 
 
+
+
     //Traer el listado de paquetes y servicios...
     var productosProveedor = function()
     {
         console.log(user.data.id);
+        resultadoReporte = [];
         //http://localhost:9000/api/producto/proveedor/1
         $.getJSON("api/producto/proveedor/" + user.data.id, function(data)
         {
-            //console.log(data);
+            resultadoReporte = data;
+            console.log(resultadoReporte);
             /*
              <table class="table table-hover"> <thead> <tr> <th>#</th> <th>First Name</th> <th>Last Name</th> <th>Username</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>twitter</td> </tr> </tbody> </table>
              */
@@ -357,7 +395,13 @@ $(function()
                          "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"del_"+(token)+"\" title = \"Eliminar Paquete/Servicio\">" +
                          "<span class=\"glyphicon glyphicon-remove\"></span></button></td>" +
                          "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"preg_"+(token)+"\" title = \"Preguntas al Proveedor\">" +
-                         "<span class=\"glyphicon glyphicon-comment\"></span></button></td></tr>";
+                         "<span class=\"glyphicon glyphicon-comment\"></span></button></td>";
+                if(REPORTE_VENTAS)
+                {
+                    tr += "<td><button type=\"button\" class=\"btn btn-default btn-sm\" id = \"rventa_"+(token)+"\" title = \"Reporte de Ventas\">" +
+                          "<span class=\"glyphicon glyphicon-transfer\"></span></button></td>";
+                }
+                tr += "</tr>";
                 $("#tabla").append(tr);
                 $("#del_" + token).click(function(e){
                     var token = this.id.split("_")[1];
@@ -398,6 +442,13 @@ $(function()
                 });
                 $("#preg_" + token).click(function() {
                     window.location = "/preguntas?id=" + $("#tr_" + this.id.split("_")[1]).attr("data-id");
+                });
+
+                $("#rventa_" + token).click(function()
+                {
+                    var token = this.id.split("_")[1],
+                        id = $("#tr_" + token).attr("data-id");
+                    generaCompras(id);
                 });
 
                 $("#attr_" + token).click(function()

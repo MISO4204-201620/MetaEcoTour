@@ -11,6 +11,16 @@ var tipoUser = (function()
         }
     });
 
+    var tieneMensajeria = (function()
+    {
+        var mensajeria = JSON.parse(localStorage.getItem("mensajeria")) || {};
+        if(mensajeria.present)
+        {
+            var activo = location.pathname.split("/")[1] === "mensajes" ? true : false;
+            $("#menuOpc").append("<li class='"+(activo ? "active" : "")+"'><a href='/mensajes'>Mensajería</a></li>");
+        }
+    })();
+
     var datosUser = function()
     {
         var dataUser = {existe : false};
@@ -42,15 +52,23 @@ var tipoUser = (function()
         //Para poner las opciones del proveedor...
         if(regresa)
         {
+            var localResportes = JSON.parse(localStorage.getItem("reportes") || ""),
+                tieneReportes  = false;
+            if(localResportes.childs[0].present || localResportes.childs[1].present)
+            {
+                tieneReportes = true;
+            }
             var txtHTML = "<li class=\"dropdown\">" +
                 "<a href=\"#\" data-target=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Proveedor " +
                 "<b class=\"caret\"></b></a>" +
                 "<ul class=\"dropdown-menu\">" +
                 "<li><a href=\"/paqser\"><span class=\"glyphicon glyphicon-th-list\"></span> Mis Servicios/Paquetes</a></li>" +
-                "<li><a href=\"/cpaqser\"><span class=\"glyphicon glyphicon-plus\"></span> Nuevo Paquete y servicio</a></li>" +
-                "<li><a href=\"/preport\"><span class=\"glyphicon glyphicon-list-alt\"></span> Mis Reportes</a></li>" +
-                "</ul>" +
-                "</li>";
+                "<li><a href=\"/cpaqser\"><span class=\"glyphicon glyphicon-plus\"></span> Nuevo Paquete y servicio</a></li>";
+            if(tieneReportes)
+            {
+                txtHTML += "<li><a href=\"/preport\"><span class=\"glyphicon glyphicon-list-alt\"></span> Mis Reportes</a></li>";
+            }
+            txtHTML += "</ul></li>";
             $("#" + div).append(txtHTML);
         }
         return regresa;

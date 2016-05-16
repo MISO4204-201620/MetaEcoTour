@@ -88,4 +88,17 @@ public class FileUtilities {
             System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
         }
     }
+
+    public static void sobreescribirLinea(String rutaArchivo, String linea) {
+
+        try {
+            Writer output;
+            output = new BufferedWriter(new FileWriter(rutaArchivo,false));  //clears file every time
+            output.append(linea);
+            output.close();
+        }catch (Exception e){
+            System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
+        }
+    }
+
 }
