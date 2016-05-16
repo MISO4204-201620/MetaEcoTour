@@ -9,34 +9,34 @@ import java.util.List;
  */
 public class FileUtilities {
 
-    public static void editarArchivo(boolean mensajeria, String archivo, int nlinea){
+    public static void editarArchivo(boolean mensajeria, String archivo, int nlinea) {
 
         try {
             RandomAccessFile fichero = new RandomAccessFile(archivo, "rw");
             int lineas = 0;
-            while (lineas < nlinea){
+            while (lineas < nlinea) {
                 fichero.readLine();
-                lineas ++;
+                lineas++;
             }
 
-            if (mensajeria){
+            if (mensajeria) {
                 fichero.writeBytes("    @Mensajeria(true) ");
             } else {
                 fichero.writeBytes("    @Mensajeria(false)");
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-   }
+    }
 
-    public static  List<String> readConfigFile( String file) {
+    public static List<String> readConfigFile(String file) {
         List<String> config = new ArrayList<String>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader( new FileReader(file));
+            reader = new BufferedReader(new FileReader(file));
             String line = null;
-            while( ( line = reader.readLine() ) != null ) {
+            while ((line = reader.readLine()) != null) {
                 config.add(line);
             }
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class FileUtilities {
         return config;
     }
 
-    public static void copyFile (String rutaOrigen, String rutaDestino){
+    public static void copyFile(String rutaOrigen, String rutaDestino) {
 
         File origen = new File(rutaOrigen);
         File destino = new File(rutaDestino);
@@ -81,10 +81,10 @@ public class FileUtilities {
 
         try {
             Writer output;
-            output = new BufferedWriter(new FileWriter(rutaArchivo,true));  //clears file every time
+            output = new BufferedWriter(new FileWriter(rutaArchivo, true));  //clears file every time
             output.append(linea);
             output.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
         }
     }
@@ -93,11 +93,25 @@ public class FileUtilities {
 
         try {
             Writer output;
-            output = new BufferedWriter(new FileWriter(rutaArchivo,false));  //clears file every time
+            output = new BufferedWriter(new FileWriter(rutaArchivo, false));  //clears file every time
             output.append(linea);
             output.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Se ha presentado un error en la lectura o escritura del archivo");
+        }
+    }
+
+    public static void borrarArchivo(String ruta) {
+        try {
+
+            File file = new File(ruta);
+
+            if (!file.delete()) {
+                System.out.println("No se pudo borrar el archivo");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

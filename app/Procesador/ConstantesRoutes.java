@@ -6,7 +6,10 @@ package Procesador;
 public class ConstantesRoutes {
 
     public static final String SOCIAL_LOGIN_ROUTE = "POST        /sociallogin                          controllers.implementacion.usuarios.SocialNetSecurity.login()";
-    public static final String SEARCH_REPORT_ROUTE = "";
+    public static final String SEARCH_REPORT_ROUTE = "GET         /api/busqueda/tipo/:tipo/provider/:providerId/fechaInicio/:fechaInicio/fechaFin/:fechaFin/cuenta/:cuenta        controllers.implementacion.catalogos.BusquedasController.getBusquedasByTypeAndDate(tipo:String, providerId: Long, fechaInicio : String, fechaFin : String, cuenta:String)";
+    public static final String SEARCH_REPORT_SOLD_ROUTE = "GET        /api/rptCompra/:entidad/:id                           controllers.implementacion.reportes.ReporteComprasController.getComprasConsolidado(entidad : String, id : Long)";
+    public static final String SEARCH_REPORT_SOLD_ROUTE_DETAIL = "GET        /api/rptCompra/:entidad/:id/:idProducto               controllers.implementacion.reportes.ReporteComprasController.getComprasDetalle(entidad : String, id : Long, idProducto : Long)";
+
 
     public static final String FILE_ROUTE = "GET         /*file                          controllers.Assets.versioned(path=\"/public\", file: Asset)";
 

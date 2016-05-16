@@ -181,26 +181,50 @@ public class Procesador {
         }
 
         if(procesador.isReporteBusqueda() || procesador.isReporteConsulta()){
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SEARCH_REPORT_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            if(procesador.isReporteBusqueda()){
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_ACTIVE);
+            }else{
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
+            }
 
+            if(procesador.isReporteConsulta()){
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_ACTIVE);
+            }else{
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
+            }
         }else{
-
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
         }
 
         if(procesador.isReporteVentas()){
-
+            FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REPORTE_COMPRAS , ConstantsRutas.DESTINO_FILE_REPORTE_COMPRAS);
+            FileUtilities.copyFile(ConstantsRutas.ORIGEN_FILE_REPORTE_COMPRAS_CONTROLLER, ConstantsRutas.DESTINO_FILE_REPORTE_COMPRAS_CONTROLLER);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SEARCH_REPORT_SOLD_ROUTE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SEARCH_REPORT_SOLD_ROUTE_DETAIL);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
+        }else{
+            //eliminar clases
+            FileUtilities.borrarArchivo(ConstantsRutas.DESTINO_FILE_REPORTE_COMPRAS);
+            FileUtilities.borrarArchivo(ConstantsRutas.DESTINO_FILE_REPORTE_COMPRAS_CONTROLLER);
         }
 
         //crear las anotaciones para la mensajeria
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_COMENTARIOS_CONTROLER, 153);
         FileUtilities.editarArchivo(procesador.isMensajeria(), ConstantsRutas.FILE_USUARIOS_CONTROLER, 119);
-        /*
+
         if (procesador.isMensajeria()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_MENSAJES_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.MENSAJERIA_USUARIOS_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-        }*/
+        }
 
 
 
@@ -208,9 +232,8 @@ public class Procesador {
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         if (procesador.isComentarCalificacion()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_ACTIVE);
-            /*
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CREACION_CALIFICACION_ROUTE);*/
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CREACION_CALIFICACION_ROUTE);
 
         } else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.COMENTAR_CALIFICACION_INACTIVE);
@@ -218,11 +241,10 @@ public class Procesador {
         FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n");
         if (procesador.isConsultarCalificacion()){
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_ACTIVE);
-            /*
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_USUARIOS_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_SERVICIO_ROUTE);*/
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.CALIFICACION_SERVICIO_ROUTE);
         } else {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.CONSULTAR_CALIFICACION_INACTIVE);
         }

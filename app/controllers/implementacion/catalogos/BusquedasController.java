@@ -13,6 +13,8 @@ import controllers.contratos.catalogos.IBusqueda;
 import controllers.contratos.catalogos.ICategorias;
 import controllers.contratos.catalogos.IProducto;
 import models.catalogo.*;
+import play.Configuration;
+import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -30,6 +32,9 @@ public class BusquedasController extends Controller {
     private static IBusqueda busquedas = new Busquedas();
     private static IProducto productos = new Productos();
     private static ICategorias categorias = new Categorias();
+    Configuration conf = Play.application().configuration();
+    boolean reporteBusquedas= conf.getBoolean("reporte.busqueda");
+    boolean reporteConsultas= conf.getBoolean("reporte.consulta");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat dfBusqueda = new SimpleDateFormat("dd-MM-yyyy");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -49,45 +54,56 @@ public class BusquedasController extends Controller {
     @Transactional(readOnly = true)
     public Result getBusquedasByTypeAndDate(String tipo, long providerId, String fechaInicio, String fechaFin, String cuenta) {
 
-        objectMapper.setDateFormat(df);
-        Json.setObjectMapper(objectMapper);
-        JsonNode respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la busqueda no existe\"}");
-        try {
-            JSONArray jsonArray = new JSONArray();
-            Date fechaIni = null;
+        JsonNode respuesta = Json.parse("{\"errorCode\":\"2\",\"desCode\":\"El servicio no se encuentra activo\"}");
 
-            Date fechaFinal = null;
-            if (!"-1".equals(fechaInicio) && !"-1".equals(fechaFin)) {
-                fechaIni = df.parse(df.format(dfBusqueda.parse(fechaInicio)));
-                fechaFinal = df.parse(df.format(dfBusqueda.parse(fechaFin)));
-            }
+        if(reporteBusquedas || reporteConsultas) {
 
-            if("-1".equals(cuenta)){
-            List<Busqueda> busquedaList = busquedas.getBusquedasByTypeAndDate(tipo, fechaIni, fechaFinal);
-            for (Busqueda busqueda : busquedaList) {
-                JSONObject jsonObjectTmp = new JSONObject();
+            if("BUSQUEDA".equals(tipo) && !reporteBusquedas){
+                respuesta = Json.parse("{\"errorCode\":\"2\",\"desCode\":\"El servicio de reportes de Busquedas no se encuentra activo\"}");
+            }else if("CONSULTA".equals(tipo) && !reporteConsultas){
+                respuesta = Json.parse("{\"errorCode\":\"2\",\"desCode\":\"El servicio de reportes de consulta no se encuentra activo\"}");
+            }else {
+                objectMapper.setDateFormat(df);
+                Json.setObjectMapper(objectMapper);
+                respuesta = Json.parse("{\"errorCode\":\"1\",\"desCode\":\"El producto de la busqueda no existe\"}");
+                try {
+                    JSONArray jsonArray = new JSONArray();
+                    Date fechaIni = null;
 
-                jsonObjectTmp.put("fechaBusqueda", busqueda.getFechaBusqueda());
-                long productId = busqueda.getIdProducto();
+                    Date fechaFinal = null;
+                    if (!"-1".equals(fechaInicio) && !"-1".equals(fechaFin)) {
+                        fechaIni = df.parse(df.format(dfBusqueda.parse(fechaInicio)));
+                        fechaFinal = df.parse(df.format(dfBusqueda.parse(fechaFin)));
+                    }
 
-                jsonArray = obtenerObjetoBusquedas(jsonArray, jsonObjectTmp, providerId, productId);
-            }
-            }else{
+                    if ("-1".equals(cuenta)) {
+                        List<Busqueda> busquedaList = busquedas.getBusquedasByTypeAndDate(tipo, fechaIni, fechaFinal);
+                        for (Busqueda busqueda : busquedaList) {
+                            JSONObject jsonObjectTmp = new JSONObject();
 
-                HashMap <String,String> busquedasList = busquedas.getBusquedasByTypeDateAndCount(tipo, fechaIni, fechaFinal);
-                Set<Map.Entry<String, String>> busquedasProductos = busquedasList.entrySet();
-                for(Map.Entry<String, String> stringEntry: busquedasProductos){
-                    JSONObject jsonObjectTmp = new JSONObject();
+                            jsonObjectTmp.put("fechaBusqueda", busqueda.getFechaBusqueda());
+                            long productId = busqueda.getIdProducto();
 
-                    jsonObjectTmp.put("totalBusquedas", stringEntry.getValue());
-                    long productId = Long.parseLong(stringEntry.getKey());
+                            jsonArray = obtenerObjetoBusquedas(jsonArray, jsonObjectTmp, providerId, productId);
+                        }
+                    } else {
 
-                    jsonArray = obtenerObjetoBusquedas(jsonArray, jsonObjectTmp, providerId, productId);
+                        HashMap<String, String> busquedasList = busquedas.getBusquedasByTypeDateAndCount(tipo, fechaIni, fechaFinal);
+                        Set<Map.Entry<String, String>> busquedasProductos = busquedasList.entrySet();
+                        for (Map.Entry<String, String> stringEntry : busquedasProductos) {
+                            JSONObject jsonObjectTmp = new JSONObject();
+
+                            jsonObjectTmp.put("totalBusquedas", stringEntry.getValue());
+                            long productId = Long.parseLong(stringEntry.getKey());
+
+                            jsonArray = obtenerObjetoBusquedas(jsonArray, jsonObjectTmp, providerId, productId);
+                        }
+                    }
+                    respuesta = Json.parse(jsonArray.toString());
+                } catch (Exception e) {
+                    System.out.println("Se ha presentando un error:  " + e.getMessage());
                 }
             }
-            respuesta = Json.parse(jsonArray.toString());
-        } catch (Exception e) {
-            System.out.println("Se ha presentando un error:  " + e.getMessage());
         }
         return ok(respuesta);
 

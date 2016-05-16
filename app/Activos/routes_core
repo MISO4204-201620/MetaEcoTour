@@ -52,6 +52,10 @@ POST        /api/producto/atr/rmv/          controllers.implementacion.catalogos
 #productos by filters
 GET  /api/productos/numpage/:numPage/name/:name/inicial/:precioInicial/final/:precioFinal/type/:productType/provider/:idProvider/categoria/:idCategoria         controllers.implementacion.catalogos.ProductosController.getProductosByPageByFilters(numPage : Integer,name : String,precioInicial : Double ,precioFinal : Double ,productType : String, idProvider : Long, idCategoria : Long)
 
+#servicios de busquedas
+GET         /api/busqueda/                  controllers.implementacion.catalogos.BusquedasController.getBusquedas()
+GET         /api/busqueda/:productId        controllers.implementacion.catalogos.BusquedasController.getBusquedasByProductId(productId:Long)
+POST        /api/busqueda/           controllers.implementacion.catalogos.BusquedasController.save()
 
 #Servicios asociados a los recursos:
 GET         /api/recursos/:productId/:tipo          controllers.implementacion.catalogos.RecursosController.getRecursosByProd(productId: Long, tipo : Long)

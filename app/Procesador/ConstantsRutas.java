@@ -25,4 +25,13 @@ public class ConstantsRutas {
 
     public static final String FILE_SERVICIOS_FRONT_CONTROLER = "app/Procesador/metaEcotour.config";
 
+
+    public static final String ORIGEN_FILE_REPORTE_COMPRAS = "app/Activos/ReporteCompras";
+
+    public static final String DESTINO_FILE_REPORTE_COMPRAS = "app/controllers/implementacion/reportes/ReporteCompras.java";
+
+    public static final String ORIGEN_FILE_REPORTE_COMPRAS_CONTROLLER = "app/Activos/ReporteComprasController";
+
+    public static final String DESTINO_FILE_REPORTE_COMPRAS_CONTROLLER = "app/controllers/implementacion/reportes/ReporteComprasController.java";
+
 }
