@@ -14,7 +14,7 @@ import java.util.List;
 @NamedQueries({
 
         @NamedQuery(name="Comentario.findByIdProducto", query="SELECT cm FROM Comentario cm where cm.idProducto = :productoId and cm.origen IS NULL"),
-        @NamedQuery(name="ComentarioDTO.findByIdProductoUsuario", query="SELECT new models.mensajeria.ComentarioDTO(cm.id, us.nombre, cm.texto, COUNT(scm), cm.fecha ) " +
+        @NamedQuery(name="ComentarioDTO.findByIdProductoUsuario", query="SELECT new models.mensajeria.ComentarioDTO(cm.id, us.nombre, cm.texto, COUNT(scm), cm.fecha , cm.idUsuario) " +
                 "FROM Usuario us, Comentario cm LEFT JOIN cm.subComentarios scm " +
                 "where cm.idProducto = :productoId " +
                 "and us.id = cm.idUsuario " +
