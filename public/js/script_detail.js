@@ -468,11 +468,11 @@ $(function()
             if(preguntasProdcuto[i].token === token)
             {
                 //console.log(preguntasProdcuto[i]);
-                idDestino = preguntasProdcuto[i].id;
+                idDestino = preguntasProdcuto[i].idUsuario;
                 break;
             }
         }
-        //console.log("El id de destino es, ", idDestino);
+        console.log("El id de destino es: ", idDestino);
         $("#textTitle").html("<b>Enviar mensaje a: " + nombre + "</b>");
         $("#mensaje").attr("placeholder", "Escibe tú mensaje para " + nombre).val("");
         $('#myModal').modal('show');

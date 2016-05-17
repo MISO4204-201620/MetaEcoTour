@@ -1,6 +1,57 @@
 $(function()
 {
 
+    /*
+
+     */
+    var ID_DESTINO      = 0,
+        TOKEN_SELECCION = "";
+
+    var respondeMensaje = function()
+    {
+        if($("#txtResponde").val().length !== 0)
+        {
+            var comment = {
+                comentario : $("#txtResponde").val(),
+                fecha : new Date(),
+                tipo: "MENSAJE",
+                usuarioDestino: ID_DESTINO,
+                nombreUsuario : window.authToken
+            };
+            $.ajax(
+                {
+                    url 		: "/api/comentarios/",
+                    type 		: "POST",
+                    data 		: JSON.stringify(comment),
+                    dataType 	: "json",
+                    contentType: "application/json; charset=utf-8"
+                }).done(function(data)
+            {
+                console.log(data);
+                mensajes(TOKEN_SELECCION);
+                $("#txtResponde").val("");
+            }).error(function(request, status, error)
+            {
+                sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+            });
+        }
+    };
+
+    $("#enviaMSG").click(function(e)
+    {
+        respondeMensaje();
+    });
+
+    $("#txtResponde").keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13') {
+            respondeMensaje();
+        }
+    });
+
+
+
+
     if(tipoUser.esProveedor("menuOpc"))
     {
         var user = tipoUser.datosUser();
@@ -53,11 +104,10 @@ $(function()
                     i++;
                     var idToken = guid();
 
-                    $("#usuarios").append(baseUsuario(item, i, idToken));
+                    $("#usuarios").prepend(baseUsuario(item, i, idToken));
 
                     $("#user_" + idToken).click(function(e)
                     {
-
                         mensajes(this.id.split("_")[1]);
                         //createForm(this.id.split("_")[1], true, item);
                     });
@@ -115,6 +165,9 @@ $(function()
 
         }
         console.log("get mensajes, idUsuario: " + idUsuario + ", idusuario destino: " + idUsuarioDestino);
+        ID_DESTINO = idUsuarioDestino;
+        TOKEN_SELECCION = token;
+
 
         $("#chats").html("");
         //falta validar la paginacion
