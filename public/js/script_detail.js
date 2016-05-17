@@ -457,16 +457,29 @@ $(function()
 
     });
 
+    var idDestino = 0;
     var muestraPopup = function(e)
     {
         var token   = e.currentTarget.id.split("_")[1],
             nombre  = $("#nom_" + token).html();
+        //Buscar el id del destino...
+        for(var i = 0; i < preguntasProdcuto.length; i++)
+        {
+            if(preguntasProdcuto[i].token === token)
+            {
+                //console.log(preguntasProdcuto[i]);
+                idDestino = preguntasProdcuto[i].id;
+                break;
+            }
+        }
+        //console.log("El id de destino es, ", idDestino);
         $("#textTitle").html("<b>Enviar mensaje a: " + nombre + "</b>");
         $("#mensaje").attr("placeholder", "Escibe tú mensaje para " + nombre).val("");
         $('#myModal').modal('show');
     };
 
     //Se listan las preguntas de un servicio...
+
     var preguntas = (function elementos()
     {
         $("#pregunta").html("");
@@ -487,14 +500,11 @@ $(function()
                 }
                 data.forEach(function(item)
                 {
-                    //console.log(item, i);
-                    var idToken = guid();
                     $("#pregunta").append(baseItemPregunta(item, idToken, false));
                     $("#rep_" + idToken).click(function(e)
                     {
                         createForm(this.id.split("_")[1]);
                     });
-
                     $("#coment_" + idToken).click(function(e)
                     {
                         callcoments(this.id.split("_")[1]);
@@ -512,6 +522,7 @@ $(function()
     })();
 
     //Se listan los comentarios de un servicio...
+    var preguntasProdcuto = [];
     var comentarios = function()
     {
         $("#comentario").html("");
@@ -533,8 +544,10 @@ $(function()
                 }
                 data.forEach(function(item)
                 {
-                    //console.log(item, i);
+                    //console.log(item);
                     var idToken = guid();
+                    preguntasProdcuto.push(item);
+                    preguntasProdcuto[preguntasProdcuto.length - 1].token = idToken;
                     $("#comentario").append(baseItemComentario(item, idToken, false, false));
                     $("#rep_" + idToken).click(function(e)
                     {
@@ -551,6 +564,8 @@ $(function()
                         muestraPopup(e);
                     });
                 });
+                console.info("DATOS DE COMENTARIOS");
+                console.log(preguntasProdcuto);
             }
             else
             {
@@ -709,6 +724,55 @@ $(function()
                 callback(true);
             });
     };
+
+    //Para guadar el mensaje...
+    $("#newMensaje").click(function(e)
+    {
+        if($("#mensajeria").val().length !== 0)
+        {
+            var comment = {
+                comentario : $("#mensajeria").val(),
+                fecha : new Date(),
+                tipo: "MENSAJE",
+                usuarioDestino: idDestino,
+                id : null,
+                nombreUsuario : window.authToken
+            };
+            $.ajax(
+                {
+                    url 		: "/api/comentarios/",
+                    type 		: "POST",
+                    data 		: JSON.stringify(comment),
+                    dataType 	: "json",
+                    contentType: "application/json; charset=utf-8"
+                }).done(function(data)
+                {
+                    console.log(data);
+                    $('#myModal').modal('hide');
+                    /*
+                    if(data.errorCode === undefined)
+                    {
+                        callback(false);
+                    }
+                    else
+                    {
+                        sweetAlert("Error", data.desCode, "error");
+                        callback(true);
+                    }
+                    */
+                }).error(function(request, status, error)
+                {
+                    //sweetAlert("Error", "No ha sido posible guardar el comentario", "error");
+                    $('#myModal').modal('hide');
+                    //callback(true);
+                });
+        }
+        else
+        {
+            sweetAlert("Error", "Por favor escribe tu mensaje", "error");
+        }
+    });
+
 
     //Evento para CONSTRUCCION PREGUNTA
     $( "#preguntaForm" ).submit(function( event )

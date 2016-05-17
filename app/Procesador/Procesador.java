@@ -185,19 +185,19 @@ public class Procesador {
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, ConstantesRoutes.SEARCH_REPORT_ROUTE);
             FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_ROUTES, "\n");
             if(procesador.isReporteBusqueda()){
-                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_ACTIVE);
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" + ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_ACTIVE);
             }else{
-                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" + ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
             }
 
             if(procesador.isReporteConsulta()){
-                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_ACTIVE);
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" + ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_ACTIVE);
             }else{
-                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
+                FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" + ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
             }
         }else{
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
-            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" + ConstantesPropiedadesArchivoConf.REPORTE_BUSQUEDA_INACTIVE);
+            FileUtilities.escribirLinea(ConstantsRutas.DESTINO_CORE_CONFIG, "\n" +  ConstantesPropiedadesArchivoConf.REPORTE_CONSULTA_INACTIVE);
         }
 
         if(procesador.isReporteVentas()){
